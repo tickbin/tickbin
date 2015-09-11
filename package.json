@@ -1,0 +1,15 @@
+{
+  "name": "tickbin",
+  "version": "1.0.0",
+  "description": "tickbin time tracking",
+  "main": "index.js",
+  "scripts": {
+    "test": "babel-node test/entry.test.js | tap-spec"
+  },
+  "author": "Jonathan Bowers <jonotron@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "tap-spec": "^4.1.0",
+    "tape": "^4.2.0"
+  }
+}
