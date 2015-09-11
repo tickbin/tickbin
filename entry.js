@@ -1,11 +1,17 @@
 'use strict'
 
-import {durate} from 'durate'
+import durate, {pattern} from 'durate'
 
 module.exports = class Entry {
   constructor(str) {
     this.original = str
-    this.setDates(durate(this.original))
+    this.parseDurate(str)
+  }
+
+  parseDurate(str) {
+    if (pattern.test(str)) {
+      this.setDates(durate(this.original))
+    }
   }
 
   setDates(opts) {

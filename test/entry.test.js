@@ -20,3 +20,13 @@ test('simple entry construction 8am-5pm', t => {
 
   t.end()
 })
+
+test('no times specified does not generate dates', t => {
+  let e = new Entry('worked on some things')
+  let {start, end} = e.getDates()
+  t.notOk(e.hasDates, 'flag indicates that no dates are present')
+  t.notOk(start, 'no start date provided')
+  t.notOk(end, 'no end date provided')
+
+  t.end()
+})
