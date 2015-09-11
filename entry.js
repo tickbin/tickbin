@@ -1,13 +1,16 @@
 'use strict'
 
+import {durate} from 'durate'
+
 module.exports = class Entry {
   constructor(str) {
     this.original = str
-    this.startDate = new Date()
-    this.endDate = new Date()
+    this.setDates(durate(this.original))
+  }
 
-    this.startDate.setHours(8)
-    this.endDate.setHours(17)
+  setDates(opts) {
+    this.startDate = opts.start
+    this.endDate = opts.end
   }
 
   getDates() {
