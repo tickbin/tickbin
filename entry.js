@@ -15,6 +15,7 @@ module.exports = class Entry {
   }
 
   setDates(opts) {
+    this.hasDates = true
     this.startDate = opts.start
     this.endDate = opts.end
   }

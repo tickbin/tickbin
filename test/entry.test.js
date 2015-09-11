@@ -6,6 +6,7 @@ let Entry = require('../entry')
 test('simple entry construction 8am-10pm', t => {
   let e = new Entry('8am-10am worked on things')
   let {start, end} = e.getDates()
+  t.ok(e.hasDates, 'entry has dates')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 10, 'start is 10am')
 
@@ -15,6 +16,7 @@ test('simple entry construction 8am-10pm', t => {
 test('simple entry construction 8am-5pm', t => {
   let e = new Entry('8am-5pm worked on things')
   let {start, end} = e.getDates()
+  t.ok(e.hasDates, 'entry has dates')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 17, 'end is 5pm')
 
