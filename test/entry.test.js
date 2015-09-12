@@ -47,3 +47,19 @@ test('anchoring influences the dates', t => {
 
   t.end()
 })
+
+test('no anchor defaults to today', t => {
+  const anchor = new Date()
+  const msg = '8am-5pm worked on some things'
+  const e = new Entry(msg)
+  const {start,end} = e.getDates()
+
+  t.equals(start.getFullYear(), anchor.getFullYear(), 'start year is today')
+  t.equals(start.getMonth(), anchor.getMonth(), 'start month is today')
+  t.equals(start.getDate(), anchor.getDate(), 'start date is today')
+  t.equals(end.getFullYear(), anchor.getFullYear(), 'end year is today')
+  t.equals(end.getMonth(), anchor.getMonth(), 'end month is today')
+  t.equals(end.getDate(), anchor.getDate(), 'end date is today')
+
+  t.end()
+})
