@@ -1,5 +1,6 @@
 'use strict'
 
+import Duration from 'duration'
 import durate, {pattern} from 'durate'
 
 module.exports = class Entry {
@@ -21,6 +22,7 @@ module.exports = class Entry {
     this.hasDates = true
     this.startDate = opts.start
     this.endDate = opts.end
+    this.duration = new Duration(this.startDate, this.endDate)
   }
 
   getDates() {

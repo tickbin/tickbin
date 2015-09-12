@@ -56,12 +56,39 @@ test('no date defaults to today', t => {
   const e = new Entry(msg)
   const {start,end} = e.getDates()
 
-  t.equals(start.getFullYear(), anchor.getFullYear(), 'start year is today')
-  t.equals(start.getMonth(), anchor.getMonth(), 'start month is today')
-  t.equals(start.getDate(), anchor.getDate(), 'start date is today')
-  t.equals(end.getFullYear(), anchor.getFullYear(), 'end year is today')
-  t.equals(end.getMonth(), anchor.getMonth(), 'end month is today')
-  t.equals(end.getDate(), anchor.getDate(), 'end date is today')
+  t.equals(start.getFullYear(), date.getFullYear(), 'start year is today')
+  t.equals(start.getMonth(), date.getMonth(), 'start month is today')
+  t.equals(start.getDate(), date.getDate(), 'start date is today')
+  t.equals(end.getFullYear(), date.getFullYear(), 'end year is today')
+  t.equals(end.getMonth(), date.getMonth(), 'end month is today')
+  t.equals(end.getDate(), date.getDate(), 'end date is today')
+
+  t.end()
+})
+
+test('duration set for 8am-10am', t => {
+  const e = new Entry('8am-10am worked on some things')
+  
+  t.ok(e.duration, 'duration is present')
+  t.equals(e.duration.hour, 2, '8am-10am is 2 hours')
+  t.equals(e.duration.minute, 0, '8am-10am has 0 minutes')
+
+  t.end()
+})
+
+test('duration set for 8am-1:30pm', t => {
+  const e = new Entry('8am-1:30pm worked on some things')
+  
+  t.equals(e.duration.hour, 5, '8am-1:30pm is 5 hours')
+  t.equals(e.duration.minute, 30, '8am-1:30pm trails 30 min')
+
+  t.end()
+})
+
+test('duration set for 11pm-2am', t => {
+  const e = new Entry('11pm-2am worked on some things')
+  
+  t.equals(e.duration.hour, 3, '11pm-2am is 3 hours')
 
   t.end()
 })
