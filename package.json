@@ -13,6 +13,7 @@
     "tape": "^4.2.0"
   },
   "dependencies": {
-    "duration": "^0.2.0"
+    "duration": "^0.2.0",
+    "yargs": "^3.24.0"
   }
 }
