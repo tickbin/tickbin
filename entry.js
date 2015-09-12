@@ -30,4 +30,18 @@ module.exports = class Entry {
     let end = this.endDate
     return {start, end}
   }
+
+  toJSON() {
+    return {
+      message: this.message,
+      hasDates: this.hasDates,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      duration: {
+        seconds: this.duration.seconds,
+        from: this.duration.from,
+        to: this.duration.to
+      }
+    } 
+  }
 }

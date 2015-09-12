@@ -92,3 +92,18 @@ test('duration set for 11pm-2am', t => {
 
   t.end()
 })
+
+test('toJSON() returns a json obj', t => {
+  const e = new Entry('8am-10am worked on some things')
+
+  const json = e.toJSON()
+  t.equals(json.message, '8am-10am worked on some things', 'message')
+  t.ok(json.hasDates, 'hasDates')
+  t.equals(e.startDate, json.startDate, 'startDate')
+  t.equals(e.endDate, json.endDate, 'endDate')
+  t.equals(json.duration.seconds, 2*60*60, 'duration seconds')
+  t.equals(json.duration.from, e.startDate, 'duration from')
+  t.equals(json.duration.to, e.endDate, 'duration to')
+
+  t.end()
+})
