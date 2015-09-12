@@ -1,7 +1,8 @@
 #!/usr/bin/env babel-node
 
 import yargs from 'yargs'
-import log from './commands/tick-log'
+import log   from './commands/tick-log'
+import list  from './commands/tick-list'
 
 let master = yargs
 .usage('tick <command>')
@@ -15,5 +16,11 @@ let argv = master.argv
 let command = argv._[0]
 
 if (command === 'log') {
+  console.log('DEBUG: log')
   log(master.reset())
+}
+
+if (command === 'list') {
+  console.log('DEBUG: list')
+  list(master.reset())
 }
