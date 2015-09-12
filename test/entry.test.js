@@ -32,3 +32,18 @@ test('no times specified does not generate dates', t => {
 
   t.end()
 })
+
+test('anchoring influences the dates', t => {
+  const anchor = new Date('Jan 25, 2015 0:00:00')
+  const msg = '8am-5pm worked on some things'
+  let e = new Entry(msg, {anchor})
+  let {start, end} = e.getDates()
+  t.equals(start.getFullYear(), 2015, 'start has the same year')
+  t.equals(start.getMonth(), 0, 'start has same month')
+  t.equals(start.getDate(), 25, 'start has same day')
+  t.equals(end.getFullYear(), 2015, 'end has the same year')
+  t.equals(end.getMonth(), 0, 'end has the same month')
+  t.equals(end.getDate(), 25, 'end has the same day')
+
+  t.end()
+})

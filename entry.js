@@ -3,14 +3,17 @@
 import durate, {pattern} from 'durate'
 
 module.exports = class Entry {
-  constructor(msg) {
+  constructor(msg, opts = {}) {
+    let {
+      anchor = new Date(), 
+    } = opts
     this.original = msg
-    this.parseDurate(msg)
+    this.parseDurate(msg, anchor)
   }
 
-  parseDurate(msg) {
+  parseDurate(msg, anchor) {
     if (pattern.test(msg)) {
-      this.setDates(durate(msg))
+      this.setDates(durate(msg, anchor))
     }
   }
 
