@@ -3,12 +3,12 @@
 import durate, {pattern} from 'durate'
 
 module.exports = class Entry {
-  constructor(msg, opts = {}) {
+  constructor(message, opts = {}) {
     let {
-      anchor = new Date(), 
+      date = new Date(), 
     } = opts
-    this.original = msg
-    this.parseDurate(msg, anchor)
+    this.message = message
+    this.parseDurate(message, date)
   }
 
   parseDurate(msg, anchor) {
