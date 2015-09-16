@@ -2,12 +2,15 @@
 
 import Duration from 'duration'
 import durate, {pattern} from 'durate'
+import shortid from 'shortid'
 
 module.exports = class Entry {
   constructor(message, opts = {}) {
     let {
       date = new Date(), 
     } = opts
+
+    this._id = shortid.generate()
     this.message = message
     this.parseDurate(message, date)
   }

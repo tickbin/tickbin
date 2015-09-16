@@ -93,6 +93,13 @@ test('duration set for 11pm-2am', t => {
   t.end()
 })
 
+test('constructor assigns _id', t => {
+  const e = new Entry('8am-10am worked on some things')
+
+  t.ok(e._id, '_id is ok')
+  t.end()
+})
+
 test('toJSON() returns a json obj', t => {
   const e = new Entry('8am-10am worked on some things')
 
