@@ -36,6 +36,7 @@ module.exports = class Entry {
 
   toJSON() {
     return {
+      _id: this._id,
       message: this.message,
       hasDates: this.hasDates,
       startDate: this.startDate,
