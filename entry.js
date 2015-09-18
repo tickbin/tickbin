@@ -53,4 +53,11 @@ module.exports = class Entry {
       }
     } 
   }
+
+  static fromJSON(doc) {
+    let e = new Entry(doc.message)
+    e._id = doc._id
+
+    return e;
+  }
 }

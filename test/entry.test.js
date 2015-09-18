@@ -119,3 +119,18 @@ test('toJSON() returns a json obj', t => {
 
   t.end()
 })
+
+test('fromJSON() will create an Entry from existing document', t => {
+  const existing = new Entry('8am-10am worked on things')
+  const json = existing.toJSON()
+  const e = Entry.fromJSON(json)
+
+  t.equals(existing._id, e._id, '_id matches')
+  t.equals(existing.message, e.message, 'message matches')
+  t.equals(moment(existing.to).toString(), moment(e.to).toString(), 'to matches')
+  t.equals(moment(existing.from).toString(), moment(e.from).toString(), 'from matches')
+
+  t.end()
+
+})
+
