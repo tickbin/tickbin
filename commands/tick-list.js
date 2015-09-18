@@ -28,7 +28,7 @@ function writeEntries (results) {
   results.rows.forEach(function(row) {
     // this is likely slow as it requires creating a new entry
     // but write requires an instatiated Entry at the moment
-    write(new Entry(row.doc.message))     
+    write(Entry.fromJSON(row.doc))     
   })
 
 }
