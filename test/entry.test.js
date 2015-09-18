@@ -1,7 +1,6 @@
 'use strict'
-
-let test = require('tape')
-let Entry = require('../entry')
+import test from 'tape'
+import Entry from '../entry'
 
 test('simple entry construction 8am-10pm', t => {
   const e = new Entry('8am-10am worked on things')
