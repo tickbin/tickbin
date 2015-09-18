@@ -1,6 +1,7 @@
 'use strict'
 import test from 'tape'
 import Entry from '../entry'
+import moment from 'moment'
 
 test('simple entry construction 8am-10pm', t => {
   const e = new Entry('8am-10am worked on things')
@@ -111,6 +112,10 @@ test('toJSON() returns a json obj', t => {
   t.equals(json.duration.from, e.from, 'duration from')
   t.equals(json.duration.to, e.to, 'duration to')
   t.equals(json._id, e._id, '_id')
+  t.ok(moment(json.toArr).isSame(json.to), 'to and toArr are same date')
+  t.ok(moment(json.fromArr).isSame(json.from), 'from and fromArr are same date')
+  t.ok(json.toArr instanceof Array, 'toArr is an array')
+  t.ok(json.fromArr instanceof Array, 'fromArr is an array')
 
   t.end()
 })

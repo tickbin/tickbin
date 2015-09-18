@@ -3,6 +3,7 @@
 import Duration from 'duration'
 import durate, {pattern} from 'durate'
 import shortid from 'shortid'
+import moment from 'moment'
 
 module.exports = class Entry {
   constructor(message, opts = {}) {
@@ -24,7 +25,9 @@ module.exports = class Entry {
   setDates(opts) {
     this.hasDates = true
     this.from = opts.start
+    this.fromArr = moment(this.from).toArray()
     this.to = opts.end
+    this.toArr = moment(this.to).toArray()
     this.duration = new Duration(this.from, this.to)
   }
 
@@ -40,7 +43,9 @@ module.exports = class Entry {
       message: this.message,
       hasDates: this.hasDates,
       from: this.from,
+      fromArr: this.fromArr,
       to: this.to,
+      toArr: this.toArr,
       duration: {
         seconds: this.duration.seconds,
         from: this.duration.from,
