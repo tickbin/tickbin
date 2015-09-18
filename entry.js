@@ -23,15 +23,15 @@ module.exports = class Entry {
 
   setDates(opts) {
     this.hasDates = true
-    this.startDate = opts.start
-    this.endDate = opts.end
-    this.duration = new Duration(this.startDate, this.endDate)
+    this.from = opts.start
+    this.to = opts.end
+    this.duration = new Duration(this.from, this.to)
   }
 
   getDates() {
-    let start = this.startDate
-    let end = this.endDate
-    return {start, end}
+    let from = this.from
+    let to = this.to
+    return {from, to}
   }
 
   toJSON() {
@@ -39,8 +39,8 @@ module.exports = class Entry {
       _id: this._id,
       message: this.message,
       hasDates: this.hasDates,
-      startDate: this.startDate,
-      endDate: this.endDate,
+      from: this.from,
+      to: this.to,
       duration: {
         seconds: this.duration.seconds,
         from: this.duration.from,
