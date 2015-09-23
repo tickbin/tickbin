@@ -11,14 +11,24 @@ module.exports = class Entry {
       date = new Date(), 
     } = opts
 
+    if (typeof message === 'object')
+      return this._fromJSON(message)
+
     this._id = shortid.generate()
     this.message = message
     this.parseDurate(message, date)
   }
 
-  parseDurate(msg, anchor) {
+  _fromJSON(doc) {
+    Object.assign(this, doc)
+    this.to = new Date(this.to)
+    this.from = new Date(this.from)
+    return this
+  }
+
+  parseDurate(msg, date) {
     if (pattern.test(msg)) {
-      this.setDates(durate(msg, anchor))
+      this.setDates(durate(msg, date))
     }
   }
 
@@ -55,8 +65,7 @@ module.exports = class Entry {
   }
 
   static fromJSON(doc) {
-    let e = new Entry(doc.message)
-    e._id = doc._id
+    let e = new Entry(doc)
 
     return e;
   }

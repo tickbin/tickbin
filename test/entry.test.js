@@ -121,7 +121,8 @@ test('toJSON() returns a json obj', t => {
 })
 
 test('fromJSON() will create an Entry from existing document', t => {
-  const existing = new Entry('8am-10am worked on things')
+  const date = new Date('Jan 25, 2015 0:00:00')
+  const existing = new Entry('8am-10am worked on things', {date})
   const json = existing.toJSON()
   const e = Entry.fromJSON(json)
 
