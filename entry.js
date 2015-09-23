@@ -21,8 +21,9 @@ module.exports = class Entry {
 
   _fromJSON(doc) {
     Object.assign(this, doc)
-    this.to = new Date(this.to)
-    this.from = new Date(this.from)
+    const start = new Date(this.from)
+    const end = new Date(this.to)
+    this.setDates({start, end})
     return this
   }
 
