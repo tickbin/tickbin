@@ -16,11 +16,9 @@ let argv = master.argv
 let command = argv._[0]
 
 if (command === 'log') {
-  console.log('DEBUG: log')
   log(master.reset())
 }
 
 if (command === 'list') {
-  console.log('DEBUG: list')
   list(master.reset())
 }
