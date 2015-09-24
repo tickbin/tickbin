@@ -15,6 +15,7 @@
   "dependencies": {
     "chrono-node": "^1.0.8",
     "duration": "^0.2.0",
+    "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "pouchdb": "^4.0.3",
     "prompt": "^0.2.14",

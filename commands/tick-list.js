@@ -4,6 +4,7 @@ import Entry from '../entry'
 import PouchDB from 'pouchdb'
 import {write} from './output'
 import moment from 'moment'
+import _ from 'lodash'
 
 let db = new PouchDB('tickbin')
 
@@ -27,14 +28,19 @@ function mapDate (doc) {
 
 function writeEntries (results) {
   let prevDate = null
-  results.rows.forEach(function(row) {
-    const e = Entry.fromJSON(row.doc)
-    if (!moment(prevDate).isSame(e.from, 'day'))
-      console.log(moment(e.from).format('ddd, MMM DD, YYYY'))
-    prevDate = e.from
-    // this is likely slow as it requires creating a new entry
-    // but write requires an instatiated Entry at the moment
-    write(Entry.fromJSON(row.doc))     
+  let dat = _.chain(results.rows)
+  .map(row => { return Entry.fromJSON(row.doc) })
+  .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
+  .map((group, d) => { 
+    return { 
+      ticks: group, 
+      date: moment(d, 'YYYY-MM-DD').toDate(),
+      minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
+    }
   })
-
+  .each(group => {
+    console.log(moment(group.date).format('ddd, MMM DD, YYYY') + ' ' + group.minutes)
+    group.ticks.forEach(write)
+  })
+  .value()
 }
