@@ -39,7 +39,9 @@ function writeEntries (results) {
     }
   })
   .each(group => {
-    console.log(moment(group.date).format('ddd, MMM DD, YYYY') + ' ' + group.minutes)
+    const date = moment(group.date).format('ddd, MMM DD, YYYY')
+    const time = `${Math.floor(group.minutes / 60)}h ${group.minutes % 60}m`
+    console.log(`${date} ${time}`)
     group.ticks.forEach(write)
   })
   .value()
