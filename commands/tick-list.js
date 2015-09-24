@@ -21,7 +21,7 @@ function list (yargs) {
 }
 
 function mapDate (doc) {
-  emit(doc._id)
+  emit(doc.fromArr)
 }
 
 function writeEntries (results) {
