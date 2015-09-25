@@ -3,6 +3,7 @@
 import yargs from 'yargs'
 import log   from './commands/tick-log'
 import list  from './commands/tick-list'
+import rm    from './commands/tick-rm'
 
 let master = yargs
 .usage('tick <command>')
@@ -21,4 +22,8 @@ if (command === 'log') {
 
 if (command === 'list') {
   list(master.reset())
+}
+
+if (command === 'rm') {
+  rm(master.reset())
 }
