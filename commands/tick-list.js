@@ -5,6 +5,7 @@ import PouchDB from 'pouchdb'
 import {write} from './output'
 import moment from 'moment'
 import _ from 'lodash'
+import chalk from 'chalk'
 
 let db = new PouchDB('tickbin')
 
@@ -41,7 +42,7 @@ function writeEntries (results) {
   .each(group => {
     const date = moment(group.date).format('ddd, MMM DD, YYYY')
     const time = `${Math.floor(group.minutes / 60)}h ${group.minutes % 60}m`
-    console.log(`${date} ${time}`)
+    console.log(`${chalk.yellow(date)} ${chalk.green(time)}`)
     group.ticks.forEach(write)
   })
   .value()

@@ -13,6 +13,7 @@
     "tape": "^4.2.0"
   },
   "dependencies": {
+    "chalk": "^1.1.1",
     "chrono-node": "^1.0.8",
     "duration": "^0.2.0",
     "lodash": "^3.10.1",

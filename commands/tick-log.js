@@ -5,6 +5,7 @@ import prompt from 'prompt'
 import PouchDB from 'pouchdb'
 import chrono from 'chrono-node'
 import {write} from './output'
+import chalk from 'chalk'
 
 let db = new PouchDB('tickbin')
 
@@ -27,8 +28,10 @@ function log (yargs) {
   date = chrono.parseDate(date)
 
   if (!message) {
+    prompt.message = ''
+    prompt.delimiter = ''
     prompt.start()
-    prompt.get('message', function(err, res) {
+    prompt.get('message:', function(err, res) {
       if (!err) createEntry(res.message, {date}) 
     })
   } else {
@@ -41,7 +44,7 @@ function createEntry (message, opts = {}) {
 
   db.put(entry.toJSON())
   .then(doc => {
-    console.log('saved')
+    console.log(chalk.bgGreen('saved'))
     write(entry)
   })
   .catch(err => {

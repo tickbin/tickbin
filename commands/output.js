@@ -1,6 +1,7 @@
 export {write as write}
 import moment from 'moment'
+import chalk from 'chalk'
 
 function write(entry) {
-  console.log(`${entry._id} ${moment(entry.from).format('ddd MMM DD')} ${entry.message}`)
+  console.log(`${chalk.gray(entry._id)} ${chalk.yellow(moment(entry.from).format('ddd MMM DD'))} ${entry.message}`)
 }
