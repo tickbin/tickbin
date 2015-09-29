@@ -4,8 +4,9 @@ import Entry from '../entry'
 import PouchDB from 'pouchdb'
 import {write} from './output'
 import chalk from 'chalk'
+import conf from '../config'
 
-let db = new PouchDB('tickbin')
+let db = new PouchDB(conf.db)
 
 function rm (yargs) {
   let argv = yargs

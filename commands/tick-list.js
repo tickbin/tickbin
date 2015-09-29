@@ -7,8 +7,9 @@ import moment from 'moment'
 import _ from 'lodash'
 import chalk from 'chalk'
 import format from '../time'
+import conf from '../config'
 
-let db = new PouchDB('tickbin')
+let db = new PouchDB(conf.db)
 
 function list (yargs) {
   let argv = yargs

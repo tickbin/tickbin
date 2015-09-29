@@ -6,8 +6,9 @@ import PouchDB from 'pouchdb'
 import chrono from 'chrono-node'
 import {write} from './output'
 import chalk from 'chalk'
+import conf from '../config'
 
-let db = new PouchDB('tickbin')
+let db = new PouchDB(conf.db)
 
 function log (yargs) {
   let argv = yargs
