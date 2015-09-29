@@ -2,7 +2,7 @@ export default list
 
 import Entry from '../entry'
 import PouchDB from 'pouchdb'
-import {write} from './output'
+import {getOutputs} from './output'
 import moment from 'moment'
 import _ from 'lodash'
 import chalk from 'chalk'
@@ -45,7 +45,7 @@ function writeEntries (results) {
     const date = moment(group.date).format('ddd, MMM DD, YYYY')
     const time = format(group.minutes)
     console.log(`${chalk.yellow(date)} ${chalk.green(time)}`)
-    group.ticks.forEach(write)
+    group.ticks.forEach(t => { console.log(getOutputs(t).simple) })
   })
   .value()
 }
