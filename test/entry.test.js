@@ -144,6 +144,7 @@ test('fromJSON() will create an Entry from existing document', t => {
 
   t.equals(existing._id, e._id, '_id matches')
   t.equals(existing.message, e.message, 'message matches')
+  t.deepEquals(existing.tags, e.tags, 'tags match')
   t.equals(moment(existing.to).toString(), moment(e.to).toString(), 'to matches')
   t.equals(moment(existing.from).toString(), moment(e.from).toString(), 'from matches')
 
