@@ -4,6 +4,7 @@ import Duration from 'duration'
 import durate, {pattern} from 'durate'
 import shortid from 'shortid'
 import moment from 'moment'
+import uniq from 'lodash/array/uniq'
 
 const hashPattern = /#\w+/g
 
@@ -37,7 +38,7 @@ module.exports = class Entry {
   }
 
   parseTags(message) {
-    this.tags = message.match(hashPattern)
+    this.tags = uniq(message.match(hashPattern))
   }
 
   setDates(opts) {

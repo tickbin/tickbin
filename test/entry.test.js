@@ -107,6 +107,13 @@ test('parse #tags', t => {
   t.end()
 })
 
+test('parse unique #tags', t => {
+  const e = new Entry('8-10am worked on things #tag1 #tag1')
+
+  t.deepEqual(e.tags, ['#tag1'], 'tags only appear once')
+  t.end()
+})
+
 
 test('toJSON() returns a json obj', t => {
   const e = new Entry('8am-10am worked on some things')
