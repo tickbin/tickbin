@@ -100,6 +100,14 @@ test('constructor assigns _id', t => {
   t.end()
 })
 
+test('parse #tags', t => {
+  const e = new Entry('8-10am worked on things #tag1 #tag2')
+
+  t.deepEqual(e.tags, ['#tag1', '#tag2'], 'tags are parsed out to array')
+  t.end()
+})
+
+
 test('toJSON() returns a json obj', t => {
   const e = new Entry('8am-10am worked on some things')
 

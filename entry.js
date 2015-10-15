@@ -5,6 +5,8 @@ import durate, {pattern} from 'durate'
 import shortid from 'shortid'
 import moment from 'moment'
 
+const hashPattern = /#\w+/g
+
 module.exports = class Entry {
   constructor(message, opts = {}) {
     let {
@@ -17,6 +19,7 @@ module.exports = class Entry {
     this._id = shortid.generate()
     this.message = message
     this.parseDurate(message, date)
+    this.parseTags(message)
   }
 
   _fromJSON(doc) {
@@ -31,6 +34,10 @@ module.exports = class Entry {
     if (pattern.test(msg)) {
       this.setDates(durate(msg, date))
     }
+  }
+
+  parseTags(message) {
+    this.tags = message.match(hashPattern)
   }
 
   setDates(opts) {
