@@ -69,7 +69,8 @@ module.exports = class Entry {
         seconds: this.duration.seconds,
         from: this.duration.from,
         to: this.duration.to
-      }
+      },
+      tags: this.tags.slice()
     } 
   }
 

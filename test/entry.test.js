@@ -116,10 +116,10 @@ test('parse unique #tags', t => {
 
 
 test('toJSON() returns a json obj', t => {
-  const e = new Entry('8am-10am worked on some things')
+  const e = new Entry('8am-10am worked on some things #tag1 #tag2')
 
   const json = e.toJSON()
-  t.equals(json.message, '8am-10am worked on some things', 'message')
+  t.equals(json.message, '8am-10am worked on some things #tag1 #tag2', 'message')
   t.ok(json.hasDates, 'hasDates')
   t.equals(e.from, json.from, 'from')
   t.equals(e.to, json.to, 'to')
@@ -127,6 +127,7 @@ test('toJSON() returns a json obj', t => {
   t.equals(json.duration.from, e.from, 'duration from')
   t.equals(json.duration.to, e.to, 'duration to')
   t.equals(json._id, e._id, '_id')
+  t.deepEquals(json.tags, e.tags, 'tags array')
   t.ok(moment(json.toArr).isSame(json.to), 'to and toArr are same date')
   t.ok(moment(json.fromArr).isSame(json.from), 'from and fromArr are same date')
   t.ok(json.toArr instanceof Array, 'toArr is an array')
