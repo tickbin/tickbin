@@ -4,6 +4,9 @@ import Duration from 'duration'
 import durate, {pattern} from 'durate'
 import shortid from 'shortid'
 import moment from 'moment'
+import uniq from 'lodash/array/uniq'
+
+const hashPattern = /#\w+/g
 
 module.exports = class Entry {
   constructor(message, opts = {}) {
@@ -17,6 +20,7 @@ module.exports = class Entry {
     this._id = shortid.generate()
     this.message = message
     this.parseDurate(message, date)
+    this.parseTags(message)
   }
 
   _fromJSON(doc) {
@@ -31,6 +35,10 @@ module.exports = class Entry {
     if (pattern.test(msg)) {
       this.setDates(durate(msg, date))
     }
+  }
+
+  parseTags(message) {
+    this.tags = uniq(message.match(hashPattern))
   }
 
   setDates(opts) {
@@ -61,7 +69,8 @@ module.exports = class Entry {
         seconds: this.duration.seconds,
         from: this.duration.from,
         to: this.duration.to
-      }
+      },
+      tags: this.tags.slice()
     } 
   }
 
