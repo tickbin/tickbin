@@ -1,0 +1,9 @@
+#!/bin/bash
+
+current_dir=$(pwd)
+script_dir=$(dirname $0)
+tick=$script_dir/../build/tick.js
+
+if test -e $tick; then $tick "$@"
+else echo "Please run \`npm run build\`";
+fi
