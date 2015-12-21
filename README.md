@@ -16,3 +16,13 @@ tickbin emphasizes user data ownership:
 * open source client with local data storage
 * optional self hosted data replication (via couchdb)
 * premium integrations via hosted service for portability
+
+## Building
+
+To build the application:
+
+```bash
+$ npm install
+$ npm run build
+$ ./bin/tick --help
+```

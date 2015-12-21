@@ -1,4 +1,3 @@
-#!/usr/bin/env babel-node
 
 import yargs from 'yargs'
 import log   from './commands/tick-log'
