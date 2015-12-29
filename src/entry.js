@@ -16,7 +16,7 @@ module.exports = class Entry {
 
     this._id = shortid.generate()
     this.message = message
-    this.parseDurate(message, date)
+    this.parse(message, date)
   }
 
   _fromJSON(doc) {
@@ -27,8 +27,9 @@ module.exports = class Entry {
     return this
   }
 
-  parseDurate(msg, date) {
-    this.setDates(parser(msg, date))
+  parse(msg, date) {
+    let d = parser(msg, date)
+    if (d.isValid) this.setDates(d)
   }
 
   setDates(opts) {
