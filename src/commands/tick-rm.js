@@ -13,8 +13,10 @@ function rm (yargs) {
     .usage('tick rm entryid')
     .argv
 
-  db.get(argv._[1])
-  .then(removeEntry)
+  argv._.shift()
+  argv._.forEach(id => {
+    db.get(id).then(removeEntry)
+  })
 }
 
 function removeEntry (doc) {
