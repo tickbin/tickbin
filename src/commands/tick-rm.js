@@ -2,7 +2,7 @@ export default rm
 
 import Entry from '../entry'
 import PouchDB from 'pouchdb'
-import {write} from './output'
+import { getOutputs } from './output'
 import chalk from 'chalk'
 import conf from '../config'
 
@@ -21,6 +21,8 @@ function rm (yargs) {
 
 function removeEntry (doc) {
   const e = Entry.fromJSON(doc)
-  write(e)
-  return db.remove(doc).then(result => { console.log(chalk.bgRed('removed')) })
+  return db.remove(doc).then(result => { 
+    let { detailed } = getOutputs(e)
+    console.log(chalk.bgRed('removed') + ' ' + detailed)
+  })
 }
