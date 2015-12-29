@@ -5,7 +5,7 @@ import list  from './commands/tick-list'
 import rm    from './commands/tick-rm'
 
 yargs
-.usage('Usage: tick <command>')
+.usage('Usage: tick <command> [options]')
 .command('log', 'log a tick', log)
 .command('list', 'list your ticks', list)
 .command('rm', 'delete a tick', rm)

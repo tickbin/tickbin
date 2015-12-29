@@ -12,13 +12,13 @@ let db = new PouchDB(conf.db)
 
 function log (yargs) {
   let argv = yargs
-  .usage('tick log')
-  .option('date', {
-    alias: 'd',
+  .usage('Usage: tick log [options]')
+  .option('d', {
+    alias: 'date',
     describe: 'date for tick'
   })
-  .option('message', {
-    alias: 'm',
+  .option('m', {
+    alias: 'message',
     describe: 'entry message. E.g. 8am-12pm fixing bugs #tickbin'
   })
   .help('h')
