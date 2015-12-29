@@ -10,8 +10,10 @@ let db = new PouchDB(conf.db)
 
 function rm (yargs) {
   let argv = yargs
-    .usage('tick rm entryid')
-    .argv
+  .usage('Usage: tick rm [options] <entryid ...>')
+  .help('h')
+  .alias('h', 'help')
+  .argv
 
   db.get(argv._[1])
   .then(removeEntry)
