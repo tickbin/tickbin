@@ -13,7 +13,7 @@ let db = new PouchDB(conf.db)
 
 function list (yargs) {
   let argv = yargs
-  .usage('tick list')
+  .usage('Usage: tick list [options]')
   .help('h')
   .alias('h', 'help')
   .argv
