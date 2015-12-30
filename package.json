@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src --out-dir build/",
     "watch": "babel src --watch --out-dir build/",
-    "test": "node build/test/entry.test.js | tap-spec"
+    "test": "node build/test/entry.test.js | tap-spec && node build/test/parser.test.js | tap-spec"
   },
   "author": "Jonathan Bowers <jonotron@gmail.com>",
   "license": "ISC",

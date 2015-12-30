@@ -1,9 +1,9 @@
 'use strict'
 
 import Duration from 'duration'
-import durate, {pattern} from 'durate'
 import shortid from 'shortid'
 import moment from 'moment'
+import parser from './parser'
 
 module.exports = class Entry {
   constructor(message, opts = {}) {
@@ -16,7 +16,7 @@ module.exports = class Entry {
 
     this._id = shortid.generate()
     this.message = message
-    this.parseDurate(message, date)
+    this.parse(message, date)
   }
 
   _fromJSON(doc) {
@@ -27,10 +27,9 @@ module.exports = class Entry {
     return this
   }
 
-  parseDurate(msg, date) {
-    if (pattern.test(msg)) {
-      this.setDates(durate(msg, date))
-    }
+  parse(msg, date) {
+    let d = parser(msg, date)
+    if (d.isValid) this.setDates(d)
   }
 
   setDates(opts) {
