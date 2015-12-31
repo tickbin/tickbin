@@ -1,15 +1,12 @@
 export default list
 
 import Entry from '../entry'
-import PouchDB from 'pouchdb'
 import {getOutputs} from './output'
 import moment from 'moment'
 import _ from 'lodash'
 import chalk from 'chalk'
 import format from '../time'
-import conf from '../config'
-
-let db = new PouchDB(conf.db)
+import db from '../db'
 
 function list (yargs) {
   let argv = yargs
