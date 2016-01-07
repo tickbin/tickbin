@@ -50,3 +50,4 @@ function createEntry (message, opts = {}) {
   })
 
 }
+
