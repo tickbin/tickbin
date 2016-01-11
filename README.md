@@ -19,7 +19,7 @@ tickbin emphasizes user data ownership:
 
 ## Remote sync
 
-To sync with a remote database, add the following to `~/.tickbin/config`:
+To sync with a remote database, add the following to `~/.tickbinrc`:
 
 ```
 remote=http://user:pass@host:port/dbname
