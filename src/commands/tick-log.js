@@ -2,13 +2,10 @@ export default log
 
 import Entry from '../entry'
 import prompt from 'prompt'
-import PouchDB from 'pouchdb'
 import chrono from 'chrono-node'
 import {write} from './output'
 import chalk from 'chalk'
-import conf from '../config'
-
-let db = new PouchDB(conf.db)
+import db from '../db'
 
 function log (yargs) {
   let argv = yargs
@@ -53,3 +50,4 @@ function createEntry (message, opts = {}) {
   })
 
 }
+

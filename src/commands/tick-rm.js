@@ -1,12 +1,9 @@
 export default rm
 
 import Entry from '../entry'
-import PouchDB from 'pouchdb'
 import { getOutputs } from './output'
 import chalk from 'chalk'
-import conf from '../config'
-
-let db = new PouchDB(conf.db)
+import db from '../db'
 
 function rm (yargs) {
   let argv = yargs

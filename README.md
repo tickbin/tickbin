@@ -17,6 +17,16 @@ tickbin emphasizes user data ownership:
 * optional self hosted data replication (via couchdb)
 * premium integrations via hosted service for portability
 
+## Remote sync
+
+To sync with a remote database, add the following to `~/.tickbinrc`:
+
+```
+remote=http://user:pass@host:port/dbname
+```
+
+Any tickbin commands you run will sync your database with the remote server.
+
 ## Building
 
 To build the application:
