@@ -115,10 +115,10 @@ test('parse unique #tags', t => {
 })
 
 test('toJSON() returns a json obj', t => {
-  const e = new Entry('8am-10am worked on some things')
+  const e = new Entry('8am-10am worked on some things #tag1 #tag2')
 
   const json = e.toJSON()
-  t.equals(json.message, '8am-10am worked on some things', 'message')
+  t.equals(json.message, '8am-10am worked on some things #tag1 #tag2', 'message')
   t.ok(json.hasDates, 'hasDates')
   t.equals(e.from, json.from, 'from')
   t.equals(e.to, json.to, 'to')
@@ -126,6 +126,7 @@ test('toJSON() returns a json obj', t => {
   t.equals(json.duration.from, e.from, 'duration from')
   t.equals(json.duration.to, e.to, 'duration to')
   t.equals(json._id, e._id, '_id')
+  t.deepEquals(json.tags, e.tags, 'tags array')
   t.ok(moment(json.toArr).isSame(json.to), 'to and toArr are same date')
   t.ok(moment(json.fromArr).isSame(json.from), 'from and fromArr are same date')
   t.ok(json.toArr instanceof Array, 'toArr is an array')
@@ -136,12 +137,14 @@ test('toJSON() returns a json obj', t => {
 
 test('fromJSON() will create an Entry from existing document', t => {
   const date = new Date('Jan 25, 2015 0:00:00')
-  const existing = new Entry('8am-10am worked on things', {date})
+  const existing = new Entry('8am-10am worked on things #tag1 #tag2', {date})
   const json = existing.toJSON()
   const e = Entry.fromJSON(json)
 
   t.equals(existing._id, e._id, '_id matches')
   t.equals(existing.message, e.message, 'message matches')
+  t.deepEquals(existing.tags, e.tags, 'tags match')
+  t.equals(e.tags.length, 2, '2 tags')
   t.equals(moment(existing.to).toString(), moment(e.to).toString(), 'to matches')
   t.equals(moment(existing.from).toString(), moment(e.from).toString(), 'from matches')
 
