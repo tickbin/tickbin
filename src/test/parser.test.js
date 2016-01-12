@@ -109,8 +109,8 @@ test('anchored: dates relative to anchor2', t => {
 
 test('overlapping times: 11pm-2am', t => {
   let {start, end} = parser('11pm-2am', anchor)
-  t.equals(start.getDate(), 24, 'start is day before anchor')
-  t.equals(end.getDate(), 25, 'end is anchor day')
+  t.equals(start.getDate(), 25, 'start is anchor day')
+  t.equals(end.getDate(), 26, 'end is day after anchor')
 
   t.end()
 })
