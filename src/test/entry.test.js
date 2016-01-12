@@ -100,11 +100,27 @@ test('constructor assigns _id', t => {
   t.end()
 })
 
+test('parse #tags', t => {
+  const e = new Entry('8-10am worked on things #tag1 #tag2')
+
+  t.ok(e.tags.has('#tag1'), 'tags are parsed into a Set')
+  t.ok(e.tags.has('#tag2'), 'tags are parsed into a Set')
+  t.end()
+})
+
+test('parse unique #tags', t => {
+  const e = new Entry('8-10am worked on things #tag1 #tag1')
+
+  t.equals(e.tags.size, 1, 'tags only appear once')
+  t.ok(e.tags.has('#tag1'), 'tags are parsed')
+  t.end()
+})
+
 test('toJSON() returns a json obj', t => {
-  const e = new Entry('8am-10am worked on some things')
+  const e = new Entry('8am-10am worked on some things #tag1 #tag2')
 
   const json = e.toJSON()
-  t.equals(json.message, '8am-10am worked on some things', 'message')
+  t.equals(json.message, '8am-10am worked on some things #tag1 #tag2', 'message')
   t.ok(json.hasDates, 'hasDates')
   t.equals(e.from, json.from, 'from')
   t.equals(e.to, json.to, 'to')
@@ -112,6 +128,7 @@ test('toJSON() returns a json obj', t => {
   t.equals(json.duration.from, e.from, 'duration from')
   t.equals(json.duration.to, e.to, 'duration to')
   t.equals(json._id, e._id, '_id')
+  t.deepEquals(json.tags, [...e.tags], 'tags array')
   t.ok(moment(json.toArr).isSame(json.to), 'to and toArr are same date')
   t.ok(moment(json.fromArr).isSame(json.from), 'from and fromArr are same date')
   t.ok(json.toArr instanceof Array, 'toArr is an array')
@@ -122,12 +139,13 @@ test('toJSON() returns a json obj', t => {
 
 test('fromJSON() will create an Entry from existing document', t => {
   const date = new Date('Jan 25, 2015 0:00:00')
-  const existing = new Entry('8am-10am worked on things', {date})
+  const existing = new Entry('8am-10am worked on things #tag1 #tag2', {date})
   const json = existing.toJSON()
   const e = Entry.fromJSON(json)
 
   t.equals(existing._id, e._id, '_id matches')
   t.equals(existing.message, e.message, 'message matches')
+  t.equals(e.tags.size, 2, '2 tags')
   t.equals(moment(existing.to).toString(), moment(e.to).toString(), 'to matches')
   t.equals(moment(existing.from).toString(), moment(e.from).toString(), 'from matches')
 
