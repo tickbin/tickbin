@@ -1,5 +1,3 @@
-'use strict'
-
 import Duration from 'duration'
 import shortid from 'shortid'
 import moment from 'moment'
