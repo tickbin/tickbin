@@ -5,6 +5,8 @@ import shortid from 'shortid'
 import moment from 'moment'
 import parser from './parser'
 
+const hashPattern = /#\w+/g
+
 module.exports = class Entry {
   constructor(message, opts = {}) {
     let {
@@ -17,6 +19,7 @@ module.exports = class Entry {
     this._id = shortid.generate()
     this.message = message
     this.parse(message, date)
+    this.parseTags(message)
   }
 
   _fromJSON(doc) {
@@ -30,6 +33,12 @@ module.exports = class Entry {
   parse(msg, date) {
     let d = parser(msg, date)
     if (d.isValid) this.setDates(d)
+  }
+
+  parseTags(message) {
+    // Set makes things unique
+    const tagsSet = new Set(message.match(hashPattern))
+    this.tags = [...tagsSet] 
   }
 
   setDates(opts) {
@@ -56,6 +65,7 @@ module.exports = class Entry {
       fromArr: this.fromArr,
       to: this.to,
       toArr: this.toArr,
+      tags: this.tags,
       duration: {
         seconds: this.duration.seconds,
         from: this.duration.from,
