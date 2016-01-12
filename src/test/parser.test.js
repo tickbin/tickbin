@@ -1,9 +1,9 @@
 
 import test from 'tape'
-import durate from '../durate'
+import parser from '../parser'
 
 test('simple am times: 8am-10am', t => {
-  let {start, end} = durate('8am-10am')
+  let {start, end} = parser('8am-10am')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 10, 'end is 10am')
 
@@ -11,7 +11,7 @@ test('simple am times: 8am-10am', t => {
 })
 
 test('simple am to pm times: 9am-2pm', t => {
-  let {start, end} = durate('9am-2pm')
+  let {start, end} = parser('9am-2pm')
   t.equals(start.getHours(), 9, 'start is 9am')
   t.equals(end.getHours(), 14, 'end is 2pm (14)')
 
@@ -19,7 +19,7 @@ test('simple am to pm times: 9am-2pm', t => {
 })
 
 test('simple pm times: 1pm-4pm', t => {
-  let {start, end} = durate('1pm-4pm')
+  let {start, end} = parser('1pm-4pm')
   t.equals(start.getHours(), 13, 'start is 1pm (13)')
   t.equals(end.getHours(), 16, 'end is 4pm (16)')
 
@@ -27,7 +27,7 @@ test('simple pm times: 1pm-4pm', t => {
 })
 
 test('infer meridiem: 1-3pm', t => {
-  let {start, end} = durate('1-3pm')
+  let {start, end} = parser('1-3pm')
   t.equals(start.getHours(), 13, 'infer start is 1pm (13)')
   t.equals(end.getHours(), 15, 'end is 3pm (15)')
 
@@ -37,7 +37,7 @@ test('infer meridiem: 1-3pm', t => {
 // Test is skipped because it currently doesn't pass
 // Please see this issue: https://github.com/wanasit/chrono/issues/76 
 test.skip('infer meridiem: 1pm-3', t => {
-  let {start, end} = durate('1pm-3')
+  let {start, end} = parser('1pm-3')
   t.equals(start.getHours(), 13, 'start is 1pm (13)')
   t.equals(end.getHours(), 15, 'infer end is 3pm (15)')
 
@@ -45,7 +45,7 @@ test.skip('infer meridiem: 1pm-3', t => {
 })
 
 test('minutes: 9:15am-2:30pm', t => {
-  let {start, end} = durate('9:15am-2:30pm')
+  let {start, end} = parser('9:15am-2:30pm')
   t.equals(start.getHours(), 9, 'start is 9am')
   t.equals(start.getMinutes(), 15, 'start is 9:15am')
   t.equals(end.getHours(), 14, 'end is 2pm (14)')
@@ -55,7 +55,7 @@ test('minutes: 9:15am-2:30pm', t => {
 })
 
 test('colon segmented 24 times: 08:000-13:00', t => {
-  let {start, end} = durate('0800-1330')
+  let {start, end} = parser('0800-1330')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 13, 'end is 1pm (13)')
   t.equals(end.getMinutes(), 30, 'end is 1:30pm')
@@ -64,7 +64,7 @@ test('colon segmented 24 times: 08:000-13:00', t => {
 })
 
 test('proper 24h times: 0800-1330', t => {
-  let {start, end} = durate('0800-1330')
+  let {start, end} = parser('0800-1330')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 13, 'end is 1pm (13)')
   t.equals(end.getMinutes(), 30, 'end is 1:30pm')
@@ -73,7 +73,7 @@ test('proper 24h times: 0800-1330', t => {
 })
 
 test('no leading zero 24h times: 800-1300', t => {
-  let {start, end} = durate('800-1300')
+  let {start, end} = parser('800-1300')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 13, 'end is 1pm (13)')
 
@@ -84,7 +84,7 @@ const anchor  = new Date('Jan 25, 2015 0:00:00')
 const anchor2 = new Date('April 2, 2015 0:00:00')
 
 test('anchored: dates relative to anchor', t => {
-  let {start, end} = durate('8am-1pm', anchor)
+  let {start, end} = parser('8am-1pm', anchor)
   t.equals(start.getFullYear(), 2015, 'start is same year')
   t.equals(start.getMonth(), 0, 'start is same month as anchor')
   t.equals(start.getDate(), 25, 'start is same day as anchor')
@@ -96,7 +96,7 @@ test('anchored: dates relative to anchor', t => {
 })
 
 test('anchored: dates relative to anchor2', t => {
-  let {start, end} = durate('8am-1pm', anchor2)
+  let {start, end} = parser('8am-1pm', anchor2)
   t.equals(start.getFullYear(), 2015, 'start is same year')
   t.equals(start.getMonth(), 3, 'start is same month as anchor')
   t.equals(start.getDate(), 2, 'start is same day as anchor')
@@ -108,7 +108,7 @@ test('anchored: dates relative to anchor2', t => {
 })
 
 test('overlapping times: 11pm-2am', t => {
-  let {start, end} = durate('11pm-2am', anchor)
+  let {start, end} = parser('11pm-2am', anchor)
   t.equals(start.getDate(), 24, 'start is day before anchor')
   t.equals(end.getDate(), 25, 'end is anchor day')
 
