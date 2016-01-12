@@ -114,3 +114,13 @@ test('overlapping times: 11pm-2am', t => {
 
   t.end()
 })
+
+// Test is skipped because it currently doesn't pass
+// Please see this issue: https://github.com/MemoryLeaf/tickbin/issues/26
+test.skip('overlapping times for current day: 11pm-2am', t => {
+  let {start, end} = parser('11pm-2am')
+  t.equals(start.getDate(), 24, 'start is day before anchor')
+  t.equals(end.getDate(), 25, 'end is anchor day')
+
+  t.end()
+})
