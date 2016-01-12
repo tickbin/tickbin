@@ -103,14 +103,16 @@ test('constructor assigns _id', t => {
 test('parse #tags', t => {
   const e = new Entry('8-10am worked on things #tag1 #tag2')
 
-  t.deepEqual(e.tags, ['#tag1', '#tag2'], 'tags are parsed out to an array')
+  t.ok(e.tags.has('#tag1'), 'tags are parsed into a Set')
+  t.ok(e.tags.has('#tag2'), 'tags are parsed into a Set')
   t.end()
 })
 
 test('parse unique #tags', t => {
   const e = new Entry('8-10am worked on things #tag1 #tag1')
 
-  t.deepEqual(e.tags, ['#tag1'], 'tags only appear once')
+  t.equals(e.tags.size, 1, 'tags only appear once')
+  t.ok(e.tags.has('#tag1'), 'tags are parsed')
   t.end()
 })
 
@@ -126,7 +128,7 @@ test('toJSON() returns a json obj', t => {
   t.equals(json.duration.from, e.from, 'duration from')
   t.equals(json.duration.to, e.to, 'duration to')
   t.equals(json._id, e._id, '_id')
-  t.deepEquals(json.tags, e.tags, 'tags array')
+  t.deepEquals(json.tags, [...e.tags], 'tags array')
   t.ok(moment(json.toArr).isSame(json.to), 'to and toArr are same date')
   t.ok(moment(json.fromArr).isSame(json.from), 'from and fromArr are same date')
   t.ok(json.toArr instanceof Array, 'toArr is an array')
@@ -143,8 +145,7 @@ test('fromJSON() will create an Entry from existing document', t => {
 
   t.equals(existing._id, e._id, '_id matches')
   t.equals(existing.message, e.message, 'message matches')
-  t.deepEquals(existing.tags, e.tags, 'tags match')
-  t.equals(e.tags.length, 2, '2 tags')
+  t.equals(e.tags.size, 2, '2 tags')
   t.equals(moment(existing.to).toString(), moment(e.to).toString(), 'to matches')
   t.equals(moment(existing.from).toString(), moment(e.from).toString(), 'from matches')
 

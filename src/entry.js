@@ -27,6 +27,7 @@ module.exports = class Entry {
     const start = new Date(this.from)
     const end = new Date(this.to)
     this.setDates({start, end})
+    this.tags = new Set(doc.tags)
     return this
   }
 
@@ -37,8 +38,7 @@ module.exports = class Entry {
 
   parseTags(message) {
     // Set makes things unique
-    const tagsSet = new Set(message.match(hashPattern))
-    this.tags = [...tagsSet] 
+    this.tags = new Set(message.match(hashPattern))
   }
 
   setDates(opts) {
@@ -65,7 +65,7 @@ module.exports = class Entry {
       fromArr: this.fromArr,
       to: this.to,
       toArr: this.toArr,
-      tags: this.tags,
+      tags: [...this.tags],
       duration: {
         seconds: this.duration.seconds,
         from: this.duration.from,
