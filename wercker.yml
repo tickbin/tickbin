@@ -2,4 +2,6 @@ box: node
 build:
   steps:
     - npm-install
+    - script:
+        code: npm run build
     - npm-test
