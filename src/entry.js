@@ -65,6 +65,6 @@ module.exports = class Entry {
   static fromJSON(doc) {
     let e = new Entry(doc)
 
-    return e;
+    return e
   }
 }
