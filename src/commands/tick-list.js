@@ -11,6 +11,11 @@ import db from '../db'
 function list (yargs) {
   let argv = yargs
   .usage('Usage: tick list [options]')
+  .option('t', {
+    alias: 'tag',
+    describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
+    type: 'array'
+  })
   .help('h')
   .alias('h', 'help')
   .argv
@@ -18,17 +23,23 @@ function list (yargs) {
   db.query(mapDate, {
     include_docs: true,
     descending: true
-  }).then(writeEntries)
+  }).then(_.partial(writeEntries, hashTags(argv.tag)))
 
+}
+
+function hashTags(tags = []) {
+  // add a # before the tag if it doesn't already exist
+  return tags.map(tag => tag.startsWith('#') ? tag : '#' + tag)
 }
 
 function mapDate (doc) {
   emit(doc.fromArr)
 }
 
-function writeEntries (results) {
+function writeEntries (tags = [], results) {
   let prevDate = null
   let dat = _.chain(results.rows)
+  .filter(_.partial(filterTags, tags))
   .map(row => { return Entry.fromJSON(row.doc) })
   .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
   .map((group, d) => { 
@@ -48,4 +59,14 @@ function writeEntries (results) {
 
   if (dat.length === 0)
     console.log('You have no entries in tickbin. Create some with \'tick log\'')
+}
+
+function filterTags (tags = [], row) {
+  if (!tags) // no tags provided, filter nothing
+    return true
+
+  const rtags = row.doc.tags || []
+
+  const found = _.every(tags, t => _.includes(rtags, t))
+  return found
 }

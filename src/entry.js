@@ -5,7 +5,7 @@ import parser from './parser'
 
 const hashPattern = /#\w+/g
 
-module.exports = class Entry {
+export default class Entry {
   constructor(message, opts = {}) {
     let {
       date = new Date(), 
