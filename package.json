@@ -4,9 +4,13 @@
   "description": "tickbin time tracking",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf build/*",
     "build": "babel src --out-dir build/",
     "watch": "babel src --watch --out-dir build/",
-    "test": "node build/test/entry.test.js | tap-spec && node build/test/parser.test.js | tap-spec"
+    "test": "node build/test/entry.test.js | tap-spec && node build/test/parser.test.js | tap-spec",
+
+    "prebuild": "npm run clean",
+    "prewatch": "npm run clean"
   },
   "author": "Jonathan Bowers <jonotron@gmail.com>",
   "repository": {
