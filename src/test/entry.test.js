@@ -1,4 +1,3 @@
-'use strict'
 import test from 'tape'
 import Entry from '../entry'
 import moment from 'moment'

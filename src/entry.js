@@ -1,5 +1,3 @@
-'use strict'
-
 import Duration from 'duration'
 import shortid from 'shortid'
 import moment from 'moment'
@@ -77,6 +75,6 @@ module.exports = class Entry {
   static fromJSON(doc) {
     let e = new Entry(doc)
 
-    return e;
+    return e
   }
 }

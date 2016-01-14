@@ -35,6 +35,7 @@ Any tickbin commands you run will sync your database with the remote server.
 To build the application:
 
 ```bash
+# Using node v4.2 or greater
 $ npm install
 $ npm run build
 $ ./bin/tick --help
