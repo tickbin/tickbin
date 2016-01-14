@@ -16,6 +16,11 @@ function list (yargs) {
     describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
     type: 'array'
   })
+  .option('d', {
+    alias: 'date',
+    describe: 'date range to filter entries',
+    type: 'string'
+  })
   .help('h')
   .alias('h', 'help')
   .argv
