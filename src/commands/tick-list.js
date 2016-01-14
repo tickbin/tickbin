@@ -56,6 +56,9 @@ function writeEntries (tags = [], results) {
     group.ticks.forEach(t => { console.log(getOutputs(t).simple) })
   })
   .value()
+
+  if (dat.length === 0)
+    console.log('You have no entries in tickbin. Create some with \'tick log\'')
 }
 
 function filterTags (tags = [], row) {

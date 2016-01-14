@@ -1,4 +1,7 @@
 # tickbin
+
+[![wercker status](https://app.wercker.com/status/8eae7aa26c3f3cf64321d4a37b163f1e/s/master "wercker status")](https://app.wercker.com/project/bykey/8eae7aa26c3f3cf64321d4a37b163f1e)
+
 time tracking, for developers
 
 Use natural language and simple text based interfaces to track time on projects.
@@ -32,6 +35,7 @@ Any tickbin commands you run will sync your database with the remote server.
 To build the application:
 
 ```bash
+# Using node v4.2 or greater
 $ npm install
 $ npm run build
 $ ./bin/tick --help
