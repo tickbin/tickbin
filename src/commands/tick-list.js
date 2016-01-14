@@ -13,7 +13,7 @@ function list (yargs) {
   .usage('Usage: tick list [options]')
   .option('t', {
     alias: 'tag',
-    describe: 'tags to filter as boolean OR (no # symbol - e.g. -t tag1 tag2)',
+    describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
     type: 'array'
   })
   .help('h')
@@ -59,10 +59,11 @@ function writeEntries (tags = [], results) {
 }
 
 function filterTags (tags = [], row) {
-  if (tags.length == 0) // no tags provided, filter nothing
+  if (!tags) // no tags provided, filter nothing
     return true
 
   const rtags = row.doc.tags || []
 
-  return _.intersection(rtags, tags).length >= 1
+  const found = _.every(tags, t => _.includes(rtags, t))
+  return found
 }
