@@ -17,6 +17,14 @@ tickbin emphasizes user data ownership:
 * optional self hosted data replication (via couchdb)
 * premium integrations via hosted service for portability
 
+## Local sync
+
+Local database path will default to `~/.tickbin`. If you would like to specify a custom location, add the following to `~/.tickbinrc`:
+
+```
+tickDir=~/custom/path
+```
+
 ## Remote sync
 
 To sync with a remote database, add the following to `~/.tickbinrc`:
