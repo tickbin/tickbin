@@ -9,7 +9,14 @@ export const ddoc = {
 }
 
 function createIndex (dbName) {
-  return dbName.put(ddoc) 
+  return dbName.get(ddoc._id)
+  .then(doc => { 
+    let newddoc = ddoc
+    newddoc._rev = doc._rev
+    return dbName.put(newddoc) 
+  }, err => {
+    return dbName.put(ddoc)
+  })
 }
 
 function mapFrom (doc) {
