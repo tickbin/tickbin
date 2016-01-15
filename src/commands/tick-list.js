@@ -19,7 +19,7 @@ function list (yargs) {
   })
   .option('d', {
     alias: 'date',
-    describe: 'date range to filter entries',
+    describe: 'date range to filter entries or number of days to list',
     type: 'string'
   })
   .help('h')
