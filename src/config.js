@@ -5,7 +5,7 @@ import mkdirp from 'mkdirp'
 import untildify from 'untildify'
 
 const conf = rc('tickbin', {
-  local: '~/.tickbin/data'
+  local: '~/.tickbin'
 })
 
 conf.local = untildify(conf.local)
