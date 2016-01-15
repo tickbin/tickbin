@@ -1,15 +1,18 @@
 import rc from 'rc'
 import path from 'path'
 import fs from 'fs'
-
-const tickDir = path.join(process.env.HOME, '.tickbin')
-
-if (!fs.existsSync(tickDir)) {
-  fs.mkdirSync(tickDir)
-}
+import mkdirp from 'mkdirp'
+import untildify from 'untildify'
 
 const conf = rc('tickbin', {
-  db: path.join(tickDir,'data')
+  tickDir: '~/.tickbin/data'
 })
+
+conf.tickDir = untildify(conf.tickDir)
+conf.db = path.join(conf.tickDir, 'data')
+
+if (!fs.existsSync(conf.tickDir)) {
+  mkdirp.sync(conf.tickDir)
+}
 
 export default conf

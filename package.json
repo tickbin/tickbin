@@ -25,12 +25,14 @@
     "chrono-node": "^1.0.8",
     "duration": "^0.2.0",
     "lodash": "^3.10.1",
+    "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
     "pad": "^1.0.0",
     "pouchdb": "^4.0.3",
     "prompt": "^0.2.14",
     "rc": "^1.1.1",
     "shortid": "^2.2.2",
+    "untildify": "^2.1.0",
     "yargs": "^3.24.0"
   }
 }
