@@ -35,23 +35,8 @@ function list (yargs) {
     end   = moment(dates.end.date()).endOf('day').toArray()
   }
 
-  createIdx()
-  .then(_.partial(queryEntries, start, end))
+  queryEntries(start, end)
   .then(_.partial(writeEntries, hashTags(argv.tag)))
-}
-
-// create a view on entry.fromArr
-function createIdx() {
-  const ddoc = {
-    _id: '_design/entry_index',
-    views: {
-      by_from: {
-        map: mapFrom.toString()
-      } 
-    }
-  } 
-
-  return db.put(ddoc)
 }
 
 function queryEntries (start, end) {
@@ -66,10 +51,6 @@ function queryEntries (start, end) {
 function hashTags(tags = []) {
   // add a # before the tag if it doesn't already exist
   return tags.map(tag => tag.startsWith('#') ? tag : '#' + tag)
-}
-
-function mapFrom (doc) {
-  emit(doc.fromArr)
 }
 
 function writeEntries (tags = [], results) {
