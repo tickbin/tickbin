@@ -85,32 +85,32 @@ const anchor2 = new Date('April 2, 2015 0:00:00')
 
 test('anchored: dates relative to anchor', t => {
   let {start, end} = parser('8am-1pm', anchor)
-  t.equals(start.getFullYear(), 2015, 'start is same year')
-  t.equals(start.getMonth(), 0, 'start is same month as anchor')
-  t.equals(start.getDate(), 25, 'start is same day as anchor')
-  t.equals(end.getFullYear(), 2015, 'start is same year')
-  t.equals(end.getMonth(), 0, 'start is same month as anchor')
-  t.equals(end.getDate(), 25, 'start is same day as anchor')
+  t.equals(start.getFullYear(), anchor.getFullYear(), 'start is same year')
+  t.equals(start.getMonth(), anchor.getMonth(), 'start is same month as anchor')
+  t.equals(start.getDate(), anchor.getDate(), 'start is same day as anchor')
+  t.equals(end.getFullYear(), anchor.getFullYear(), 'start is same year')
+  t.equals(end.getMonth(), anchor.getMonth(), 'start is same month as anchor')
+  t.equals(end.getDate(), anchor.getDate(), 'start is same day as anchor')
 
   t.end()
 })
 
 test('anchored: dates relative to anchor2', t => {
   let {start, end} = parser('8am-1pm', anchor2)
-  t.equals(start.getFullYear(), 2015, 'start is same year')
-  t.equals(start.getMonth(), 3, 'start is same month as anchor')
-  t.equals(start.getDate(), 2, 'start is same day as anchor')
-  t.equals(end.getFullYear(), 2015, 'start is same year')
-  t.equals(end.getMonth(), 3, 'start is same month as anchor')
-  t.equals(end.getDate(), 2, 'start is same day as anchor')
+  t.equals(start.getFullYear(), anchor2.getFullYear(), 'start is same year')
+  t.equals(start.getMonth(), anchor2.getMonth(), 'start is same month as anchor')
+  t.equals(start.getDate(), anchor2.getDate(), 'start is same day as anchor')
+  t.equals(end.getFullYear(), anchor2.getFullYear(), 'start is same year')
+  t.equals(end.getMonth(), anchor2.getMonth(), 'start is same month as anchor')
+  t.equals(end.getDate(), anchor2.getDate(), 'start is same day as anchor')
 
   t.end()
 })
 
 test('overlapping times: 11pm-2am', t => {
   let {start, end} = parser('11pm-2am', anchor)
-  t.equals(start.getDate(), 25, 'start is anchor day')
-  t.equals(end.getDate(), 26, 'end is day after anchor')
+  t.equals(start.getDate(), anchor.getDate(), 'start is anchor day')
+  t.equals(end.getDate(), anchor.getDate() + 1, 'end is day after anchor')
 
   t.end()
 })
