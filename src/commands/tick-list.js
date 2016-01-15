@@ -76,7 +76,7 @@ function writeEntries (tags = [], results) {
   .value()
 
   if (dat.length === 0)
-    console.log('You have no entries in tickbin. Create some with \'tick log\'')
+    console.log('You have no recent entries in tickbin. Create some with \'tick log\'')
 }
 
 function filterTags (tags = [], row) {
