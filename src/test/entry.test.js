@@ -39,12 +39,12 @@ test('passing date influences the dates', t => {
   const msg = '8am-5pm worked on some things'
   const e = new Entry(msg, {date})
   const {from, to} = e.getDates()
-  t.equals(from.getFullYear(), 2015, 'from has the same year')
-  t.equals(from.getMonth(), 0, 'from has same month')
-  t.equals(from.getDate(), 25, 'from has same day')
-  t.equals(to.getFullYear(), 2015, 'to has the same year')
-  t.equals(to.getMonth(), 0, 'to has the same month')
-  t.equals(to.getDate(), 25, 'to has the same day')
+  t.equals(from.getFullYear(), date.getFullYear(), 'from has the same year')
+  t.equals(from.getMonth(), date.getMonth(), 'from has same month')
+  t.equals(from.getDate(), date.getDate(), 'from has same day')
+  t.equals(to.getFullYear(), date.getFullYear(), 'to has the same year')
+  t.equals(to.getMonth(), date.getMonth(), 'to has the same month')
+  t.equals(to.getDate(), date.getDate(), 'to has the same day')
 
   t.end()
 })
