@@ -35,14 +35,32 @@ function list (yargs) {
     end   = moment(dates.end.date()).endOf('day').toArray()
   }
 
-  db.query(mapDate, {
+  createIdx()
+  .then(_.partial(queryEntries, start, end))
+  .then(_.partial(writeEntries, hashTags(argv.tag)))
+}
+
+// create a view on entry.fromArr
+function createIdx() {
+  const ddoc = {
+    _id: '_design/entry_index',
+    views: {
+      by_from: {
+        map: mapFrom.toString()
+      } 
+    }
+  } 
+
+  return db.put(ddoc)
+}
+
+function queryEntries (start, end) {
+  return db.query('entry_index/by_from', {
     include_docs: true,
     descending: true,
     startkey: end, // decending, so we start at recent dates
     endkey: start
-  }).then(_.partial(writeEntries, hashTags(argv.tag)))
-
-
+  })
 }
 
 function hashTags(tags = []) {
@@ -50,7 +68,7 @@ function hashTags(tags = []) {
   return tags.map(tag => tag.startsWith('#') ? tag : '#' + tag)
 }
 
-function mapDate (doc) {
+function mapFrom (doc) {
   emit(doc.fromArr)
 }
 
