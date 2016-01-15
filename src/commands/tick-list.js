@@ -26,9 +26,12 @@ function list (yargs) {
   .alias('h', 'help')
   .argv
 
+  let days = parseInt(argv.date)
+  days = days >= 0 ? days : 6 // default 6 days
+
   let dates = chrono.parse(argv.date)[0] || [{}]
   // default to most recent 7 days
-  let start = moment().subtract(6, 'days').startOf('day').toArray()
+  let start = moment().subtract(days, 'days').startOf('day').toArray()
   let end   = moment().endOf('day').toArray();
   if (dates.start && dates.end) {
     start = moment(dates.start.date()).startOf('day').toArray()
