@@ -5,14 +5,14 @@ import mkdirp from 'mkdirp'
 import untildify from 'untildify'
 
 const conf = rc('tickbin', {
-  tickDir: '~/.tickbin/data'
+  local: '~/.tickbin/data'
 })
 
-conf.tickDir = untildify(conf.tickDir)
-conf.db = path.join(conf.tickDir, 'data')
+conf.local = untildify(conf.local)
+conf.db = path.join(conf.local, 'data')
 
-if (!fs.existsSync(conf.tickDir)) {
-  mkdirp.sync(conf.tickDir)
+if (!fs.existsSync(conf.local)) {
+  mkdirp.sync(conf.local)
 }
 
 export default conf

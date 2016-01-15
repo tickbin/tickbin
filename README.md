@@ -22,7 +22,7 @@ tickbin emphasizes user data ownership:
 Local database path will default to `~/.tickbin`. If you would like to specify a custom location, add the following to `~/.tickbinrc`:
 
 ```
-tickDir=~/custom/path
+local=~/custom/path
 ```
 
 ## Remote sync
