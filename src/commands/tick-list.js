@@ -6,6 +6,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import chalk from 'chalk'
 import format from '../time'
+import chrono from 'chrono-node'
 import db from '../db'
 
 function list (yargs) {
@@ -16,14 +17,31 @@ function list (yargs) {
     describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
     type: 'array'
   })
+  .option('d', {
+    alias: 'date',
+    describe: 'date range to filter entries',
+    type: 'string'
+  })
   .help('h')
   .alias('h', 'help')
   .argv
 
+  let dates = chrono.parse(argv.date)[0] || [{}]
+  // default to most recent 7 days
+  let start = moment().subtract(6, 'days').startOf('day').toArray()
+  let end   = moment().endOf('day').toArray();
+  if (dates.start && dates.end) {
+    start = moment(dates.start.date()).startOf('day').toArray()
+    end   = moment(dates.end.date()).endOf('day').toArray()
+  }
+
   db.query(mapDate, {
     include_docs: true,
-    descending: true
+    descending: true,
+    startkey: end, // decending, so we start at recent dates
+    endkey: start
   }).then(_.partial(writeEntries, hashTags(argv.tag)))
+
 
 }
 
