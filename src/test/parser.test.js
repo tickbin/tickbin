@@ -118,9 +118,10 @@ test('overlapping times: 11pm-2am', t => {
 // Test is skipped because it currently doesn't pass
 // Please see this issue: https://github.com/MemoryLeaf/tickbin/issues/26
 test.skip('overlapping times for current day: 11pm-2am', t => {
+  const today = new Date()
   let {start, end} = parser('11pm-2am')
-  t.equals(start.getDate(), 24, 'start is day before anchor')
-  t.equals(end.getDate(), 25, 'end is anchor day')
+  t.equals(start.getDate(), today.getDate() - 1, 'start is day before anchor')
+  t.equals(end.getDate(), today.getDate(), 'end is anchor day')
 
   t.end()
 })
