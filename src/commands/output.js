@@ -13,7 +13,7 @@ function write(entry) {
 }
 
 function getOutputs(entry) {
-  const timePattern = new RegExp(`\s*${entry.time}\s*`, 'g')
+  const timePattern = new RegExp(/\s*/.source + entry.time + /\s*/.source, 'g')
   const id = `${chalk.gray(pad(entry._id, 10))}`
   const date = `${chalk.yellow(pad(moment(entry.from).format('ddd MMM DD'),9))}` 
   const time = entry.time
