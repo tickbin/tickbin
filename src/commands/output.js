@@ -19,7 +19,7 @@ function getOutputs(entry) {
   const msg = entry.message.replace(/\s*#\w+\s*/g, '')
   const tags = chalk.cyan([...entry.tags].join(' '))
 
-  const detailed = `${id} ${date} ${time} ${msg}`
+  const detailed = `${id} ${date} ${time} ${msg} ${tags}`
   const simple = `${id} ${time} ${msg} ${tags}`
 
   return {id, date, time, msg, tags, detailed, simple}
