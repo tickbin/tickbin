@@ -135,6 +135,7 @@ test('toJSON() returns a json obj', t => {
   t.equals(json.duration.from, e.from, 'duration from')
   t.equals(json.duration.to, e.to, 'duration to')
   t.equals(json._id, e._id, '_id')
+  t.equals(json.version, version, 'version')
   t.deepEquals(json.tags, [...e.tags], 'tags array')
   t.ok(moment(json.toArr).isSame(json.to), 'to and toArr are same date')
   t.ok(moment(json.fromArr).isSame(json.from), 'from and fromArr are same date')
@@ -151,6 +152,7 @@ test('fromJSON() will create an Entry from existing document', t => {
   const e = Entry.fromJSON(json)
 
   t.equals(existing._id, e._id, '_id matches')
+  t.equals(existing.version, e.version, 'version matches')
   t.equals(existing.message, e.message, 'message matches')
   t.equals(e.tags.size, 2, '2 tags')
   t.equals(moment(existing.to).toString(), moment(e.to).toString(), 'to matches')

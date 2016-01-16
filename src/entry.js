@@ -59,6 +59,7 @@ export default class Entry {
   toJSON() {
     return {
       _id: this._id,
+      version: this.version,
       message: this.message,
       hasDates: this.hasDates,
       from: this.from,
