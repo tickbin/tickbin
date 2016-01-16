@@ -72,8 +72,8 @@ function writeEntries (tags = [], results) {
   })
   .each(group => {
     const date = moment(group.date).format('ddd, MMM DD, YYYY')
-    const time = format(group.minutes)
-    console.log(`${chalk.yellow(date)} ${chalk.green(time)}`)
+    const duration = format(group.minutes)
+    console.log(`${chalk.yellow(date)} ${chalk.green(duration)}`)
     group.ticks.forEach(t => { console.log(getOutputs(t).simple) })
   })
   .value()
