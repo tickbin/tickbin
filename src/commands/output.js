@@ -16,9 +16,11 @@ function getOutputs(entry) {
   const id = `${chalk.gray(pad(entry._id, 10))}`
   const date = `${chalk.yellow(pad(moment(entry.from).format('ddd MMM DD'),9))}` 
   const time = chalk.green(format(entry.duration.minutes))
-  const msg = `${entry.message}` 
-  const detailed = `${id} ${date} ${time} ${msg}`
-  const simple = `${id} ${time} ${msg}`
+  const msg = entry.message.replace(/\s*#\w+\s*/g, '')
+  const tags = chalk.cyan([...entry.tags].join(' '))
 
-  return {id, date, time, msg, detailed, simple}
+  const detailed = `${id} ${date} ${time} ${msg}`
+  const simple = `${id} ${time} ${msg} ${tags}`
+
+  return {id, date, time, msg, tags, detailed, simple}
 }
