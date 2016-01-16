@@ -1,6 +1,12 @@
 import test from 'tape'
-import Entry from '../entry'
+import Entry, { version } from '../entry'
 import moment from 'moment'
+
+test('Entry class has a ver number', t => {
+  t.equals(version, 1, 'current version is 1')
+
+  t.end()
+})
 
 test('simple entry construction 8am-10pm', t => {
   const e = new Entry('8am-10am worked on things')
@@ -151,4 +157,3 @@ test('fromJSON() will create an Entry from existing document', t => {
   t.end()
 
 })
-
