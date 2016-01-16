@@ -39,12 +39,9 @@ test('passing date influences the dates', t => {
   const msg = '8am-5pm worked on some things'
   const e = new Entry(msg, {date})
   const {from, to} = e.getDates()
-  t.equals(from.getFullYear(), date.getFullYear(), 'from has the same year')
-  t.equals(from.getMonth(), date.getMonth(), 'from has same month')
-  t.equals(from.getDate(), date.getDate(), 'from has same day')
-  t.equals(to.getFullYear(), date.getFullYear(), 'to has the same year')
-  t.equals(to.getMonth(), date.getMonth(), 'to has the same month')
-  t.equals(to.getDate(), date.getDate(), 'to has the same day')
+
+  t.ok(moment(from).isSame(date, 'day'), 'from has the same day')
+  t.ok(moment(to).isSame(date, 'day'), 'to has the same day')
 
   t.end()
 })
@@ -55,12 +52,8 @@ test('no date defaults to today', t => {
   const e = new Entry(msg)
   const {from,to} = e.getDates()
 
-  t.equals(from.getFullYear(), date.getFullYear(), 'from year is today')
-  t.equals(from.getMonth(), date.getMonth(), 'from month is today')
-  t.equals(from.getDate(), date.getDate(), 'from date is today')
-  t.equals(to.getFullYear(), date.getFullYear(), 'to year is today')
-  t.equals(to.getMonth(), date.getMonth(), 'to month is today')
-  t.equals(to.getDate(), date.getDate(), 'to date is today')
+  t.ok(moment(from).isSame(date, 'day'), 'from date is today')
+  t.ok(moment(to).isSame(date, 'day'), 'to date is today')
 
   t.end()
 })
