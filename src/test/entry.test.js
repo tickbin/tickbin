@@ -115,6 +115,13 @@ test('parse unique #tags', t => {
   t.end()
 })
 
+test('parsed time string is present', t => {
+  const e = new Entry('8-10am worked on things')
+
+  t.equals(e.time, '8-10am', 'entry.time contains matched string')
+  t.end()
+})
+
 test('toJSON() returns a json obj', t => {
   const e = new Entry('8am-10am worked on some things #tag1 #tag2')
 
