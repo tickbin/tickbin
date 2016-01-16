@@ -2,8 +2,10 @@ import test from 'tape'
 import Entry, { version } from '../entry'
 import moment from 'moment'
 
-test('Entry class has a ver number', t => {
-  t.equals(version, 1, 'current version is 1')
+test('Entry class has a version number', t => {
+  const e = new Entry('8am-10am worked on things')
+  t.ok(version >= 1, 'current version is 1')
+  t.equals(e.version, version, 'new entries get version')
 
   t.end()
 })
