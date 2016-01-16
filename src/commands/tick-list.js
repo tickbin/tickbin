@@ -38,23 +38,22 @@ function list (yargs) {
     end   = moment(dates.end.date()).endOf('day').toArray()
   }
 
-  db.query(mapDate, {
+  queryEntries(start, end)
+  .then(_.partial(writeEntries, hashTags(argv.tag)))
+}
+
+function queryEntries (start, end) {
+  return db.query('entry_index/by_from', {
     include_docs: true,
     descending: true,
     startkey: end, // decending, so we start at recent dates
     endkey: start
-  }).then(_.partial(writeEntries, hashTags(argv.tag)))
-
-
+  })
 }
 
 function hashTags(tags = []) {
   // add a # before the tag if it doesn't already exist
   return tags.map(tag => tag.startsWith('#') ? tag : '#' + tag)
-}
-
-function mapDate (doc) {
-  emit(doc.fromArr)
 }
 
 function writeEntries (tags = [], results) {
@@ -79,7 +78,7 @@ function writeEntries (tags = [], results) {
   .value()
 
   if (dat.length === 0)
-    console.log('You have no entries in tickbin. Create some with \'tick log\'')
+    console.log('You have no recent entries in tickbin. Create some with \'tick log\'')
 }
 
 function filterTags (tags = [], row) {
