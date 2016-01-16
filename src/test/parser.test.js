@@ -1,6 +1,7 @@
 
 import test from 'tape'
 import parser from '../parser'
+import moment from 'moment'
 
 test('simple am times: 8am-10am', t => {
   let {start, end} = parser('8am-10am')
@@ -85,32 +86,27 @@ const anchor2 = new Date('April 2, 2015 0:00:00')
 
 test('anchored: dates relative to anchor', t => {
   let {start, end} = parser('8am-1pm', anchor)
-  t.equals(start.getFullYear(), anchor.getFullYear(), 'start is same year')
-  t.equals(start.getMonth(), anchor.getMonth(), 'start is same month as anchor')
-  t.equals(start.getDate(), anchor.getDate(), 'start is same day as anchor')
-  t.equals(end.getFullYear(), anchor.getFullYear(), 'end is same year')
-  t.equals(end.getMonth(), anchor.getMonth(), 'end is same month as anchor')
-  t.equals(end.getDate(), anchor.getDate(), 'end is same day as anchor')
+
+  t.ok(moment(start).isSame(anchor, 'day'), 'start is same day as anchor')
+  t.ok(moment(end).isSame(anchor, 'day'), 'end is same day as anchor')
 
   t.end()
 })
 
 test('anchored: dates relative to anchor2', t => {
   let {start, end} = parser('8am-1pm', anchor2)
-  t.equals(start.getFullYear(), anchor2.getFullYear(), 'start is same year')
-  t.equals(start.getMonth(), anchor2.getMonth(), 'start is same month as anchor')
-  t.equals(start.getDate(), anchor2.getDate(), 'start is same day as anchor')
-  t.equals(end.getFullYear(), anchor2.getFullYear(), 'end is same year')
-  t.equals(end.getMonth(), anchor2.getMonth(), 'end is same month as anchor')
-  t.equals(end.getDate(), anchor2.getDate(), 'end is same day as anchor')
+
+  t.ok(moment(start).isSame(anchor2, 'day'), 'start is same day as anchor2')
+  t.ok(moment(end).isSame(anchor2, 'day'), 'end is same day as anchor2')
 
   t.end()
 })
 
 test('overlapping times: 11pm-2am', t => {
   let {start, end} = parser('11pm-2am', anchor)
-  t.equals(start.getDate(), anchor.getDate(), 'start is anchor day')
-  t.equals(end.getDate(), anchor.getDate() + 1, 'end is day after anchor')
+
+  t.ok(moment(start).isSame(anchor, 'day'), 'start is same day as anchor')
+  t.ok(moment(end).isSame(moment(anchor).add(1, 'day'), 'day'), 'end is day after anchor')
 
   t.end()
 })
@@ -120,8 +116,9 @@ test('overlapping times: 11pm-2am', t => {
 test.skip('overlapping times for current day: 11pm-2am', t => {
   const today = new Date()
   let {start, end} = parser('11pm-2am')
-  t.equals(start.getDate(), today.getDate() - 1, 'start is day before anchor')
-  t.equals(end.getDate(), today.getDate(), 'end is anchor day')
+
+  t.ok(moment(start).isSame(moment(today).subtract(1, 'day')), 'start is day before today')
+  t.ok(moment(end).isSame(today), 'end is same as today')
 
   t.end()
 })
