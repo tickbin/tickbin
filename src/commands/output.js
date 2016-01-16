@@ -13,14 +13,18 @@ function write(entry) {
 }
 
 function getOutputs(entry) {
+  const timePattern = new RegExp(`\s*${entry.time}\s*`, 'g')
   const id = `${chalk.gray(pad(entry._id, 10))}`
   const date = `${chalk.yellow(pad(moment(entry.from).format('ddd MMM DD'),9))}` 
+  const time = entry.time
   const duration = chalk.green(format(entry.duration.minutes))
-  const msg = entry.message.replace(/\s*#\w+\s*/g, '')
+  const msg = entry.message
+    .replace(/\s*#\w+\s*/g, '')
+    .replace(timePattern, '')
   const tags = chalk.cyan([...entry.tags].join(' '))
 
-  const detailed = `${id} ${date} ${duration} ${msg} ${tags}`
-  const simple = `${id} ${duration} ${msg} ${tags}`
+  const detailed = `${id} ${date} ${time} ${duration} ${msg} ${tags}`
+  const simple = `${id} ${time} ${duration} ${msg} ${tags}`
 
   return {id, date, duration, msg, tags, detailed, simple}
 }
