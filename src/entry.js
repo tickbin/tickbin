@@ -24,7 +24,8 @@ export default class Entry {
     Object.assign(this, doc)
     const start = new Date(this.from)
     const end = new Date(this.to)
-    this.setDates({start, end})
+    const text = this.time
+    this.setDates({start, end, text})
     this.tags = new Set(doc.tags)
     return this
   }
@@ -44,6 +45,7 @@ export default class Entry {
     this.from = opts.start
     this.fromArr = moment(this.from).toArray()
     this.to = opts.end
+    this.time = opts.text
     this.toArr = moment(this.to).toArray()
     this.duration = new Duration(this.from, this.to)
   }
@@ -63,6 +65,7 @@ export default class Entry {
       fromArr: this.fromArr,
       to: this.to,
       toArr: this.toArr,
+      time: this.time,
       tags: [...this.tags],
       duration: {
         seconds: this.duration.seconds,
