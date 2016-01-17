@@ -22,12 +22,12 @@ function getOutputs(entry) {
   const time = `${timeFrom.format('hh:mma')}-${timeTo.format('hh:mma')}`
   const duration = chalk.green(format(entry.duration.minutes))
   const msg = entry.message
-    .replace(hashPattern, '')
+    .replace(hashPattern, chalk.cyan('$1'))
     .replace(timePattern, '')
   const tags = chalk.cyan([...entry.tags].join(' '))
 
-  const detailed = `${id} ${date} ${time} ${duration} ${msg} ${tags}`
-  const simple = `${id} ${time} ${duration} ${msg} ${tags}`
+  const detailed = `${id} ${date} ${time} ${duration} ${msg}`
+  const simple = `${id} ${time} ${duration} ${msg}`
 
   return {id, date, duration, msg, tags, detailed, simple}
 }
