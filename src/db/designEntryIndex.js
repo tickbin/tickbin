@@ -4,7 +4,10 @@ export const ddoc = {
   views: {
     by_from: {
       map: mapFrom.toString()
-    } 
+    },
+    by_version: {
+      map: mapVersion.toString()  
+    }
   }
 }
 
@@ -21,5 +24,14 @@ function createIndex (dbName) {
 
 function mapFrom (doc) {
   emit(doc.fromArr)
+}
+
+function mapVersion (doc) {
+  var version = 0
+  if (doc.version) { 
+    version = doc.version
+  }
+
+  emit(version)
 }
 
