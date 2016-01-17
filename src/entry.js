@@ -5,6 +5,7 @@ import parser from './parser'
 
 const hashPattern = /#\w+/g
 
+export const version = 1
 export default class Entry {
   constructor(message, opts = {}) {
     let {
@@ -14,6 +15,7 @@ export default class Entry {
     if (typeof message === 'object')
       return this._fromJSON(message)
 
+    this.version = version
     this._id = shortid.generate()
     this.message = message
     this.parse(message, date)
@@ -59,6 +61,7 @@ export default class Entry {
   toJSON() {
     return {
       _id: this._id,
+      version: this.version,
       message: this.message,
       hasDates: this.hasDates,
       from: this.from,
