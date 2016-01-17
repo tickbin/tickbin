@@ -3,8 +3,7 @@ import shortid from 'shortid'
 import moment from 'moment'
 import parser from './parser'
 
-const hashPattern = /#\w+/g
-
+export const hashPattern = /(#\w+)/g
 export const version = 1
 export default class Entry {
   constructor(message, opts = {}) {

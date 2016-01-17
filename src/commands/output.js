@@ -2,6 +2,7 @@ import moment from 'moment'
 import chalk from 'chalk'
 import format from '../time'
 import pad from 'pad'
+import { hashPattern } from '../entry'
 
 export {write as write}
 export {getOutputs as getOutputs}
@@ -21,12 +22,12 @@ function getOutputs(entry) {
   const time = `${timeFrom.format('hh:mma')}-${timeTo.format('hh:mma')}`
   const duration = chalk.green(format(entry.duration.minutes))
   const msg = entry.message
-    .replace(/\s*#\w+\s*/g, '')
+    .replace(hashPattern, chalk.cyan('$1'))
     .replace(timePattern, '')
   const tags = chalk.cyan([...entry.tags].join(' '))
 
-  const detailed = `${id} ${date} ${time} ${duration} ${msg} ${tags}`
-  const simple = `${id} ${time} ${duration} ${msg} ${tags}`
+  const detailed = `${id} ${date} ${time} ${duration} ${msg}`
+  const simple = `${id} ${time} ${duration} ${msg}`
 
   return {id, date, duration, msg, tags, detailed, simple}
 }
