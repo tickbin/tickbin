@@ -124,3 +124,12 @@ test.skip('overlapping times for current day: 11pm-2am', t => {
 
   t.end()
 })
+
+test('matching text is returned', t => {
+  let {text} = parser('1-3pm')
+  let {text: only} = parser('1-3pm did some things')
+  t.equals(text, '1-3pm', 'parser returns matching text')
+  t.equals(only, '1-3pm', 'parser returns only matching text')
+
+  t.end()
+})

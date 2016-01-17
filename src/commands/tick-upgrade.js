@@ -22,13 +22,14 @@ function upgrade (yargs) {
 function reparse () {
   return db.query('entry_index/by_version', {
     startkey: 0,
-    endkey: 0,
+    endkey: 1,
     include_docs: true 
   })
   .then(res => {
     let newDocs = _.chain(res.rows)
       .pluck('doc')
       .map(map0to1)
+      .map(map1to2)
       .value()
     return db.bulkDocs(newDocs)
   })
@@ -38,6 +39,9 @@ function reparse () {
 }
 
 function map0to1 (doc) {
+  if (doc.version >= 1)
+    return doc
+
   const date = moment(doc.from).toDate()
   const e = new Entry(doc.message, { date })
   let newDoc = {}
@@ -46,4 +50,18 @@ function map0to1 (doc) {
   newDoc.version = e.version
 
   return newDoc 
+}
+
+function map1to2 (doc) {
+  if (doc.version >= 2)
+    return doc
+
+  const date = moment(doc.from).toDate()
+  const e = new Entry(doc.message, { date })
+  let newDoc = {}
+  Object.assign(newDoc, doc)
+
+  newDoc.time = e.time
+
+  return newDoc
 }
