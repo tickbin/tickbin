@@ -20,7 +20,7 @@ function upgrade (yargs) {
 }
 
 function reparse () {
-  db.query('entry_index/by_version', {
+  return db.query('entry_index/by_version', {
     startkey: 0,
     endkey: 0,
     include_docs: true 
