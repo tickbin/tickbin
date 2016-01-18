@@ -34,7 +34,11 @@ function list (yargs) {
   queryEntries(start, end)
   .then(results => {
     return _.pluck(results.rows, 'doc')
-  }).then(_.partial(groupEntries, hashTags(argv.tag)))
+  })
+  .then(docs => {
+    return _.filter(docs, _.partial(filterTags, hashTags(argv.tag))) 
+  })
+  .then(groupEntries)
 }
 
 function queryEntries (start, end) {
@@ -46,9 +50,8 @@ function queryEntries (start, end) {
   })
 }
 
-function groupEntries (tags = [], docs) {
+function groupEntries (docs) {
   let dat = _.chain(docs)
-  .filter(_.partial(filterTags, tags))
   .map(doc => { return Entry.fromJSON(doc) })
   .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
   .map((group, d) => { 
