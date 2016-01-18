@@ -8,7 +8,7 @@ import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
-import { filterTags, hashTags } from '../query'
+import { filterTags, hashTags, parseDateRange } from '../query'
 
 function list (yargs) {
   let argv = yargs
@@ -27,17 +27,9 @@ function list (yargs) {
   .alias('h', 'help')
   .argv
 
-  let days = parseInt(argv.date)
-  days = days >= 0 ? days : 6 // default 6 days
-
-  let dates = chrono.parse(argv.date)[0] || [{}]
-  // by default, set the date range then check if chrono parsed anything good
-  let start = moment().subtract(days, 'days').startOf('day').toArray()
-  let end   = moment().endOf('day').toArray();
-  if (dates.start && dates.end) {
-    start = moment(dates.start.date()).startOf('day').toArray()
-    end   = moment(dates.end.date()).endOf('day').toArray()
-  }
+  let { start, end } = parseDateRange(argv.date)
+  start = moment(start).toArray()
+  end = moment(end).toArray()
 
   queryEntries(start, end)
   .then(_.partial(groupEntries, hashTags(argv.tag)))
