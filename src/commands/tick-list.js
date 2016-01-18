@@ -39,6 +39,10 @@ function list (yargs) {
     return _.filter(docs, _.partial(filterTags, hashTags(argv.tag))) 
   })
   .then(groupEntries)
+  .then(arr => {
+    if (arr.length === 0)
+      console.log('You have no recent entries in tickbin. Create some with \'tick log\'')
+  })
 }
 
 function queryEntries (start, end) {
@@ -51,7 +55,7 @@ function queryEntries (start, end) {
 }
 
 function groupEntries (docs) {
-  let dat = _.chain(docs)
+  return _.chain(docs)
   .map(doc => { return Entry.fromJSON(doc) })
   .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
   .map((group, d) => { 
@@ -64,8 +68,6 @@ function groupEntries (docs) {
   .each(writeEntryGroup)
   .value()
 
-  if (dat.length === 0)
-    console.log('You have no recent entries in tickbin. Create some with \'tick log\'')
 }
 
 function writeEntryGroup (group) {
