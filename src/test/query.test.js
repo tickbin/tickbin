@@ -3,11 +3,11 @@ import test from 'tape'
 import { filterTags, hashTags } from '../query'
 
 test('filterTags() finds tags in source using AND', t => {
-  const row = { doc: { tags: ['a', 'b', 'c', 'd'] }}
-  t.ok(filterTags(['a'], row), 'finds single tag')
-  t.ok(filterTags(['a', 'b'], row), 'finds multiple tags')
-  t.notOk(filterTags(['x'], row), 'does not find single tag')
-  t.notOk(filterTags(['a', 'x'], row), 'does not find multiple tags')
+  const doc = { tags: ['a', 'b', 'c', 'd'] }
+  t.ok(filterTags(['a'], doc), 'finds single tag')
+  t.ok(filterTags(['a', 'b'], doc), 'finds multiple tags')
+  t.notOk(filterTags(['x'], doc), 'does not find single tag')
+  t.notOk(filterTags(['a', 'x'], doc), 'does not find multiple tags')
 
   t.end()
 })

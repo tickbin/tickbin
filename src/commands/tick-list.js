@@ -54,8 +54,9 @@ function queryEntries (start, end) {
 
 function groupEntries (tags = [], results) {
   let dat = _.chain(results.rows)
+  .pluck('doc')
   .filter(_.partial(filterTags, tags))
-  .map(row => { return Entry.fromJSON(row.doc) })
+  .map(doc => { return Entry.fromJSON(doc) })
   .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
   .map((group, d) => { 
     return { 
