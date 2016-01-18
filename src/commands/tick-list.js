@@ -8,7 +8,7 @@ import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
-import { filterTags } from '../query'
+import { filterTags, hashTags } from '../query'
 
 function list (yargs) {
   let argv = yargs
@@ -50,11 +50,6 @@ function queryEntries (start, end) {
     startkey: end, // decending, so we start at recent dates
     endkey: start
   })
-}
-
-function hashTags(tags = []) {
-  // add a # before the tag if it doesn't already exist
-  return tags.map(tag => tag.startsWith('#') ? tag : '#' + tag)
 }
 
 function writeEntries (tags = [], results) {
