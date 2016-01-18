@@ -7,7 +7,7 @@
     "clean": "rm -rf build/*",
     "build": "babel src --out-dir build/",
     "watch": "babel src --watch --out-dir build/",
-    "test": "node build/test/entry.test.js | tap-spec && node build/test/parser.test.js | tap-spec && eslint src/**/*.js",
+    "test": "tape build/test/*.js | tap-spec && eslint src/**/*.js",
     "prebuild": "npm run clean",
     "prewatch": "npm run clean"
   },
