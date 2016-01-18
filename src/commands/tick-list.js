@@ -33,12 +33,24 @@ function list (yargs) {
 
   queryEntries(start, end)
   .then(results => {
-    return _.pluck(results.rows, 'doc')
+    return _.chain(results.rows)
+      .pluck('doc')
+      .filter(_.partial(filterTags, hashTags(argv.tag)))
+      .map(doc => { return Entry.fromJSON(doc) })
+      .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
+      .map((group, d) => { 
+        return { 
+          ticks: group, 
+          date: moment(d, 'YYYY-MM-DD').toDate(),
+          minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
+        }
+      })
+      .value()
   })
-  .then(docs => {
-    return _.filter(docs, _.partial(filterTags, hashTags(argv.tag))) 
+  .then(groups => {
+    _.each(groups, writeEntryGroup) 
+    return groups
   })
-  .then(groupEntries)
   .then(arr => {
     if (arr.length === 0)
       console.log('You have no recent entries in tickbin. Create some with \'tick log\'')
@@ -52,22 +64,6 @@ function queryEntries (start, end) {
     startkey: end, // decending, so we start at recent dates
     endkey: start
   })
-}
-
-function groupEntries (docs) {
-  return _.chain(docs)
-  .map(doc => { return Entry.fromJSON(doc) })
-  .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
-  .map((group, d) => { 
-    return { 
-      ticks: group, 
-      date: moment(d, 'YYYY-MM-DD').toDate(),
-      minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
-    }
-  })
-  .each(writeEntryGroup)
-  .value()
-
 }
 
 function writeEntryGroup (group) {
