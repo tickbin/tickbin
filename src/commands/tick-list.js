@@ -8,6 +8,7 @@ import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
+import { filterTags } from '../query'
 
 function list (yargs) {
   let argv = yargs
@@ -79,14 +80,4 @@ function writeEntries (tags = [], results) {
 
   if (dat.length === 0)
     console.log('You have no recent entries in tickbin. Create some with \'tick log\'')
-}
-
-function filterTags (tags = [], row) {
-  if (!tags) // no tags provided, filter nothing
-    return true
-
-  const rtags = row.doc.tags || []
-
-  const found = _.every(tags, t => _.includes(rtags, t))
-  return found
 }
