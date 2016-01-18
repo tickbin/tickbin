@@ -32,21 +32,8 @@ function list (yargs) {
   end = moment(end).toArray()
 
   queryEntries(start, end)
-  .then(results => {
-    return _.chain(results.rows)
-      .pluck('doc')
-      .filter(_.partial(filterTags, hashTags(argv.tag)))
-      .map(doc => { return Entry.fromJSON(doc) })
-      .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
-      .map((group, d) => { 
-        return { 
-          ticks: group, 
-          date: moment(d, 'YYYY-MM-DD').toDate(),
-          minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
-        }
-      })
-      .value()
-  })
+  .then(docs => _.filter(docs, _.partial(filterTags, hashTags(argv.tag))))
+  .then(groupEntries)
   .then(groups => {
     _.each(groups, writeEntryGroup) 
     return groups
@@ -63,7 +50,23 @@ function queryEntries (start, end) {
     descending: true,
     startkey: end, // decending, so we start at recent dates
     endkey: start
+  }).then(results => {
+    return _.pluck(results.rows, 'doc')
   })
+}
+
+function groupEntries (docs) {
+  return _.chain(docs) 
+  .map(doc => Entry.fromJSON(doc))
+  .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
+  .map((group, d) => { 
+    return { 
+      ticks: group, 
+      date: moment(d, 'YYYY-MM-DD').toDate(),
+      minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
+    }
+  })
+  .value()
 }
 
 function writeEntryGroup (group) {
