@@ -40,7 +40,7 @@ function list (yargs) {
   }
 
   queryEntries(start, end)
-  .then(_.partial(writeEntries, hashTags(argv.tag)))
+  .then(_.partial(groupEntries, hashTags(argv.tag)))
 }
 
 function queryEntries (start, end) {
@@ -52,8 +52,7 @@ function queryEntries (start, end) {
   })
 }
 
-function writeEntries (tags = [], results) {
-  let prevDate = null
+function groupEntries (tags = [], results) {
   let dat = _.chain(results.rows)
   .filter(_.partial(filterTags, tags))
   .map(row => { return Entry.fromJSON(row.doc) })
@@ -65,14 +64,16 @@ function writeEntries (tags = [], results) {
       minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
     }
   })
-  .each(group => {
-    const date = moment(group.date).format('ddd, MMM DD, YYYY')
-    const duration = format(group.minutes)
-    console.log(`${chalk.yellow(date)} ${chalk.green(duration)}`)
-    group.ticks.forEach(t => { console.log(getOutputs(t).simple) })
-  })
+  .each(writeEntryGroup)
   .value()
 
   if (dat.length === 0)
     console.log('You have no recent entries in tickbin. Create some with \'tick log\'')
+}
+
+function writeEntryGroup (group) {
+  const date = moment(group.date).format('ddd, MMM DD, YYYY')
+  const duration = format(group.minutes)
+  console.log(`${chalk.yellow(date)} ${chalk.green(duration)}`)
+  group.ticks.forEach(t => { console.log(getOutputs(t).simple) })
 }
