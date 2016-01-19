@@ -8,7 +8,10 @@ import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
-import { filterTags, hashTags, parseDateRange, groupEntries } from '../query'
+import { filterTags } from '../query' 
+import { hashTags } from '../query'
+import { parseDateRange } from '../query'
+import { groupEntries } from '../query'
 
 function list (yargs) {
   let argv = yargs
