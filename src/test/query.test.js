@@ -1,9 +1,12 @@
 import test from 'tape'
 import moment from 'moment'
+import _ from 'lodash'
+import Entry from '../entry'
 
 import { filterTags } from '../query'
 import { hashTags } from '../query'
 import { parseDateRange } from '../query'
+import { groupEntries } from '../query'
 
 test('filterTags() finds tags in source using AND', t => {
   const doc = { tags: ['a', 'b', 'c', 'd'] }
@@ -54,5 +57,23 @@ test('parseDateRange() defaults to 6 days prior', t => {
   t.ok(before.isSame(start, 'day'), 'start is 6 days ago')
   t.ok(today.isSame(end, 'day'), 'end is today')
   
+  t.end()
+})
+
+test('groupEntries() groups by date', t => {
+  const today = moment().toDate() 
+  const yesterday = moment().subtract(1, 'day').toDate() 
+  const docs = [
+    new Entry('1pm-2pm work', { date: today }).toJSON(),
+    new Entry('2pm-3pm work', { date: today }).toJSON(),
+    new Entry('1pm-2pm work', { date: yesterday }).toJSON()
+  ]
+
+  const groups = groupEntries(docs)
+  t.equals(groups[0].ticks.length, 2, 'today has 2 entries')
+  t.equals(groups[0].minutes, 120, 'today has 2 hours')
+  t.equals(groups[1].ticks.length, 1, 'tomorrow has 1 entry')
+  t.equals(groups[1].minutes, 60, 'today has 1 hour')
+
   t.end()
 })
