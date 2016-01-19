@@ -41,7 +41,7 @@ function createEntry (message, opts = {}) {
   let entry = new Entry(message, opts)
 
   if (!entry.duration) {
-    console.error(chalk.bgRed('error'), 'You must specify a time in your message')
+    console.error(chalk.bgRed('error'), 'You must specify a time in your message. E.g. 8am-12pm')
     return
   }
 
