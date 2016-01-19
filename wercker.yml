@@ -5,3 +5,5 @@ build:
     - script:
         code: npm run build
     - npm-test
+    - script:
+        code: npm run lint

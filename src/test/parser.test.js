@@ -1,6 +1,7 @@
 
 import test from 'tape'
 import parser from '../parser'
+import moment from 'moment'
 
 test('simple am times: 8am-10am', t => {
   let {start, end} = parser('8am-10am')
@@ -85,32 +86,27 @@ const anchor2 = new Date('April 2, 2015 0:00:00')
 
 test('anchored: dates relative to anchor', t => {
   let {start, end} = parser('8am-1pm', anchor)
-  t.equals(start.getFullYear(), 2015, 'start is same year')
-  t.equals(start.getMonth(), 0, 'start is same month as anchor')
-  t.equals(start.getDate(), 25, 'start is same day as anchor')
-  t.equals(end.getFullYear(), 2015, 'start is same year')
-  t.equals(end.getMonth(), 0, 'start is same month as anchor')
-  t.equals(end.getDate(), 25, 'start is same day as anchor')
+
+  t.ok(moment(start).isSame(anchor, 'day'), 'start is same day as anchor')
+  t.ok(moment(end).isSame(anchor, 'day'), 'end is same day as anchor')
 
   t.end()
 })
 
 test('anchored: dates relative to anchor2', t => {
   let {start, end} = parser('8am-1pm', anchor2)
-  t.equals(start.getFullYear(), 2015, 'start is same year')
-  t.equals(start.getMonth(), 3, 'start is same month as anchor')
-  t.equals(start.getDate(), 2, 'start is same day as anchor')
-  t.equals(end.getFullYear(), 2015, 'start is same year')
-  t.equals(end.getMonth(), 3, 'start is same month as anchor')
-  t.equals(end.getDate(), 2, 'start is same day as anchor')
+
+  t.ok(moment(start).isSame(anchor2, 'day'), 'start is same day as anchor2')
+  t.ok(moment(end).isSame(anchor2, 'day'), 'end is same day as anchor2')
 
   t.end()
 })
 
 test('overlapping times: 11pm-2am', t => {
   let {start, end} = parser('11pm-2am', anchor)
-  t.equals(start.getDate(), 25, 'start is anchor day')
-  t.equals(end.getDate(), 26, 'end is day after anchor')
+
+  t.ok(moment(start).isSame(anchor, 'day'), 'start is same day as anchor')
+  t.ok(moment(end).isSame(moment(anchor).add(1, 'day'), 'day'), 'end is day after anchor')
 
   t.end()
 })
@@ -118,9 +114,20 @@ test('overlapping times: 11pm-2am', t => {
 // Test is skipped because it currently doesn't pass
 // Please see this issue: https://github.com/MemoryLeaf/tickbin/issues/26
 test.skip('overlapping times for current day: 11pm-2am', t => {
+  const today = new Date()
   let {start, end} = parser('11pm-2am')
-  t.equals(start.getDate(), 24, 'start is day before anchor')
-  t.equals(end.getDate(), 25, 'end is anchor day')
+
+  t.ok(moment(start).isSame(moment(today).subtract(1, 'day')), 'start is day before today')
+  t.ok(moment(end).isSame(today), 'end is same as today')
+
+  t.end()
+})
+
+test('matching text is returned', t => {
+  let {text} = parser('1-3pm')
+  let {text: only} = parser('1-3pm did some things')
+  t.equals(text, '1-3pm', 'parser returns matching text')
+  t.equals(only, '1-3pm', 'parser returns only matching text')
 
   t.end()
 })

@@ -12,5 +12,6 @@ export default function(str, ref) {
   let isValid = rslt && rslt.start && rslt.end
   let start = isValid ? rslt.start.date() : null
   let end = isValid ? rslt.end.date() : null
-  return { start, end, isValid, }
+  let text = isValid ? rslt.text : null
+  return { start, end, text, isValid, }
 }

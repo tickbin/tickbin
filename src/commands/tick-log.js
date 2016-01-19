@@ -29,7 +29,7 @@ function log (yargs) {
     prompt.message = ''
     prompt.delimiter = ''
     prompt.start()
-    prompt.get('message:', function(err, res) {
+    prompt.get('message', function(err, res) {
       if (!err) createEntry(res.message, {date}) 
     })
   } else {

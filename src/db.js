@@ -2,10 +2,13 @@
 import PouchDB from 'pouchdb'
 import chalk from 'chalk'
 import conf from './config'
+import createEntryIndex from './db/designEntryIndex'
 
 const db = new PouchDB(conf.db)
 if (conf.remote) sync(db, conf.remote)
 export default db
+
+db.on('created', createEntryIndex)
 
 function sync(src, dst) {
   PouchDB.sync(src, dst)

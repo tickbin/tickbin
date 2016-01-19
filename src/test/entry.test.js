@@ -1,6 +1,14 @@
 import test from 'tape'
-import Entry from '../entry'
+import Entry, { version } from '../entry'
 import moment from 'moment'
+
+test('Entry class has a version number', t => {
+  const e = new Entry('8am-10am worked on things')
+  t.ok(version >= 1, 'current version is 1')
+  t.equals(e.version, version, 'new entries get version')
+
+  t.end()
+})
 
 test('simple entry construction 8am-10pm', t => {
   const e = new Entry('8am-10am worked on things')
@@ -39,12 +47,9 @@ test('passing date influences the dates', t => {
   const msg = '8am-5pm worked on some things'
   const e = new Entry(msg, {date})
   const {from, to} = e.getDates()
-  t.equals(from.getFullYear(), 2015, 'from has the same year')
-  t.equals(from.getMonth(), 0, 'from has same month')
-  t.equals(from.getDate(), 25, 'from has same day')
-  t.equals(to.getFullYear(), 2015, 'to has the same year')
-  t.equals(to.getMonth(), 0, 'to has the same month')
-  t.equals(to.getDate(), 25, 'to has the same day')
+
+  t.ok(moment(from).isSame(date, 'day'), 'from has the same day')
+  t.ok(moment(to).isSame(date, 'day'), 'to has the same day')
 
   t.end()
 })
@@ -55,12 +60,8 @@ test('no date defaults to today', t => {
   const e = new Entry(msg)
   const {from,to} = e.getDates()
 
-  t.equals(from.getFullYear(), date.getFullYear(), 'from year is today')
-  t.equals(from.getMonth(), date.getMonth(), 'from month is today')
-  t.equals(from.getDate(), date.getDate(), 'from date is today')
-  t.equals(to.getFullYear(), date.getFullYear(), 'to year is today')
-  t.equals(to.getMonth(), date.getMonth(), 'to month is today')
-  t.equals(to.getDate(), date.getDate(), 'to date is today')
+  t.ok(moment(from).isSame(date, 'day'), 'from date is today')
+  t.ok(moment(to).isSame(date, 'day'), 'to date is today')
 
   t.end()
 })
@@ -115,6 +116,13 @@ test('parse unique #tags', t => {
   t.end()
 })
 
+test('parsed time string is present', t => {
+  const e = new Entry('8-10am worked on things')
+
+  t.equals(e.time, '8-10am', 'entry.time contains matched string')
+  t.end()
+})
+
 test('toJSON() returns a json obj', t => {
   const e = new Entry('8am-10am worked on some things #tag1 #tag2')
 
@@ -126,7 +134,9 @@ test('toJSON() returns a json obj', t => {
   t.equals(json.duration.seconds, 2*60*60, 'duration seconds')
   t.equals(json.duration.from, e.from, 'duration from')
   t.equals(json.duration.to, e.to, 'duration to')
+  t.equals(json.time, e.time, 'time')
   t.equals(json._id, e._id, '_id')
+  t.equals(json.version, version, 'version')
   t.deepEquals(json.tags, [...e.tags], 'tags array')
   t.ok(moment(json.toArr).isSame(json.to), 'to and toArr are same date')
   t.ok(moment(json.fromArr).isSame(json.from), 'from and fromArr are same date')
@@ -143,12 +153,13 @@ test('fromJSON() will create an Entry from existing document', t => {
   const e = Entry.fromJSON(json)
 
   t.equals(existing._id, e._id, '_id matches')
+  t.equals(existing.version, e.version, 'version matches')
   t.equals(existing.message, e.message, 'message matches')
   t.equals(e.tags.size, 2, '2 tags')
   t.equals(moment(existing.to).toString(), moment(e.to).toString(), 'to matches')
   t.equals(moment(existing.from).toString(), moment(e.from).toString(), 'from matches')
+  t.equals(e.time, '8am-10am', 'time is preserved')
 
   t.end()
 
 })
-
