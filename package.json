@@ -8,7 +8,7 @@
     "build": "babel src --out-dir build/",
     "watch": "babel src --watch --out-dir build/",
     "test": "tape build/test/*.js | tap-spec",
-
+    "lint": "eslint src/**/*.js",
     "prebuild": "npm run clean",
     "prewatch": "npm run clean"
   },
@@ -20,7 +20,9 @@
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.3.17",
+    "babel-eslint": "^5.0.0-beta6",
     "babel-preset-es2015": "^6.3.13",
+    "eslint": "^1.10.3",
     "tap-spec": "^4.1.0",
     "tape": "^4.2.0"
   },
