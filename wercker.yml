@@ -3,7 +3,9 @@ build:
   steps:
     - npm-install
     - script:
+        name: build source
         code: npm run build
     - npm-test
     - script:
+        name: eslint
         code: npm run lint
