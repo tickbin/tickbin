@@ -32,7 +32,7 @@ function list (yargs) {
   let dates = chrono.parse(argv.date)[0] || [{}]
   // by default, set the date range then check if chrono parsed anything good
   let start = moment().subtract(days, 'days').startOf('day').toArray()
-  let end   = moment().endOf('day').toArray();
+  let end   = moment().endOf('day').toArray()
   if (dates.start && dates.end) {
     start = moment(dates.start.date()).startOf('day').toArray()
     end   = moment(dates.end.date()).endOf('day').toArray()
