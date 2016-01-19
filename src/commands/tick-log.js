@@ -40,12 +40,13 @@ function log (yargs) {
 function createEntry (message, opts = {}) {
   let entry = new Entry(message, opts)
 
+  if (!entry.duration) {
+    console.error(chalk.bgRed('error'), 'You must specify a time in your message')
+    return
+  }
+
   db.put(entry.toJSON())
   .then(doc => {
-    if (!entry.duration) {
-      throw('You must specify a time in your message')
-    }
-
     console.log(chalk.bgGreen('saved'))
     write(entry)
   })
