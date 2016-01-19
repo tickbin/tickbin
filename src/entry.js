@@ -69,11 +69,11 @@ export default class Entry {
       toArr: this.toArr,
       time: this.time,
       tags: [...this.tags],
-      duration: {
-        seconds: this.duration ? this.duration.seconds : null,
-        from: this.duration ? this.duration.from : null,
-        to: this.duration ? this.duration.to : null
-      }
+      duration: this.duration ? {
+        seconds: this.duration.seconds,
+        from: this.duration.from,
+        to: this.duration.to
+      } : null
     } 
   }
 
