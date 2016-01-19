@@ -42,12 +42,15 @@ function createEntry (message, opts = {}) {
 
   db.put(entry.toJSON())
   .then(doc => {
+    if (!entry.duration) {
+      throw('You must specify a time in your message')
+    }
+
     console.log(chalk.bgGreen('saved'))
     write(entry)
   })
   .catch(err => {
-    console.error(err)
+    console.error(chalk.bgRed('error'), err)
   })
-
 }
 
