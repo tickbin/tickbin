@@ -8,7 +8,7 @@ import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
-import { filterTags, hashTags, parseDateRange } from '../query'
+import { filterTags, hashTags, parseDateRange, groupEntries } from '../query'
 
 function list (yargs) {
   let argv = yargs
@@ -53,20 +53,6 @@ function queryEntries (start, end) {
   }).then(results => {
     return _.pluck(results.rows, 'doc')
   })
-}
-
-function groupEntries (docs) {
-  return _.chain(docs) 
-  .map(doc => Entry.fromJSON(doc))
-  .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
-  .map((group, d) => { 
-    return { 
-      ticks: group, 
-      date: moment(d, 'YYYY-MM-DD').toDate(),
-      minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
-    }
-  })
-  .value()
 }
 
 function writeEntryGroup (group) {
