@@ -11,7 +11,9 @@ import Query from '../query'
 
 var fakeDb = {
   query: function () {
-    let p = new Promise().resolve([])
+    let p = new Promise((res, rej) => {
+      res() 
+    })
     return p 
   } 
 }
@@ -36,6 +38,14 @@ test('query functions are fluent', t => {
   t.plan(2)
   t.equals(q.findEntries(), q, 'findEntries returns the query')
   t.equals(q.groupByDate(), q, 'groupByDate returns the query')
+})
+
+test('exec() returns a promise', t => {
+  const q = new Query(fakeDb)
+  const res = q.exec()
+
+  t.plan(1)
+  t.ok(typeof res.then === 'function', 'exec returns a promise')
 })
 
 test('filterTags() finds tags in source using AND', t => {

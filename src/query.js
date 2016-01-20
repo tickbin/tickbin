@@ -25,6 +25,10 @@ export default class Query {
   groupByDate () {
     return this 
   }
+
+  exec() {
+    return this.db.query()
+  }
 }
 
 function filterTags (tags = [], doc) {
