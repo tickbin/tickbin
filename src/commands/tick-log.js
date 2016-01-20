@@ -9,7 +9,7 @@ import db from '../db'
 
 function log (yargs) {
   let argv = yargs
-  .usage('Usage: tick log [options]')
+  .usage('Usage: tick log [options] [message]')
   .option('d', {
     alias: 'date',
     describe: 'date for tick'
