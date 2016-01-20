@@ -27,7 +27,7 @@ test('new Query requires a db', t => {
   }
 
   t.plan(2)
-  t.throws(makeQueryWithoutDb, 'Query requires a db')
+  t.throws(makeQueryWithoutDb, /provide a couchdb/, 'Query requires a db')
   t.doesNotThrow(makeQueryWithDb, 'Query requires a db')
 })
 
