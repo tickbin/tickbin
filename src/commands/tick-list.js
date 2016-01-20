@@ -12,6 +12,7 @@ import { filterTags } from '../query'
 import { hashTags } from '../query'
 import { parseDateRange } from '../query'
 import { groupEntries } from '../query'
+import Query from '../query'
 
 function list (yargs) {
   let argv = yargs
@@ -34,16 +35,18 @@ function list (yargs) {
   start = moment(start).toArray()
   end = moment(end).toArray()
 
-  queryEntries(start, end)
-  .then(docs => _.filter(docs, _.partial(filterTags, hashTags(argv.tag))))
-  .then(groupEntries)
-  .then(groups => {
-    _.each(groups, writeEntryGroup) 
-    return groups
-  })
-  .then(arr => {
-    if (arr.length === 0)
-      console.log('You have no recent entries in tickbin. Create some with \'tick log\'')
+  new Query(db)
+    .findEntries({ start, end, tags: argv.tag })
+    .groupByDate()
+    .exec()
+    .then(groups => {
+      _.each(groups, writeEntryGroup) 
+      return groups
+    })
+    .then(arr => {
+      if (arr.length === 0)
+        console.log('You have no recent entries in tickbin. ' 
+          + 'Create some with \'tick log\'')
   })
 }
 
