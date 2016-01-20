@@ -22,8 +22,13 @@ test('new Query requires a db', t => {
     return new Query() 
   }
 
-  t.plan(1)
+  function makeQueryWithDb() {
+    return new Query(fakeDb) 
+  }
+
+  t.plan(2)
   t.throws(makeQueryWithoutDb, 'Query requires a db')
+  t.doesNotThrow(makeQueryWithDb, 'Query requires a db')
 })
 
 test('filterTags() finds tags in source using AND', t => {
