@@ -17,7 +17,6 @@ var fakeDb = {
 }
 
 test('new Query requires a db', t => {
-
   function makeQueryWithoutDb () {
     return new Query() 
   }
@@ -29,6 +28,14 @@ test('new Query requires a db', t => {
   t.plan(2)
   t.throws(makeQueryWithoutDb, /provide a couchdb/, 'Query requires a db')
   t.doesNotThrow(makeQueryWithDb, 'Query requires a db')
+})
+
+test('query functions are fluent', t => {
+  const q = new Query(fakeDb)
+
+  t.plan(2)
+  t.equals(q.findEntries(), q, 'findEntries returns the query')
+  t.equals(q.groupByDate(), q, 'groupByDate returns the query')
 })
 
 test('filterTags() finds tags in source using AND', t => {

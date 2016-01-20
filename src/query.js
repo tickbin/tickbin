@@ -18,7 +18,11 @@ export default class Query {
     this.executed = false
   }
 
-  findEntries ({ start, end, tags }) {
+  findEntries (start = null, end = null, tags = []) {
+    return this 
+  }
+
+  groupByDate () {
     return this 
   }
 }
