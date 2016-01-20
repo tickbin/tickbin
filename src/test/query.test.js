@@ -2,6 +2,7 @@ import test from 'tape'
 import moment from 'moment'
 import _ from 'lodash'
 import Entry from '../entry'
+import sinon from 'sinon'
 
 import { filterTags } from '../query'
 import { hashTags } from '../query'
