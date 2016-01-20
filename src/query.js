@@ -44,7 +44,6 @@ export default class Query {
         }
       })
 
-
     return this 
   }
 
@@ -66,8 +65,8 @@ function filterTags (tags = [], doc) {
     return true
 
   const docTags = doc.tags || [] 
-
   const found = every(tags, t => includes(docTags, t))
+
   return found
 }
 
@@ -79,7 +78,6 @@ function hashTags (tags = []) {
 function parseDateRange (range) {
   let days = parseInt(range)
   days = days >= 0 ? days : 6 // default 6 days
-
   let dates = chrono.parse(range)[0] || [{}]
   // by default, set the date range then check if chrono parsed anything good
   let start = moment().subtract(days, 'days').startOf('day').toDate()

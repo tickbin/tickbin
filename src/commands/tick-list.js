@@ -44,7 +44,7 @@ function list (yargs) {
       if (arr.length === 0)
         console.log('You have no recent entries in tickbin. ' 
           + 'Create some with \'tick log\'')
-  })
+    })
 }
 
 function writeEntryGroup (group) {
