@@ -8,10 +8,7 @@ import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
-import { filterTags } from '../query' 
-import { hashTags } from '../query'
 import { parseDateRange } from '../query'
-import { groupEntries } from '../query'
 import Query from '../query'
 
 function list (yargs) {
@@ -47,17 +44,6 @@ function list (yargs) {
       if (arr.length === 0)
         console.log('You have no recent entries in tickbin. ' 
           + 'Create some with \'tick log\'')
-  })
-}
-
-function queryEntries (start, end) {
-  return db.query('entry_index/by_from', {
-    include_docs: true,
-    descending: true,
-    startkey: end, // decending, so we start at recent dates
-    endkey: start
-  }).then(results => {
-    return _.pluck(results.rows, 'doc')
   })
 }
 
