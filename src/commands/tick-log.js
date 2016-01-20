@@ -25,6 +25,10 @@ function log (yargs) {
   let {message, date} = argv
   date = chrono.parseDate(date)
 
+  if (argv._[1] && !message) {
+    message = argv._[1]
+  }
+
   if (!message) {
     prompt.message = ''
     prompt.delimiter = ''
