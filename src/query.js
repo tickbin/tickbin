@@ -10,6 +10,19 @@ export { hashTags }
 export { parseDateRange }
 export { groupEntries }
 
+export default class Query {
+  constructor (db) {
+    if (!db) throw new Error('Please provide a couchdb instance')
+
+    this.db = db
+    this.executed = false
+  }
+
+  findEntries ({ start, end, tags }) {
+    return this 
+  }
+}
+
 function filterTags (tags = [], doc) {
   if (!tags) // no tags provided, filter nothing
     return true

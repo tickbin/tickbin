@@ -7,6 +7,24 @@ import { filterTags } from '../query'
 import { hashTags } from '../query'
 import { parseDateRange } from '../query'
 import { groupEntries } from '../query'
+import Query from '../query'
+
+var fakeDb = {
+  query: function () {
+    let p = new Promise().resolve([])
+    return p 
+  } 
+}
+
+test('new Query requires a db', t => {
+
+  function makeQueryWithoutDb () {
+    return new Query() 
+  }
+
+  t.plan(1)
+  t.throws(makeQueryWithoutDb, 'Query requires a db')
+})
 
 test('filterTags() finds tags in source using AND', t => {
   const doc = { tags: ['a', 'b', 'c', 'd'] }
