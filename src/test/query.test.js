@@ -48,6 +48,21 @@ test('exec() returns a promise', t => {
   t.ok(typeof res.then === 'function', 'exec returns a promise')
 })
 
+test('findEntries() prepares the query', t => {
+  const q = new Query(fakeDb)
+  const start = new Date()
+  const end = new Date()
+  const tags = ['a']
+  q.findEntries({ start, end, tags })
+  const qOpts = q._queryOpts
+
+  t.plan(4)
+  t.ok(qOpts.descending, 'return results descending')
+  t.ok(qOpts.include_docs, 'include the docs in results')
+  t.equals(qOpts.startkey, end, 'startkey is the end date')
+  t.equals(qOpts.endkey, start, 'endkey is the start date')
+})
+
 test('filterTags() finds tags in source using AND', t => {
   const doc = { tags: ['a', 'b', 'c', 'd'] }
   t.ok(filterTags(['a'], doc), 'finds single tag')

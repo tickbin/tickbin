@@ -16,9 +16,19 @@ export default class Query {
 
     this.db = db
     this.executed = false
+    this.index = 'entry_index/by_from'
+    this._queryOpts = { include_docs: true }
+    this._rows = []
+    this._chain = _.chain(this._rows) // start a chain on rows
+      .pluck('doc') // each rows has a doc 
   }
 
   findEntries ({start = null, end = null, tags = []} = {}) {
+    this._queryOpts.descending = true
+    this._queryOpts.startkey = end
+    this._queryOpts.endkey = start
+
+    this._chain.filter(_.partial(filterTags, hashTags(tags)))
     return this 
   }
 
