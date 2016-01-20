@@ -11,8 +11,12 @@ import Query from '../query'
 
 var fakeDb = {
   query: function () {
-    let p = new Promise((res, rej) => {
-      res() 
+    let p = new Promise((resolve, reject) => {
+      resolve({ rows: [
+        { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
+        { doc: new Entry('2pm-3pm work', { date: today }).toJSON()},
+        { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
+      ]}) 
     })
     return p 
   } 
@@ -40,6 +44,21 @@ test('query functions are fluent', t => {
   t.equals(q.groupByDate(), q, 'groupByDate returns the query')
 })
 
+test('findEntries() prepares the query', t => {
+  const q = new Query(fakeDb)
+  const start = moment().startOf('day').toArray() 
+  const end = moment().endOf('day').toArray() 
+  const tags = ['a']
+  q.findEntries({ start, end, tags })
+  const qOpts = q._queryOpts
+
+  t.plan(4)
+  t.ok(qOpts.descending, 'return results descending')
+  t.ok(qOpts.include_docs, 'include the docs in results')
+  t.equals(qOpts.startkey, end, 'startkey is the end date')
+  t.equals(qOpts.endkey, start, 'endkey is the start date')
+})
+
 test('exec() returns a promise', t => {
   const q = new Query(fakeDb)
   const res = q.exec()
@@ -56,23 +75,6 @@ test('exec() triggers executed flag', t => {
   q.exec()
   t.ok(q.isExecuted, 'query has been executed')
   t.throws(q.exec.bind(q), /already been executed/, 'calling exec() again throws error')
-})
-
-//test('exec() throws an error if already executed')
-
-test('findEntries() prepares the query', t => {
-  const q = new Query(fakeDb)
-  const start = new Date()
-  const end = new Date()
-  const tags = ['a']
-  q.findEntries({ start, end, tags })
-  const qOpts = q._queryOpts
-
-  t.plan(4)
-  t.ok(qOpts.descending, 'return results descending')
-  t.ok(qOpts.include_docs, 'include the docs in results')
-  t.equals(qOpts.startkey, end, 'startkey is the end date')
-  t.equals(qOpts.endkey, start, 'endkey is the start date')
 })
 
 test('filterTags() finds tags in source using AND', t => {
