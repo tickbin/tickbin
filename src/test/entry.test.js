@@ -116,6 +116,14 @@ test('parse unique #tags', t => {
   t.end()
 })
 
+test('parse #hyphened-tags and #underscored_tags', t => {
+  const e = new Entry('8-10am worked on things #hyphened-tag #underscored_tag')
+
+  t.ok(e.tags.has('#hyphened-tag'), 'hyphened tag is parsed into a Set')
+  t.ok(e.tags.has('#underscored_tag'), 'underscore tag is parsed into a Set')
+  t.end()
+})
+
 test('parsed time string is present', t => {
   const e = new Entry('8-10am worked on things')
 
