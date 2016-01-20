@@ -8,7 +8,6 @@ import Entry from './entry'
 export { filterTags }
 export { hashTags }
 export { parseDateRange }
-export { groupEntries }
 
 export default class Query {
   constructor (db) {
@@ -91,18 +90,4 @@ function parseDateRange (range) {
   }
 
   return { start, end }
-}
-
-function groupEntries (docs) {
-  return _.chain(docs) 
-  .map(doc => Entry.fromJSON(doc))
-  .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
-  .map((group, d) => { 
-    return { 
-      ticks: group, 
-      date: moment(d, 'YYYY-MM-DD').toDate(),
-      minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
-    }
-  })
-  .value()
 }
