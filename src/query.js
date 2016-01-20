@@ -18,7 +18,7 @@ export default class Query {
     this.executed = false
   }
 
-  findEntries (start = null, end = null, tags = []) {
+  findEntries ({start = null, end = null, tags = []} = {}) {
     return this 
   }
 
