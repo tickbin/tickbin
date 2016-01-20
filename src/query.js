@@ -28,13 +28,13 @@ export default class Query {
     this._queryOpts.startkey = end
     this._queryOpts.endkey = start
 
-    this._chain.filter(_.partial(filterTags, hashTags(tags)))
+    this._chain = this._chain.filter(_.partial(filterTags, hashTags(tags)))
 
     return this 
   }
 
   groupByDate () {
-    this._chain
+    this._chain = this._chain
       .map(doc => Entry.fromJSON(doc))
       .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
       .map((group, d) => { 
@@ -44,6 +44,7 @@ export default class Query {
           minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
         }
       })
+
 
     return this 
   }

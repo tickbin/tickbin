@@ -10,14 +10,17 @@ import { parseDateRange } from '../query'
 import { groupEntries } from '../query'
 import Query from '../query'
 
+const today = moment().toDate()
+const yesterday = moment().subtract(1, 'day').toDate()
+const rows = [
+  { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
+  { doc: new Entry('2pm-3pm work', { date: today }).toJSON()},
+  { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
+]
 var fakeDb = {
   query: function () {
     let p = new Promise((resolve, reject) => {
-      resolve({ rows: [
-        { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
-        { doc: new Entry('2pm-3pm work', { date: today }).toJSON()},
-        { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
-      ]}) 
+      resolve({ rows }) 
     })
     return p 
   } 
@@ -88,6 +91,23 @@ test('exec() calls query with prepared query options', t => {
   t.ok(spy.calledOnce)
   t.equals(spy.getCall(0).args[0], 'entry_index/by_from', 'query agains index')
   t.equals(spy.getCall(0).args[1], qOpts, 'calls db.query with prepared options')
+})
+
+test('findEntries().groupByDate().exec() returns expected entries', t => {
+  const today = moment().startOf('day').toArray()
+  const yesterday = moment().endOf('day').toArray()
+  
+  t.plan(4)
+  new Query(fakeDb)
+    .findEntries({ start: today, end: yesterday })
+    .groupByDate()
+    .exec()
+    .then(groups => {
+      t.equals(groups[0].ticks.length, 2, 'today has 2 entries')
+      t.equals(groups[0].minutes, 120, 'today has 2 hours')
+      t.equals(groups[1].ticks.length, 1, 'tomorrow has 1 entry')
+      t.equals(groups[1].minutes, 60, 'today has 1 hour')
+    })
 })
 
 test('filterTags() finds tags in source using AND', t => {
