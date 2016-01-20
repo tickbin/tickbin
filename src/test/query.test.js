@@ -14,7 +14,7 @@ const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
 const rows = [
   { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
-  { doc: new Entry('2pm-3pm work', { date: today }).toJSON()},
+  { doc: new Entry('2pm-3pm work #tag', { date: today }).toJSON()},
   { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
 ]
 var fakeDb = {
@@ -104,6 +104,20 @@ test('findEntries().exec() returns array of entries', t => {
     .then(entries => {
       t.equals(entries.length, 3, 'should only return three') 
       t.equals(entries[0].message, '1pm-2pm work', 'entries are on the list')
+    })
+})
+
+test('findEntries().exec() filters by tag', t => {
+  const today = moment().startOf('day').toArray()
+  const yesterday = moment().endOf('day').toArray()
+
+  t.plan(2)
+  new Query(fakeDb)
+    .findEntries({ start: today, end: yesterday, tags: ['tag']})
+    .exec()
+    .then(entries => {
+      t.equals(entries.length, 1, 'there is only one entry tagged')
+      t.equals(entries[0].message, '2pm-3pm work #tag', 'check entry is tagged')
     })
 })
 
