@@ -15,8 +15,8 @@ export default class Query {
     if (!db) throw new Error('Please provide a couchdb instance')
 
     this.db = db
-    this.executed = false
-    this.index = 'entry_index/by_from'
+    this.isExecuted = false
+    this._index = 'entry_index/by_from'
     this._queryOpts = { include_docs: true }
     this._rows = []
     this._chain = _.chain(this._rows) // start a chain on rows
@@ -29,14 +29,30 @@ export default class Query {
     this._queryOpts.endkey = start
 
     this._chain.filter(_.partial(filterTags, hashTags(tags)))
+
     return this 
   }
 
   groupByDate () {
+    this._chain
+      .map(doc => Entry.fromJSON(doc))
+      .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
+      .map((group, d) => { 
+        return { 
+          ticks: group, 
+          date: moment(d, 'YYYY-MM-DD').toDate(),
+          minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
+        }
+      })
+
     return this 
   }
 
   exec() {
+    if (this.isExecuted) throw new Error ('This query has already been executed')
+    
+    this.isExecuted = true
+
     return this.db.query()
   }
 }

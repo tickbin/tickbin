@@ -48,6 +48,18 @@ test('exec() returns a promise', t => {
   t.ok(typeof res.then === 'function', 'exec returns a promise')
 })
 
+test('exec() triggers executed flag', t => {
+  const q = new Query(fakeDb)
+
+  t.plan(3)
+  t.notOk(q.isExecuted, 'query has not yet been executed')
+  q.exec()
+  t.ok(q.isExecuted, 'query has been executed')
+  t.throws(q.exec.bind(q), /already been executed/, 'calling exec() again throws error')
+})
+
+//test('exec() throws an error if already executed')
+
 test('findEntries() prepares the query', t => {
   const q = new Query(fakeDb)
   const start = new Date()
