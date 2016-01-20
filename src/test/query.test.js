@@ -93,6 +93,20 @@ test('exec() calls query with prepared query options', t => {
   t.equals(spy.getCall(0).args[1], qOpts, 'calls db.query with prepared options')
 })
 
+test('findEntries().exec() returns array of entries', t => {
+  const today = moment().startOf('day').toArray()
+  const yesterday = moment().endOf('day').toArray()
+
+  t.plan(2)
+  new Query(fakeDb)
+    .findEntries({ start: today, end: yesterday })
+    .exec()
+    .then(entries => {
+      t.equals(entries.length, 3, 'should only return three') 
+      t.equals(entries[0].message, '1pm-2pm work', 'entries are on the list')
+    })
+})
+
 test('findEntries().groupByDate().exec() returns expected entries', t => {
   const today = moment().startOf('day').toArray()
   const yesterday = moment().endOf('day').toArray()
