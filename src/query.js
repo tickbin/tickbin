@@ -53,7 +53,11 @@ export default class Query {
     
     this.isExecuted = true
 
-    return this.db.query()
+    return this.db.query(this._index, this._queryOpts)
+      .then(results => {
+        this._rows.push(...results.rows) // this._chain is tied to _.rows 
+        return this._chain.value() // execute the chain
+      })
   }
 }
 

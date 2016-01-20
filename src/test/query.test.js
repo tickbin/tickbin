@@ -78,6 +78,18 @@ test('exec() triggers executed flag', t => {
   t.throws(q.exec.bind(q), /already been executed/, 'calling exec() again throws error')
 })
 
+test('exec() calls query with prepared query options', t => {
+  const spy = sinon.spy(fakeDb, 'query')
+  const q = new Query(fakeDb)
+  q.exec()
+  const qOpts = q._queryOpts
+
+  t.plan(3)
+  t.ok(spy.calledOnce)
+  t.equals(spy.getCall(0).args[0], 'entry_index/by_from', 'query agains index')
+  t.equals(spy.getCall(0).args[1], qOpts, 'calls db.query with prepared options')
+})
+
 test('filterTags() finds tags in source using AND', t => {
   const doc = { tags: ['a', 'b', 'c', 'd'] }
   t.ok(filterTags(['a'], doc), 'finds single tag')
