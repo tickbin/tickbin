@@ -35,12 +35,12 @@ export default class Query {
   groupByDate () {
     this._chain = this._chain
       .map(doc => Entry.fromJSON(doc))
-      .groupBy(e => { return moment(e.from).startOf('day').format('YYYY-MM-DD') })
+      .groupBy(e => moment(e.from).startOf('day').format('YYYY-MM-DD') )
       .map((group, d) => { 
         return { 
           ticks: group, 
           date: moment(d, 'YYYY-MM-DD').toDate(),
-          minutes: _.reduce(group, (sum, e) => { return sum + e.duration.minutes }, 0)
+          minutes: _.reduce(group, (sum, e) => sum + e.duration.minutes, 0)
         }
       })
 
