@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import Entry from './entry'
 import chalk from 'chalk'
 import { getOutputs } from './commands/output'
