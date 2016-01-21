@@ -61,8 +61,8 @@ export default class Query {
 }
 
 function filterTags (tags = [], doc) {
-  if (!tags) // no tags provided, filter nothing
-    return true
+  if (_.isEmpty(tags)) // no tags provided, filter nothing
+    return 'found'
 
   const docTags = doc.tags || [] 
   const found = every(tags, t => includes(docTags, t))

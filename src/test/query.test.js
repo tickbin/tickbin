@@ -148,6 +148,14 @@ test('filterTags() finds tags in source using AND', t => {
   t.end()
 })
 
+test('filterTags() returns true if no tags provided', t => {
+  const doc = { tags: ['a', 'b', 'c', 'd'] }
+  t.ok(filterTags(undefined, doc))
+  t.ok(filterTags([], doc))
+  t.ok(filterTags(null, doc))
+  t.end()
+})
+
 test('hashTags() prepends # to tags', t => {
   t.deepEquals(hashTags(['a']), ['#a'], 'prepends # to single tag')
   t.deepEquals(hashTags(['#a']), ['#a'], 'does not prepend if # already exists')
