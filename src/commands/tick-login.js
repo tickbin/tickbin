@@ -4,11 +4,9 @@ import fs from 'fs'
 import ini from 'ini'
 import chalk from 'chalk'
 import prompt from 'prompt'
-import request from 'superagent'
 import untildify from 'untildify'
 import config from '../config'
-
-const server = 'http://localhost:8080/'
+import server from '../server'
 
 function login (yargs) {
   let argv = yargs
@@ -24,20 +22,10 @@ function login (yargs) {
   let values = [ 'username', 'password' ]
   prompt.get(values, (err, user) => {
     if (err) throw err
-    request
-    .post(server + 'token')
-    .send(user)
-    .end((err, res) => {
-      if (err) throw err
-      let token = res.body.token
-      request
-      .get(server + 'user')
-      .use(request => request.set('Authorization', 'Bearer ' + res.body.token))
-      .end((err, res) => {
-        updateConfig(res.body.couch.url)
-        console.log('You\'re logged in now')
-      })
-    })
+    server.login(user)
+    .then(user => updateConfig(user.couch.url))
+    .then(() => console.log('You\'re logged now'))
+    .catch(err => console.error(err.statusText))
   })
 
 }

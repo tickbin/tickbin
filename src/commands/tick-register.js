@@ -4,11 +4,9 @@ import fs from 'fs'
 import ini from 'ini'
 import chalk from 'chalk'
 import prompt from 'prompt'
-import request from 'superagent'
 import untildify from 'untildify'
 import config from '../config'
-
-const server = 'http://localhost:8080/'
+import server from '../server'
 
 function register (yargs) {
   let argv = yargs
@@ -24,14 +22,10 @@ function register (yargs) {
   let values = [ 'username', 'password' ]
   prompt.get(values, (err, user) => {
     if (err) throw err
-    request
-    .post(server + 'user')
-    .send(user)
-    .end((err, res) => {
-      if (err) throw err
-      updateConfig(res.body.couch.url)
-      console.log(chalk.bgGreen('Account Created'))
-    })
+    server.register(user)
+    .then(user => updateConfig(user.couch.url))
+    .then(() => console.log(chalk.bgGreen('Account created')))
+    .catch(err => console.err(err.statusText))
   })
 
 }
