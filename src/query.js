@@ -1,8 +1,6 @@
 import chrono from 'chrono-node'
 import moment from 'moment'
 import _ from 'lodash'
-import every from 'lodash/collection/every'
-import includes from 'lodash/collection/includes'
 import Entry from './entry'
 
 export { filterTags }
@@ -54,7 +52,7 @@ export default class Query {
 
     return this.db.query(this._index, this._queryOpts)
       .then(results => {
-        this._rows.push(...results.rows) // this._chain is tied to _.rows 
+        this._rows.push(...results.rows) // this._chain is tied to this._rows 
         return this._chain.value() // execute the chain
       })
   }
@@ -65,7 +63,7 @@ function filterTags (tags = [], doc) {
     return 'found'
 
   const docTags = doc.tags || [] 
-  const found = every(tags, t => includes(docTags, t))
+  const found = _.every(tags, t => _.includes(docTags, t))
 
   return found
 }
