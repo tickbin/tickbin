@@ -1,6 +1,6 @@
 import Entry from './entry'
 import chalk from 'chalk'
-import { getOutputs } from './commands/output'
+import { writeRemove } from './commands/output'
 
 export { removeEntries }
 
@@ -12,9 +12,8 @@ function removeEntries (db, ids) {
       .then(() => doc)  //  Ensure doc is put back on chain
     })
     .then(doc => {
-      const e = Entry.fromJSON(doc)
-      let { detailed } = getOutputs(e)
-      console.log(chalk.bgRed('removed') + ' ' + detailed)
+      const entry = Entry.fromJSON(doc)
+      writeRemove(entry)
     })
     .catch(err => console.log(err))
   })

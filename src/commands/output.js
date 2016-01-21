@@ -5,12 +5,18 @@ import pad from 'pad'
 import { hashPattern } from '../entry'
 
 export {write as write}
+export { writeRemove }
 export {getOutputs as getOutputs}
 
 function write(entry) {
   const {detailed} = getOutputs(entry)
 
   console.log(detailed)
+}
+
+function writeRemove (entry) {
+  const { detailed } = getOutputs(entry)
+  console.log(chalk.bgRed('removed'), detailed)
 }
 
 function getOutputs(entry) {
