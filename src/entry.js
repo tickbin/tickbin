@@ -3,7 +3,7 @@ import shortid from 'shortid'
 import moment from 'moment'
 import parser from './parser'
 
-export const hashPattern = /(#\w+)/g
+export const hashPattern = /(#\w+[\w-]*)/g
 export const version = 1
 export default class Entry {
   constructor(message, opts = {}) {
@@ -69,11 +69,11 @@ export default class Entry {
       toArr: this.toArr,
       time: this.time,
       tags: [...this.tags],
-      duration: {
+      duration: this.duration ? {
         seconds: this.duration.seconds,
         from: this.duration.from,
         to: this.duration.to
-      }
+      } : null
     } 
   }
 
