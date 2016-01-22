@@ -1,19 +1,19 @@
-import Entry from './entry'
-import { writeRemove } from './commands/output'
+import _ from 'lodash'
 
 export { removeEntries }
 
 function removeEntries (db, ids) {
-  ids.forEach(id => {
-    db.get(id)
-    .then(doc => {
-      return db.remove(doc)
-      .then(() => doc)  //  Ensure doc is put back on chain
-    })
-    .then(doc => {
-      const entry = Entry.fromJSON(doc)
-      writeRemove(entry)
-    })
-    .catch(err => console.log(err))
+  return db.allDocs({ keys: ids, include_docs: true })
+  .then(({ rows }) => {
+    //  Mark all docs as deleted
+    var docs = _.chain(rows)
+    .pluck('doc')
+    .forEach(doc => doc._deleted = true)
+    .value()
+
+    //  Bulk delete form db
+    return db.bulkDocs(docs)
+    .then(() => docs)
   })
+  .catch(err => console.log(err));
 }

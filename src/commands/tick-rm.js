@@ -1,7 +1,8 @@
-export default rm
-
+import { writeRemove } from './output'
 import { removeEntries } from '../remove'
 import db from '../db'
+
+export default rm
 
 function rm (yargs) {
   let argv = yargs
@@ -12,4 +13,7 @@ function rm (yargs) {
 
   argv._.shift()
   removeEntries(db, argv._)
+  .then(docs => {
+    docs.forEach(writeRemove)
+  })
 }

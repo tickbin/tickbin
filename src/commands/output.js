@@ -2,6 +2,7 @@ import moment from 'moment'
 import chalk from 'chalk'
 import format from '../time'
 import pad from 'pad'
+import Entry from '../entry'
 import { hashPattern } from '../entry'
 
 export {write as write}
@@ -14,7 +15,8 @@ function write(entry) {
   console.log(detailed)
 }
 
-function writeRemove (entry) {
+function writeRemove (doc) {
+  const entry = Entry.fromJSON(doc)
   const { detailed } = getOutputs(entry)
   console.log(chalk.bgRed('removed'), detailed)
 }
