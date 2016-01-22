@@ -3,6 +3,9 @@ import _ from 'lodash'
 export { removeEntries }
 
 function removeEntries (db, ids) {
+  if (!db) throw new Error('Please provide a couchdb instance')
+  if (!ids) throw new Error('Please provide an array of ids')
+
   return db.allDocs({ keys: ids, include_docs: true })
   .then(({ rows }) => {
     //  Mark all docs as deleted
