@@ -1,6 +1,7 @@
 import test from 'tape'
 import nock from 'nock'
 import server from '../server'
+import config from '../config'
 
 test('logging into the server', t => {
 
@@ -16,7 +17,7 @@ test('logging into the server', t => {
     url : 'http://[....]'
   }
 
-  let n = nock('http://localhost:8080/')
+  let n = nock(config.api)
   .post('/token', { username, password })
   .reply(200, { token })
   .get('/user')
@@ -45,7 +46,7 @@ test('registering with the server', t => {
     url : 'http://[....]'
   }
 
-  let n = nock('http://localhost:8080/')
+  let n = nock(config.api)
   .post('/user', { username, password })
   .reply(200, { username, password, couch })
 

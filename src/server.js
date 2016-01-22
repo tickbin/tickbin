@@ -3,8 +3,9 @@
  */
 
 import axios from 'axios'
+import config from './config'
 
-const server = 'http://localhost:8080/'
+const server = config.api
 
 function login(user) {
   return axios

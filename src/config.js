@@ -2,11 +2,11 @@ import fs from 'fs'
 import rc from 'rc'
 import ini from 'ini'
 import path from 'path'
-import fs from 'fs'
 import mkdirp from 'mkdirp'
 import untildify from 'untildify'
 
 const conf = rc('tickbin', {
+  api: 'http://localhost:8080/',
   local: '~/.tickbin'
 })
 
