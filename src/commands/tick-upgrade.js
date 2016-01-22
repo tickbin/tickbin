@@ -62,6 +62,7 @@ function map1to2 (doc) {
   Object.assign(newDoc, doc)
 
   newDoc.time = e.time
+  newDoc.version = 2
 
   return newDoc
 }
