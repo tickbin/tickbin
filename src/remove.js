@@ -1,5 +1,4 @@
 import Entry from './entry'
-import chalk from 'chalk'
 import { writeRemove } from './commands/output'
 
 export { removeEntries }
