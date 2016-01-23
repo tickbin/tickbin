@@ -1,14 +1,18 @@
 
-import yargs   from 'yargs'
-import log     from './commands/tick-log'
-import list    from './commands/tick-list'
-import rm      from './commands/tick-rm'
-import upgrade from './commands/tick-upgrade'
+import yargs    from 'yargs'
+import log      from './commands/tick-log'
+import login    from './commands/tick-login'
+import list     from './commands/tick-list'
+import register from './commands/tick-register'
+import rm       from './commands/tick-rm'
+import upgrade  from './commands/tick-upgrade'
 
 yargs
 .usage('Usage: tick <command> [options]')
 .command('log', 'log a tick', log)
+.command('login', 'login to your account', login)
 .command('list', 'list your ticks', list)
+.command('register', 'create an account', register)
 .command('rm', 'delete a tick', rm)
 .command('upgrade', 'upgrade your tickbin', upgrade)
 .check(checkCommand)
