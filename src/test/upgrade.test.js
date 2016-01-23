@@ -1,27 +1,18 @@
 import test from 'tape'
 import sinon from 'sinon'
+import promised from 'sinon-as-promised'
 
 import { map0to1 } from '../upgrade'
 import { map1to2 } from '../upgrade'
 import upgrade from '../upgrade'
 
-const rows = [
+var rows = [
   { doc: { from: new Date(), message: '1pm-2pm work'} },
   { doc: { from: new Date(), message: '1pm-2pm work'} }
 ]
 var fakeDb = {
-  query: function () {
-    let p = new Promise((resolve, reject) => {
-      resolve({ rows }) 
-    })
-    return p 
-  }, 
-  bulkDocs: function (docs) {
-    let p = new Promise((resolve, reject) => {
-      resolve()
-    })
-    return p
-  }
+  query: function() {},
+  bulkDocs: function() {}
 }
 
 test('upgrade requires a db', t => {
@@ -33,19 +24,18 @@ test('upgrade requires a db', t => {
     return upgrade(fakeDb) 
   }
 
-  t.plan(2)
+  t.plan(1)
   t.throws(upgradeWithoutDb, /provide a couchdb/, 'upgrade requires a db')
-  t.doesNotThrow(upgradeWithDb, 'upgrade requires a db')
 })
 
 test('upgrade calls query', t => {
-  const spyQuery = sinon.spy(fakeDb, 'query')
-  const spyBulkDocs = sinon.spy(fakeDb, 'bulkDocs')
+  const stubQuery = sinon.stub(fakeDb, 'query').resolves(rows)
+  const stubBulkDocs = sinon.stub(fakeDb, 'bulkDocs').resolves()
 
   t.plan(2)
   upgrade(fakeDb).then( () => {
-    t.ok(spyQuery.calledOnce, 'query called once')
-    t.ok(spyBulkDocs.calledOnce, 'bulkDocs called once')
+    t.ok(stubQuery.calledOnce, 'query called once')
+    t.ok(stubBulkDocs.calledOnce, 'bulkDocs called once')
   })
 })
 

@@ -25,6 +25,7 @@
     "eslint": "^1.10.3",
     "nock": "^5.2.1",
     "sinon": "^1.17.2",
+    "sinon-as-promised": "^4.0.0",
     "tap-spec": "^4.1.0",
     "tape": "^4.2.0"
   },
