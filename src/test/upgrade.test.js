@@ -1,6 +1,42 @@
 import test from 'tape'
+import sinon from 'sinon'
+
 import { map0to1 } from '../upgrade'
 import { map1to2 } from '../upgrade'
+import upgrade from '../upgrade'
+
+const rows = [
+  { doc: {} },
+  { doc: {} }
+]
+var fakeDb = {
+  query: function () {
+    let p = new Promise((resolve, reject) => {
+      resolve({ rows }) 
+    })
+    return p 
+  }, 
+  bulkDocs: function (docs) {
+    let p = new Promise((resolve, reject) => {
+      resolve()
+    })
+    return p
+  }
+}
+
+test('upgrade requires a db', t => {
+
+  function upgradeWithoutDb() {
+    return upgrade()
+  }
+  function upgradeWithDb() {
+    return upgrade(fakeDb) 
+  }
+
+  t.plan(2)
+  t.throws(upgradeWithoutDb, /provide a couchdb/, 'upgrade requires a db')
+  t.doesNotThrow(upgradeWithDb, 'upgrade requires a db')
+})
 
 test('map0to1', t => {
   const v0 = { 
