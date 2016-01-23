@@ -6,8 +6,8 @@ import { map1to2 } from '../upgrade'
 import upgrade from '../upgrade'
 
 const rows = [
-  { doc: {} },
-  { doc: {} }
+  { doc: { from: new Date(), message: '1pm-2pm work'} },
+  { doc: { from: new Date(), message: '1pm-2pm work'} }
 ]
 var fakeDb = {
   query: function () {
@@ -36,6 +36,17 @@ test('upgrade requires a db', t => {
   t.plan(2)
   t.throws(upgradeWithoutDb, /provide a couchdb/, 'upgrade requires a db')
   t.doesNotThrow(upgradeWithDb, 'upgrade requires a db')
+})
+
+test('upgrade calls query', t => {
+  const spyQuery = sinon.spy(fakeDb, 'query')
+  const spyBulkDocs = sinon.spy(fakeDb, 'bulkDocs')
+
+  t.plan(2)
+  upgrade(fakeDb).then( () => {
+    t.ok(spyQuery.calledOnce, 'query called once')
+    t.ok(spyBulkDocs.calledOnce, 'bulkDocs called once')
+  })
 })
 
 test('map0to1', t => {
