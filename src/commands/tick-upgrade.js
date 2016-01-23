@@ -3,9 +3,6 @@ export default upgrade
 import chalk from 'chalk'
 import db from '../db'
 import createEntryIndex from '../db/designEntryIndex'
-import Entry from '../entry'
-import _ from 'lodash'
-import moment from 'moment'
 import upgrader from '../upgrade'
 
 function upgrade (yargs) {
