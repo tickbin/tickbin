@@ -13,11 +13,15 @@ function login (yargs) {
   .alias('h', 'help')
   .argv
 
+  let values = [
+    { name : 'username' },
+    { name : 'password', hidden : true }
+  ]
+
   prompt.message = ''
   prompt.delimiter = ''
   prompt.start()
 
-  let values = [ 'username', 'password' ]
   prompt.get(values, (err, user) => {
     if (err) throw err
     server.login(user)
