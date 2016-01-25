@@ -3,6 +3,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import Entry from '../entry'
 import sinon from 'sinon'
+import promised from 'sinon-as-promised'
 
 import { filterTags } from '../query'
 import { hashTags } from '../query'
@@ -12,18 +13,16 @@ import Query from '../query'
 
 const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
-const rows = [
+const results = { rows:[
   { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
   { doc: new Entry('2pm-3pm work #tag', { date: today }).toJSON()},
   { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
-]
-var fakeDb = {
-  query: function () {
-    let p = new Promise((resolve, reject) => {
-      resolve({ rows }) 
-    })
-    return p 
-  } 
+]}
+
+function getFakeDb() {
+  return {
+    query: function() {}
+  }
 }
 
 test('new Query requires a db', t => {
@@ -32,7 +31,7 @@ test('new Query requires a db', t => {
   }
 
   function makeQueryWithDb() {
-    return new Query(fakeDb) 
+    return new Query(getFakeDb()) 
   }
 
   t.plan(2)
@@ -41,7 +40,7 @@ test('new Query requires a db', t => {
 })
 
 test('query functions are fluent', t => {
-  const q = new Query(fakeDb)
+  const q = new Query(getFakeDb())
 
   t.plan(2)
   t.equals(q.findEntries(), q, 'findEntries returns the query')
@@ -49,7 +48,7 @@ test('query functions are fluent', t => {
 })
 
 test('findEntries() prepares the query', t => {
-  const q = new Query(fakeDb)
+  const q = new Query(getFakeDb)
   const start = moment().startOf('day').toArray() 
   const end = moment().endOf('day').toArray() 
   const tags = ['a']
@@ -64,6 +63,8 @@ test('findEntries() prepares the query', t => {
 })
 
 test('exec() returns a promise', t => {
+  const fakeDb = getFakeDb()
+  const stub = sinon.stub(fakeDb, 'query').resolves(results)
   const q = new Query(fakeDb)
   const res = q.exec()
 
@@ -72,6 +73,8 @@ test('exec() returns a promise', t => {
 })
 
 test('exec() triggers executed flag', t => {
+  const fakeDb = getFakeDb()
+  const stub = sinon.stub(fakeDb, 'query').resolves(results)
   const q = new Query(fakeDb)
 
   t.plan(3)
@@ -82,18 +85,21 @@ test('exec() triggers executed flag', t => {
 })
 
 test('exec() calls query with prepared query options', t => {
-  const spy = sinon.spy(fakeDb, 'query')
+  const fakeDb = getFakeDb()
+  const stub = sinon.stub(fakeDb, 'query').resolves(results)
   const q = new Query(fakeDb)
   q.exec()
   const qOpts = q._queryOpts
 
   t.plan(3)
-  t.ok(spy.calledOnce)
-  t.equals(spy.getCall(0).args[0], 'entry_index/by_from', 'query agains index')
-  t.equals(spy.getCall(0).args[1], qOpts, 'calls db.query with prepared options')
+  t.ok(stub.calledOnce, 'query is called once')
+  t.equals(stub.getCall(0).args[0], 'entry_index/by_from', 'query agains index')
+  t.equals(stub.getCall(0).args[1], qOpts, 'calls db.query with prepared options')
 })
 
 test('findEntries().exec() returns array of entries', t => {
+  const fakeDb = getFakeDb()
+  const stub = sinon.stub(fakeDb, 'query').resolves(results)
   const today = moment().startOf('day').toArray()
   const yesterday = moment().endOf('day').toArray()
 
@@ -108,6 +114,8 @@ test('findEntries().exec() returns array of entries', t => {
 })
 
 test('findEntries().exec() filters by tag', t => {
+  const fakeDb = getFakeDb()
+  const stub = sinon.stub(fakeDb, 'query').resolves(results)
   const today = moment().startOf('day').toArray()
   const yesterday = moment().endOf('day').toArray()
 
@@ -122,6 +130,8 @@ test('findEntries().exec() filters by tag', t => {
 })
 
 test('findEntries().groupByDate().exec() returns expected entries', t => {
+  const fakeDb = getFakeDb()
+  const stub = sinon.stub(fakeDb, 'query').resolves(results)
   const today = moment().startOf('day').toArray()
   const yesterday = moment().endOf('day').toArray()
   
