@@ -10,10 +10,41 @@ export default db
 
 db.on('created', createEntryIndex)
 
-function sync(src, dst) {
-  PouchDB.sync(src, dst)
-  .on('denied', handleErr)
-  .on('error', handleErr)
+function sync(db, dst) {
+  getLastSync(db)
+  .then(lastSync => {
+    const opts = {
+      push: { since: lastSync.push.last_seq },
+      pull: { since: lastSync.pull.last_seq }
+    }
+    db.sync(dst, opts)
+    .on('denied', handleErr)
+    .on('error', handleErr)
+    .on('complete', info => {
+      updateLastSync(db, lastSync, info)
+    })
+  })
+}
+
+function getLastSync(db) {
+  const lastSync = {
+    _id: '_local/last_sync',
+    push: { last_seq: null },
+    pull: { last_seq: null } 
+  }
+
+  return db.get(lastSync._id)
+  .then(doc => {
+    return doc
+  }, () => {
+    return db.put(lastSync).then(() => db.get(lastSync._id))  
+  })
+}
+
+function updateLasySync(db, lastSync, info) {
+  lastSync.push.last_seq = info.push.last_seq
+  lastSync.pull.last_seq = info.pull.last_seq
+  return db.put(lastSync) 
 }
 
 function handleErr(err) {
