@@ -1,6 +1,7 @@
 export default createIndex
 export const ddoc = {
   _id: '_design/entry_index',
+  version: 1,
   views: {
     by_from: {
       map: function(doc) {
@@ -24,6 +25,8 @@ export const ddoc = {
 function createIndex (dbName) {
   return dbName.get(ddoc._id)
   .then(doc => { 
+    if (doc.version >= ddoc.version) return doc
+
     let newddoc = ddoc
     newddoc._rev = doc._rev
     return dbName.put(newddoc) 
