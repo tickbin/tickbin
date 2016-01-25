@@ -23,7 +23,8 @@ function getOutputs(entry) {
   const duration = chalk.green(format(entry.duration.minutes))
   const msg = entry.message
     .replace(hashPattern, chalk.cyan('$1'))
-    .replace(timePattern, '')
+    .replace(timePattern, ' ')
+    .trim()
   const tags = chalk.cyan([...entry.tags].join(' '))
 
   const detailed = `${id} ${date} ${time} ${duration} ${msg}`

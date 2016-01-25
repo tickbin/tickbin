@@ -47,12 +47,9 @@ test('passing date influences the dates', t => {
   const msg = '8am-5pm worked on some things'
   const e = new Entry(msg, {date})
   const {from, to} = e.getDates()
-  t.equals(from.getFullYear(), 2015, 'from has the same year')
-  t.equals(from.getMonth(), 0, 'from has same month')
-  t.equals(from.getDate(), 25, 'from has same day')
-  t.equals(to.getFullYear(), 2015, 'to has the same year')
-  t.equals(to.getMonth(), 0, 'to has the same month')
-  t.equals(to.getDate(), 25, 'to has the same day')
+
+  t.ok(moment(from).isSame(date, 'day'), 'from has the same day')
+  t.ok(moment(to).isSame(date, 'day'), 'to has the same day')
 
   t.end()
 })
@@ -63,12 +60,8 @@ test('no date defaults to today', t => {
   const e = new Entry(msg)
   const {from,to} = e.getDates()
 
-  t.equals(from.getFullYear(), date.getFullYear(), 'from year is today')
-  t.equals(from.getMonth(), date.getMonth(), 'from month is today')
-  t.equals(from.getDate(), date.getDate(), 'from date is today')
-  t.equals(to.getFullYear(), date.getFullYear(), 'to year is today')
-  t.equals(to.getMonth(), date.getMonth(), 'to month is today')
-  t.equals(to.getDate(), date.getDate(), 'to date is today')
+  t.ok(moment(from).isSame(date, 'day'), 'from date is today')
+  t.ok(moment(to).isSame(date, 'day'), 'to date is today')
 
   t.end()
 })
@@ -120,6 +113,14 @@ test('parse unique #tags', t => {
 
   t.equals(e.tags.size, 1, 'tags only appear once')
   t.ok(e.tags.has('#tag1'), 'tags are parsed')
+  t.end()
+})
+
+test('parse #hyphened-tags and #underscored_tags', t => {
+  const e = new Entry('8-10am worked on things #hyphened-tag #underscored_tag')
+
+  t.ok(e.tags.has('#hyphened-tag'), 'hyphened tag is parsed into a Set')
+  t.ok(e.tags.has('#underscored_tag'), 'underscore tag is parsed into a Set')
   t.end()
 })
 

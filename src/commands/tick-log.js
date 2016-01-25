@@ -29,7 +29,7 @@ function log (yargs) {
     prompt.message = ''
     prompt.delimiter = ''
     prompt.start()
-    prompt.get('message:', function(err, res) {
+    prompt.get('message', function(err, res) {
       if (!err) createEntry(res.message, {date}) 
     })
   } else {
@@ -40,14 +40,18 @@ function log (yargs) {
 function createEntry (message, opts = {}) {
   let entry = new Entry(message, opts)
 
+  if (!entry.duration) {
+    console.error(chalk.bgRed('error'), 'You must specify a time in your message. E.g. 8am-12pm')
+    return
+  }
+
   db.put(entry.toJSON())
   .then(doc => {
     console.log(chalk.bgGreen('saved'))
     write(entry)
   })
   .catch(err => {
-    console.error(err)
+    console.error(chalk.bgRed('error'), err)
   })
-
 }
 
