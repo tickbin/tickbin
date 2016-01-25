@@ -3,10 +3,20 @@ export const ddoc = {
   _id: '_design/entry_index',
   views: {
     by_from: {
-      map: mapFrom.toString()
+      map: function(doc) {
+        emit(doc.fromArr)
+      }.toString()
     },
     by_version: {
-      map: mapVersion.toString()  
+      map: function(doc) {
+        
+        var version = 0
+        if (doc.version) { 
+          version = doc.version
+        }
+
+        emit(version)
+      }.toString()  
     }
   }
 }
@@ -21,17 +31,3 @@ function createIndex (dbName) {
     return dbName.put(ddoc)
   })
 }
-
-function mapFrom (doc) {
-  emit(doc.fromArr)
-}
-
-function mapVersion (doc) {
-  var version = 0
-  if (doc.version) { 
-    version = doc.version
-  }
-
-  emit(version)
-}
-
