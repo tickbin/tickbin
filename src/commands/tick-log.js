@@ -10,13 +10,11 @@ import db from '../db'
 function log (yargs) {
   let argv = yargs
   .usage('Usage: tick log [options] [message]')
+  .example('tick log "8am-12pm fixing bugs #tickbin"', 'log work for current day')
+  .example('tick log -d "Jan 22" "11am-1pm fixing bugs #tickbin"', 'log work for Jan 22')
   .option('d', {
     alias: 'date',
     describe: 'date for tick'
-  })
-  .option('m', {
-    alias: 'message',
-    describe: 'entry message. E.g. 8am-12pm fixing bugs #tickbin'
   })
   .help('h')
   .alias('h', 'help')
