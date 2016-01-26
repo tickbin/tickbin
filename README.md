@@ -1,6 +1,6 @@
-# tickbin
-
 [![wercker status](https://app.wercker.com/status/8eae7aa26c3f3cf64321d4a37b163f1e/s/master "wercker status")](https://app.wercker.com/project/bykey/8eae7aa26c3f3cf64321d4a37b163f1e)
+
+# tickbin
 
 time tracking, for developers
 
