@@ -4,7 +4,7 @@ import moment from 'moment'
 import parser from './parser'
 
 export const hashPattern = /(#\w+[\w-]*)/g
-export const version = 1
+export const version = 2
 export default class Entry {
   constructor(message, opts = {}) {
     let {
