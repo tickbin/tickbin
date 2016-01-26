@@ -1,9 +1,8 @@
-export default rm
-
-import Entry from '../entry'
-import { getOutputs } from './output'
-import chalk from 'chalk'
+import { writeRemove } from './output'
+import { removeEntries } from '../remove'
 import db from '../db'
+
+export default rm
 
 function rm (yargs) {
   let argv = yargs
@@ -13,15 +12,8 @@ function rm (yargs) {
   .argv
 
   argv._.shift()
-  argv._.forEach(id => {
-    db.get(id).then(removeEntry)
-  })
-}
-
-function removeEntry (doc) {
-  const e = Entry.fromJSON(doc)
-  return db.remove(doc).then(result => { 
-    let { detailed } = getOutputs(e)
-    console.log(chalk.bgRed('removed') + ' ' + detailed)
+  removeEntries(db, argv._)
+  .then(docs => {
+    docs.forEach(writeRemove)
   })
 }
