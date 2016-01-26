@@ -20,10 +20,11 @@ function log (yargs) {
   .alias('h', 'help')
   .argv
 
-  let {message, date} = argv
+  let message
+  let { date } = argv
   date = chrono.parseDate(date)
 
-  if (argv._[1] && !message) {
+  if (argv._[1]) {
     message = argv._[1]
   }
 
