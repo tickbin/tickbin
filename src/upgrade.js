@@ -34,7 +34,7 @@ function map0to1 (doc) {
   let newDoc = {}
   Object.assign(newDoc, doc)
 
-  newDoc.version = e.version
+  newDoc.version = 1 
 
   return newDoc 
 }
