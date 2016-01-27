@@ -14,7 +14,6 @@ function getFakeDb() {
 
 test('new Sync requires a db, dst', t => {
   const fakeDb = getFakeDb()
-  sinon.stub(fakeDb, 'sync').returns(new EventEmitter())
 
   function syncWithoutDb() {
     return new TickSyncer()
