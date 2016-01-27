@@ -6,6 +6,7 @@ import list     from './commands/tick-list'
 import register from './commands/tick-register'
 import rm       from './commands/tick-rm'
 import upgrade  from './commands/tick-upgrade'
+import sync     from './commands/tick-sync'
 
 yargs
 .usage('Usage: tick <command> [options]')
@@ -15,6 +16,7 @@ yargs
 .command('register', 'create an account', register)
 .command('rm', 'delete a tick', rm)
 .command('upgrade', 'upgrade your tickbin', upgrade)
+.command('sync', 'sync your database with remotes', sync)
 .check(checkCommand)
 .alias('h', 'help')
 .help('h')

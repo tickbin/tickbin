@@ -31,6 +31,9 @@ export default class TickSyncer {
       }
       const sync = this.db.sync(this.remote, opts)
       sync.on('complete', this.updateLastSync.bind(this))
+      // sync is a promise AND an event emitter. Since we are returning
+      // it within a promise, only the resolved value will be
+      // available to anything that calls sync(), not the event emitter itself
       return sync
     })
   }
