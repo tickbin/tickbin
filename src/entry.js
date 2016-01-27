@@ -4,7 +4,7 @@ import moment from 'moment'
 import parser from './parser'
 
 export const hashPattern = /(#\w+[\w-]*)/g
-export const version = 2
+export const version = 3
 export default class Entry {
   constructor(message, opts = {}) {
     let {
@@ -43,12 +43,12 @@ export default class Entry {
 
   setDates(opts) {
     this.hasDates = true
-    this.from = opts.start
-    this.fromArr = moment(this.from).toArray()
-    this.to = opts.end
+    this.start = opts.start
+    this.startArr = moment(this.start).toArray()
+    this.end = opts.end
+    this.endArr = moment(this.end).toArray()
     this.time = opts.text
-    this.toArr = moment(this.to).toArray()
-    this.duration = new Duration(this.from, this.to)
+    this.duration = new Duration(this.start, this.end)
   }
 
   getDates() {
@@ -63,10 +63,10 @@ export default class Entry {
       version: this.version,
       message: this.message,
       hasDates: this.hasDates,
-      from: this.from,
-      fromArr: this.fromArr,
-      to: this.to,
-      toArr: this.toArr,
+      start: this.start,
+      startArr: this.startArr,
+      end: this.end,
+      endArr: this.endArr,
       time: this.time,
       tags: [...this.tags],
       duration: this.duration ? {
