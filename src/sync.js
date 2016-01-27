@@ -8,7 +8,35 @@ export default class TickSyncer {
 
     this.db = db
     this.remote = remote
+    this._promiseLastSync = this.getLastSync()
   }
+
+  getLastSync() {
+    const lastSync = {
+      _id: '_local/last_sync',
+      push: { last_seq: null },
+      pull: { last_seq: null } 
+    }
+
+    return this.db.get(lastSync._id)
+    .then(doc => {
+      return doc
+    }, () => {
+      return this.db.put(lastSync).then(() => this.db.get(lastSync._id))  
+    })
+  }
+
+  sync() {
+    return this._promiseLastSync.then(last_sync => {
+      const opts = {
+        push: { since: last_sync.push.last_seq },
+        pull: { since: last_sync.pull.last_seq }
+      }
+      return this.db.sync(this.remote, opts) 
+    })
+  }
+
+
 }
 
 function getLastSync(db) {
