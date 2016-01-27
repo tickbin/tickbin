@@ -13,8 +13,6 @@ function getFakeDb() {
 }
 
 test('new Sync requires a db, dst', t => {
-  const fakeDb = getFakeDb()
-
   function syncWithoutDb() {
     return new TickSyncer()
   }
