@@ -5,14 +5,14 @@ import pad from 'pad'
 import Entry from '../entry'
 import { hashPattern } from '../entry'
 
-export {write as write}
+export { writeSaved }
 export { writeRemove }
 export {getOutputs as getOutputs}
 
-function write(entry) {
-  const {detailed} = getOutputs(entry)
-
-  console.log(detailed)
+function writeSaved (doc) {
+  const entry = Entry.fromJSON(doc)
+  const { detailed } = getOutputs(entry)
+  console.log(chalk.bgGreen('saved'), detailed)
 }
 
 function writeRemove (doc) {
