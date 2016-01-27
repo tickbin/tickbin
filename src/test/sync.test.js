@@ -62,13 +62,14 @@ test('TickSyncer.sync() calls db.sync', t => {
 
   const tickSync = new TickSyncer(fakeDb, 'remote')
 
-  t.plan(4)
-  tickSync.sync().then(() => {
+  t.plan(5)
+  tickSync.sync().then((sync) => {
     const syncCallArgs = stubSync.getCall(0).args
     t.ok(stubSync.calledOnce, 'db.sync is called')
     t.ok(syncCallArgs[0], 'remote', 'sync to remote')
     t.equals(syncCallArgs[1].push.since, 10, 'push since 10')
     t.equals(syncCallArgs[1].pull.since, 20, 'pull since 20')
+    t.equals(sync, evt, 'returns the db.sync() event emitter')
   })
 })
 
