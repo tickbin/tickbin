@@ -73,6 +73,29 @@ test('TickSyncer.sync() calls db.sync', t => {
   })
 })
 
+test('TickSyncer.sync() updates the last_sync doc', t => {
+  const fakeDb = getFakeDb()
+  const last_sync = { push: { last_seq: 10 }, pull: { last_seq: 20 }}
+  const stubGet = sinon.stub(fakeDb, 'get').resolves(last_sync)
+  const stubPut = sinon.stub(fakeDb, 'put').resolves()
+  const evt = new EventEmitter()
+  const stubSync = sinon.stub(fakeDb, 'sync').returns(evt)
+
+  const tickSync = new TickSyncer(fakeDb, 'remote')
+  const complete = { push: { last_seq: 11 }, pull: { last_seq: 21 }}
+
+  t.plan(3)
+  tickSync.sync().then((sync) => {
+    evt.emit('complete', complete)
+    setTimeout(() => {
+      const putArgs = stubPut.getCall(0).args
+      t.ok(stubPut.calledOnce, 'put called')
+      t.equals(putArgs[0].push.last_seq, 11, 'updates push last_seq')
+      t.equals(putArgs[0].pull.last_seq, 21, 'updates pull last_seq')
+    }, 1)
+  })
+})
+
 test('_getLastSync() failing to get last_sync, puts last sync', t => {
   const fakeDb = getFakeDb()
   const stubGet = sinon.stub(fakeDb, 'get')

@@ -32,7 +32,17 @@ export default class TickSyncer {
         push: { since: last_sync.push.last_seq },
         pull: { since: last_sync.pull.last_seq }
       }
-      return this.db.sync(this.remote, opts) 
+      const sync = this.db.sync(this.remote, opts)
+      sync.on('complete', this.updateLastSync.bind(this))
+      return sync
+    })
+  }
+
+  updateLastSync(info) {
+    return this._promiseLastSync.then((last_sync) => {
+      last_sync.push.last_seq = info.push.last_seq
+      last_sync.pull.last_seq = info.pull.last_seq
+      return this.db.put(last_sync)
     })
   }
 
