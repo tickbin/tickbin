@@ -2,7 +2,7 @@ import test from 'tape'
 import sinon from 'sinon'
 import EventEmitter from 'events'
 
-import sync from '../sync'
+import Sync from '../sync'
 import { _getLastSync } from '../sync'
 import { _updateLastSync } from '../sync'
 
@@ -14,16 +14,16 @@ function getFakeDb() {
   }
 }
 
-test('sync() requires a db, dst', t => {
+test('new Sync requires a db, dst', t => {
   const fakeDb = getFakeDb()
   sinon.stub(fakeDb, 'sync').returns(new EventEmitter())
 
   function syncWithoutDb() {
-    sync()
+    return new Sync()
   }
 
   function syncWithoutDst() {
-    sync(getFakeDb())
+    return new Sync(getFakeDb())
   }
 
   t.plan(2)

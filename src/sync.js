@@ -1,11 +1,11 @@
-export default sync
-
 export { getLastSync as _getLastSync }
 export { updateLastSync as _updateLastSync }
 
-function sync(db, dst) {
-  if (!db) throw new Error('Please provide a couchdb instance')
-  if (!dst) throw new Error('Please provide a destination')
+export default class Sync {
+  constructor (db, dst) {
+    if (!db) throw new Error('Please provide a couchdb instance')
+    if (!dst) throw new Error('Please provide a destination')
+  }
 }
 
 function getLastSync(db) {
