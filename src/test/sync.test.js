@@ -4,6 +4,7 @@ import EventEmitter from 'events'
 
 import sync from '../sync'
 import { _getLastSync } from '../sync'
+import { _updateLastSync } from '../sync'
 
 function getFakeDb() {
   return { 
@@ -55,6 +56,20 @@ test('_getLastSync() failing to get last_sync, puts last sync', t => {
     t.equals(putArg.push.last_seq, null, 'sets push last_seq null')
     t.equals(putArg.pull.last_seq, null, 'sets pull last_seq null')
   })
+})
+
+test('_updateLastSync() updates the last_sync doc', t => {
+  const fakeDb = getFakeDb()
+  const stubPut = sinon.stub(fakeDb, 'put').resolves()
+  const lastSync = { push: { last_seq: null }, pull: { last_seq: null }}
+  const info = { push: { last_seq: 10 }, pull: { last_seq: 20 }}
+
+  t.plan(3)
+  _updateLastSync(fakeDb, lastSync, info)
+  const putArgs = stubPut.getCall(0).args
+  t.ok(stubPut.calledOnce, 'put was called once')
+  t.equals(putArgs[0].push.last_seq, 10, 'puts push last_seq')
+  t.equals(putArgs[0].pull.last_seq, 20, 'puts pull last_seq')
 })
 
 
