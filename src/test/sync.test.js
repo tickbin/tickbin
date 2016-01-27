@@ -2,7 +2,7 @@ import test from 'tape'
 import sinon from 'sinon'
 import EventEmitter from 'events'
 
-import Sync from '../sync'
+import TickSyncer from '../sync'
 import { _getLastSync } from '../sync'
 import { _updateLastSync } from '../sync'
 
@@ -19,16 +19,25 @@ test('new Sync requires a db, dst', t => {
   sinon.stub(fakeDb, 'sync').returns(new EventEmitter())
 
   function syncWithoutDb() {
-    return new Sync()
+    return new TickSyncer()
   }
 
-  function syncWithoutDst() {
-    return new Sync(getFakeDb())
+  function syncWithoutRemote() {
+    return new TickSyncer(getFakeDb())
   }
 
   t.plan(2)
   t.throws(syncWithoutDb, /provide a couchdb/, 'sync requires a db')
-  t.throws(syncWithoutDst, /provide a destination/, 'sync requires a dst')
+  t.throws(syncWithoutRemote, /provide a remote/, 'sync requires a remote')
+})
+
+test('new Sync sets db, remote', t => {
+  const fakeDb = getFakeDb()
+  const tickSync = new TickSyncer(fakeDb, 'remote')
+
+  t.plan(2)
+  t.equals(tickSync.db, fakeDb, 'sets db')
+  t.equals(tickSync.remote, 'remote', 'sets remote')
 })
 
 test('_getLastSync() gets the last_sync doc', t => {

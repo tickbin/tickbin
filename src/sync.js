@@ -1,10 +1,13 @@
 export { getLastSync as _getLastSync }
 export { updateLastSync as _updateLastSync }
 
-export default class Sync {
-  constructor (db, dst) {
+export default class TickSyncer {
+  constructor (db, remote) {
     if (!db) throw new Error('Please provide a couchdb instance')
-    if (!dst) throw new Error('Please provide a destination')
+    if (!remote) throw new Error('Please provide a remote destination')
+
+    this.db = db
+    this.remote = remote
   }
 }
 
