@@ -1,7 +1,7 @@
 import prompt from 'prompt'
 import chrono from 'chrono-node'
 import { writeSaved } from './output'
-import { createEntry } from '../create'
+import createEntry from '../create'
 import db from '../db'
 
 export default log

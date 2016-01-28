@@ -1,7 +1,7 @@
 import Entry from './entry'
 import chalk from 'chalk'
 
-export { createEntry }
+export default createEntry
 
 function createEntry (db, message, opts = {}) {
   if (!db) throw new Error('Please provide a couchdb instance')
