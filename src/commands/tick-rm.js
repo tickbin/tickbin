@@ -1,5 +1,5 @@
 import { writeRemove } from './output'
-import { removeEntries } from '../remove'
+import removeEntries from '../remove'
 import db from '../db'
 
 export default rm

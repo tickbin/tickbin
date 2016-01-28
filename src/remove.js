@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-export { removeEntries }
+export default removeEntries
 
 function removeEntries (db, ids) {
   if (!db) throw new Error('Please provide a couchdb instance')
