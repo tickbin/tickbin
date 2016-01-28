@@ -4,6 +4,7 @@ import promised from 'sinon-as-promised'
 
 import { map0to1 } from '../upgrade'
 import { map1to2 } from '../upgrade'
+import { map2to3 } from '../upgrade'
 import upgrade from '../upgrade'
 
 var rows = [
@@ -59,5 +60,29 @@ test('map1to2', t => {
 
   t.equals(v2.version, 2, 'sets version to 2')
   t.equals(v2.time, '1pm-2pm', 'adds parsed time')
+  t.end()
+})
+
+test('map2to3', t => {
+  const v2 = {}
+  v2.fromArr = [2016, 0, 20, 11, 30, 0, 0]
+  v2.from    = new Date(...v2.fromArr)
+  v2.toArr   = [2016, 0, 20, 12, 30, 0, 0]
+  v2.to      = new Date(...v2.toArr)
+
+  const v3 = map2to3(v2)
+
+  t.equals(v3.version, 3, 'sets version to 3')
+
+  t.notOk(v3.from, 'v3 does not have from')
+  t.notOk(v3.fromArr, 'v3 does not have fromArr')
+  t.notOk(v3.to, 'v3 does not have to')
+  t.notOk(v3.toArr, 'v3 does not have toArr')
+
+  t.equals(v3.start, v2.from, 'from was changed to start')
+  t.equals(v3.startArr, v2.fromArr, 'fromArr was changed to startArr')
+  t.equals(v3.end, v2.to, 'to was changed to end')
+  t.equals(v3.endArr, v2.toArr, 'toArr was changed to endArr')
+
   t.end()
 })

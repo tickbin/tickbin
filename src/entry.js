@@ -4,7 +4,7 @@ import moment from 'moment'
 import parser from './parser'
 
 export const hashPattern = /(#\w+[\w-]*)/g
-export const version = 2
+export const version = 3
 export default class Entry {
   constructor(message, opts = {}) {
     let {
@@ -23,8 +23,8 @@ export default class Entry {
 
   _fromJSON(doc) {
     Object.assign(this, doc)
-    const start = new Date(this.from)
-    const end = new Date(this.to)
+    const start = new Date(this.start)
+    const end = new Date(this.end)
     const text = this.time
     this.setDates({start, end, text})
     this.tags = new Set(doc.tags)
@@ -43,18 +43,18 @@ export default class Entry {
 
   setDates(opts) {
     this.hasDates = true
-    this.from = opts.start
-    this.fromArr = moment(this.from).toArray()
-    this.to = opts.end
+    this.start = opts.start
+    this.startArr = moment(this.start).toArray()
+    this.end = opts.end
+    this.endArr = moment(this.end).toArray()
     this.time = opts.text
-    this.toArr = moment(this.to).toArray()
-    this.duration = new Duration(this.from, this.to)
+    this.duration = new Duration(this.start, this.end)
   }
 
   getDates() {
-    let from = this.from
-    let to = this.to
-    return {from, to}
+    let start = this.start
+    let end = this.end
+    return { start, end }
   }
 
   toJSON() {
@@ -63,16 +63,14 @@ export default class Entry {
       version: this.version,
       message: this.message,
       hasDates: this.hasDates,
-      from: this.from,
-      fromArr: this.fromArr,
-      to: this.to,
-      toArr: this.toArr,
+      start: this.start,
+      startArr: this.startArr,
+      end: this.end,
+      endArr: this.endArr,
       time: this.time,
       tags: [...this.tags],
       duration: this.duration ? {
         seconds: this.duration.seconds,
-        from: this.duration.from,
-        to: this.duration.to
       } : null
     } 
   }

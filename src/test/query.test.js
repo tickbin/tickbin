@@ -93,7 +93,7 @@ test('exec() calls query with prepared query options', t => {
 
   t.plan(3)
   t.ok(stub.calledOnce, 'query is called once')
-  t.equals(stub.getCall(0).args[0], 'entry_index/by_from', 'query agains index')
+  t.equals(stub.getCall(0).args[0], 'entry_index/by_start', 'query agains index')
   t.equals(stub.getCall(0).args[1], qOpts, 'calls db.query with prepared options')
 })
 

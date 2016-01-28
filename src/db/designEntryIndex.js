@@ -2,9 +2,9 @@ export default createIndex
 export const ddoc = {
   _id: '_design/entry_index',
   views: {
-    by_from: {
+    by_start: {
       map: function(doc) {
-        emit(doc.fromArr)
+        emit(doc.startArr)
       }.toString()
     },
     by_version: {

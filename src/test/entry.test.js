@@ -12,32 +12,32 @@ test('Entry class has a version number', t => {
 
 test('simple entry construction 8am-10pm', t => {
   const e = new Entry('8am-10am worked on things')
-  const {from, to} = e.getDates()
+  const { start, end } = e.getDates()
   t.ok(e.hasDates, 'entry has dates')
   t.equals(e.message, '8am-10am worked on things')
-  t.equals(from.getHours(), 8, 'from is 8am')
-  t.equals(to.getHours(), 10, 'from is 10am')
+  t.equals(start.getHours(), 8, 'start is 8am')
+  t.equals(end.getHours(), 10, 'start is 10am')
 
   t.end()
 })
 
 test('simple entry construction 8am-5pm', t => {
   const e = new Entry('8am-5pm worked on things')
-  const {from, to} = e.getDates()
+  const { start, end } = e.getDates()
   t.ok(e.hasDates, 'entry has dates')
   t.equals(e.message, '8am-5pm worked on things')
-  t.equals(from.getHours(), 8, 'from is 8am')
-  t.equals(to.getHours(), 17, 'to is 5pm')
+  t.equals(start.getHours(), 8, 'start is 8am')
+  t.equals(end.getHours(), 17, 'end is 5pm')
 
   t.end()
 })
 
 test('no times specified does not generate dates', t => {
   const e = new Entry('worked on some things')
-  const {from, to} = e.getDates()
+  const { start, end } = e.getDates()
   t.notOk(e.hasDates, 'flag indicates that no dates are present')
-  t.notOk(from, 'no from date provided')
-  t.notOk(to, 'no to date provided')
+  t.notOk(start, 'no start date provided')
+  t.notOk(end, 'no end date provided')
 
   t.end()
 })
@@ -46,10 +46,10 @@ test('passing date influences the dates', t => {
   const date = new Date('Jan 25, 2015 0:00:00')
   const msg = '8am-5pm worked on some things'
   const e = new Entry(msg, {date})
-  const {from, to} = e.getDates()
+  const { start, end } = e.getDates()
 
-  t.ok(moment(from).isSame(date, 'day'), 'from has the same day')
-  t.ok(moment(to).isSame(date, 'day'), 'to has the same day')
+  t.ok(moment(start).isSame(date, 'day'), 'start has the same day')
+  t.ok(moment(end).isSame(date, 'day'), 'end has the same day')
 
   t.end()
 })
@@ -58,10 +58,10 @@ test('no date defaults to today', t => {
   const date = new Date()
   const msg = '8am-5pm worked on some things'
   const e = new Entry(msg)
-  const {from,to} = e.getDates()
+  const { start, end } = e.getDates()
 
-  t.ok(moment(from).isSame(date, 'day'), 'from date is today')
-  t.ok(moment(to).isSame(date, 'day'), 'to date is today')
+  t.ok(moment(start).isSame(date, 'day'), 'start date is today')
+  t.ok(moment(end).isSame(date, 'day'), 'end date is today')
 
   t.end()
 })
@@ -137,19 +137,17 @@ test('toJSON() returns a json obj', t => {
   const json = e.toJSON()
   t.equals(json.message, '8am-10am worked on some things #tag1 #tag2', 'message')
   t.ok(json.hasDates, 'hasDates')
-  t.equals(e.from, json.from, 'from')
-  t.equals(e.to, json.to, 'to')
+  t.equals(e.start, json.start, 'start')
+  t.equals(e.end, json.end, 'end')
   t.equals(json.duration.seconds, 2*60*60, 'duration seconds')
-  t.equals(json.duration.from, e.from, 'duration from')
-  t.equals(json.duration.to, e.to, 'duration to')
   t.equals(json.time, e.time, 'time')
   t.equals(json._id, e._id, '_id')
   t.equals(json.version, version, 'version')
   t.deepEquals(json.tags, [...e.tags], 'tags array')
-  t.ok(moment(json.toArr).isSame(json.to), 'to and toArr are same date')
-  t.ok(moment(json.fromArr).isSame(json.from), 'from and fromArr are same date')
-  t.ok(json.toArr instanceof Array, 'toArr is an array')
-  t.ok(json.fromArr instanceof Array, 'fromArr is an array')
+  t.ok(moment(json.startArr).isSame(json.start), 'start and startArr are same date')
+  t.ok(moment(json.endArr).isSame(json.end), 'end and endArr are same date')
+  t.ok(json.startArr instanceof Array, 'startArr is an array')
+  t.ok(json.endArr instanceof Array, 'endArr is an array')
 
   t.end()
 })
@@ -164,8 +162,8 @@ test('fromJSON() will create an Entry from existing document', t => {
   t.equals(existing.version, e.version, 'version matches')
   t.equals(existing.message, e.message, 'message matches')
   t.equals(e.tags.size, 2, '2 tags')
-  t.equals(moment(existing.to).toString(), moment(e.to).toString(), 'to matches')
-  t.equals(moment(existing.from).toString(), moment(e.from).toString(), 'from matches')
+  t.equals(moment(existing.start).toString(), moment(e.start).toString(), 'start matches')
+  t.equals(moment(existing.end).toString(), moment(e.end).toString(), 'end matches')
   t.equals(e.time, '8am-10am', 'time is preserved')
 
   t.end()
