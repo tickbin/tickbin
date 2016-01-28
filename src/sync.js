@@ -16,9 +16,7 @@ export default class TickSyncer {
     }
 
     return this.db.get(lastSync._id)
-    .then(doc => {
-      return doc
-    }, () => {
+    .then(doc => doc, () => {
       return this.db.put(lastSync).then(() => this.db.get(lastSync._id))  
     })
   }
