@@ -71,8 +71,6 @@ export default class Entry {
       tags: [...this.tags],
       duration: this.duration ? {
         seconds: this.duration.seconds,
-        from: this.duration.from,
-        to: this.duration.to
       } : null
     } 
   }

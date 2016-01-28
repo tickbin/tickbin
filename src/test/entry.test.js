@@ -140,8 +140,6 @@ test('toJSON() returns a json obj', t => {
   t.equals(e.start, json.start, 'start')
   t.equals(e.end, json.end, 'end')
   t.equals(json.duration.seconds, 2*60*60, 'duration seconds')
-  t.equals(json.duration.from, e.duration.from, 'duration from')
-  t.equals(json.duration.to, e.duration.to, 'duration to')
   t.equals(json.time, e.time, 'time')
   t.equals(json._id, e._id, '_id')
   t.equals(json.version, version, 'version')
