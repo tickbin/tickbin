@@ -23,8 +23,8 @@ export default class Entry {
 
   _fromJSON(doc) {
     Object.assign(this, doc)
-    const start = new Date(this.from)
-    const end = new Date(this.to)
+    const start = new Date(this.start)
+    const end = new Date(this.end)
     const text = this.time
     this.setDates({start, end, text})
     this.tags = new Set(doc.tags)
@@ -52,9 +52,9 @@ export default class Entry {
   }
 
   getDates() {
-    let from = this.from
-    let to = this.to
-    return {from, to}
+    let start = this.start
+    let end = this.end
+    return { start, end }
   }
 
   toJSON() {
