@@ -21,7 +21,7 @@ export default class Query {
 
     this.db = db
     this.isExecuted = false
-    this._index = 'entry_index/by_from'
+    this._index = 'entry_index/by_start'
     this._queryOpts = { include_docs: true }
     this._rows = []
     this._chain = _.chain(this._rows) // start a chain on rows
@@ -53,7 +53,7 @@ export default class Query {
   groupByDate () {
     this._chain = this._chain
       .map(doc => Entry.fromJSON(doc))
-      .groupBy(e => moment(e.from).startOf('day').format('YYYY-MM-DD') )
+      .groupBy(e => moment(e.start).startOf('day').format('YYYY-MM-DD') )
       .map((group, d) => { 
         return { 
           ticks: group, 
