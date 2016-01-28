@@ -79,10 +79,10 @@ test('map2to3', t => {
   t.notOk(v3.to, 'v3 does not have to')
   t.notOk(v3.toArr, 'v3 does not have toArr')
 
-  t.ok(v3.start, 'v3 has start')
-  t.ok(v3.startArr, 'v3 has startArr')
-  t.ok(v3.end, 'v3 has end')
-  t.ok(v3.endArr, 'v3 has endArr')
+  t.equals(v3.start, v2.from, 'from was changed to start')
+  t.equals(v3.startArr, v2.fromArr, 'fromArr was changed to startArr')
+  t.equals(v3.end, v2.to, 'to was changed to end')
+  t.equals(v3.endArr, v2.toArr, 'toArr was changed to endArr')
 
   t.end()
 })
