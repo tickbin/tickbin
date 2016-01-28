@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import promised from 'sinon-as-promised'
 import moment from 'moment'
 import Entry from '../entry'
-import { removeEntries } from '../remove'
+import removeEntries from '../remove'
 import _ from 'lodash'
 import { writeRemove } from '../commands/output'
 
