@@ -1,8 +1,13 @@
-export default class TickSyncer {
-  constructor (db, remote) {
-    if (!db) throw new Error('Please provide a couchdb instance')
-    if (!remote) throw new Error('Please provide a remote destination')
+export default sync
 
+function sync (db, remote) {
+  if (!db) throw new Error('Please provide a couchdb instance')
+  if (!remote) throw new Error('Please provide a remote destination')
+
+}
+
+class TickSyncer {
+  constructor (db, remote) {
     this.db = db
     this.remote = remote
     this._promiseLastSync = this.getLastSync()
@@ -43,6 +48,5 @@ export default class TickSyncer {
       return this.db.put(last_sync)
     })
   }
-
 
 }
