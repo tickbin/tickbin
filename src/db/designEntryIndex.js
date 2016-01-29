@@ -1,7 +1,7 @@
 export default createIndex
 export const ddoc = {
   _id: '_design/entry_index',
-  version: 1,
+  version: 2,
   views: {
     by_start: {
       map: function(doc) {
