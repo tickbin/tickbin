@@ -8,7 +8,7 @@ import { setConfig } from '../config'
 
 function login (yargs) {
   let argv = yargs
-  .usage('Usage: tick register')
+  .usage('Usage: tick login')
   .help('h')
   .alias('h', 'help')
   .argv
