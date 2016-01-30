@@ -14,6 +14,12 @@ function getFakeDb() {
   }
 }
 
+const last_sync = { 
+  _id: '_local/last_sync', 
+  push: { last_seq: 10 }, 
+  pull: { last_seq: 20 }
+}
+
 test('requires a db, dst', t => {
   function syncWithoutDb() {
     return sync()
@@ -67,7 +73,6 @@ test('if last_sync not found, put it', t => {
 })
 
 test('syncs with last_sync info', t => {
-  const last_sync = { push: { last_seq: 10 }, pull: { last_seq: 20 }}
   const fakeDb = getFakeDb()
   const stubGet = sinon.stub(fakeDb, 'get').resolves(last_sync)
   const stubSync = sinon.stub(fakeDb, 'sync')
@@ -85,7 +90,6 @@ test('syncs with last_sync info', t => {
 })
 
 test('updates last_sync doc when complete', t => {
-  const last_sync = { _id: '_local/last_sync', push: { last_seq: 10 }, pull: { last_seq: 20 }}
   const fakeDb = getFakeDb()
   const stubGet = sinon.stub(fakeDb, 'get').resolves(last_sync)
   const stubPut = sinon.stub(fakeDb, 'put')
@@ -106,7 +110,6 @@ test('updates last_sync doc when complete', t => {
 })
 
 test('db.sync events emit on sync() returned emitter', t => {
-  const last_sync = { _id: '_local/last_sync', push: { last_seq: 10 }, pull: { last_seq: 20 }}
   const fakeDb = getFakeDb()
   const stubGet = sinon.stub(fakeDb, 'get').resolves(last_sync)
   const stubPut = sinon.stub(fakeDb, 'put')
