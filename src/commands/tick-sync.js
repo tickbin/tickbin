@@ -2,7 +2,7 @@ export default sync
 
 import db from '../db'
 import conf from '../config'
-import TickSyncer from '../sync'
+import dbsync from '../sync'
 
 function sync(yargs) {
   let argv = yargs
@@ -14,9 +14,10 @@ function sync(yargs) {
 
   if (!conf.remote) return console.log('No remote specified in config')
 
-  const tickSync = new TickSyncer(db, conf.remote)
-
-  tickSync.sync().then(showSync, handleErr)
+  const evt = dbsync(db, conf.remote)
+  evt.on('error', handleErr)
+  evt.on('denied', handleErr)
+  evt.on('complete', showSync)
 }
 
 function handleErr(err) {
