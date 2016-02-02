@@ -27,7 +27,7 @@ function register (yargs) {
     server.register(user)
     .then(user => setConfig('remote', user.couch.url))
     .then(() => console.log(chalk.bgGreen('Account created')))
-    .catch(err => console.err(err.statusText))
+    .catch(err => console.error(chalk.bgRed('Error'), err.data))
   })
 
 }
