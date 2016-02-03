@@ -27,7 +27,7 @@ function login (yargs) {
     server.login(user)
     .then(user => setConfig('remote', user.couch.url))
     .then(() => console.log('You\'re logged in now'))
-    .catch(err => console.error(err))
+    .catch(err => console.error(chalk.bgRed('Error'), err.data))
   })
 
 }
