@@ -15,7 +15,9 @@ function register (yargs) {
 
   let values = [
     { name : 'username' },
+    { name : 'email' },
     { name : 'password', hidden : true }
+
   ]
 
   prompt.message = ''
@@ -27,7 +29,14 @@ function register (yargs) {
     server.register(user)
     .then(user => setConfig('remote', user.couch.url))
     .then(() => console.log(chalk.bgGreen('Account created')))
-    .catch(err => console.error(chalk.bgRed('Error'), err.data))
+    .catch(handleError)
   })
+}
 
+function handleError (err) {
+  let message = err.data
+  if (message instanceof Array) {
+    message = message.join('\n')
+  } 
+  console.error(chalk.bgRed('Error'), message)
 }
