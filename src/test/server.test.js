@@ -39,6 +39,7 @@ test('registering with the server', t => {
 
   let username = 'chrisfosterelli'
   let password = 'password'
+  let email    = 'chrisfosterelli@nomail.com'
 
   let couch = { 
     name : username,
@@ -50,7 +51,7 @@ test('registering with the server', t => {
   .post('/user', { username, password })
   .reply(200, { username, password, couch })
 
-  let p = server.register({ username, password })
+  let p = server.register({ username, password, email })
   t.equal(typeof p.then, 'function', 'returns a promise')
 
   p.then(user => {
