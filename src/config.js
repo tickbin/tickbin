@@ -6,7 +6,7 @@ import mkdirp from 'mkdirp'
 import untildify from 'untildify'
 
 const conf = rc('tickbin', {
-  api: 'http://localhost:8080/',
+  api: 'https://api.tickbin.com/',
   local: '~/.tickbin'
 })
 
