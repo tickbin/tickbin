@@ -17,7 +17,9 @@ Use natural language and simple text based interfaces to track time on projects.
 
 ## usage
 
-### `tick log` logs time entries
+### `tick log` 
+
+logs time entries
 
 ```shell
 tick log "8am-12pm fixed a bunch of bugs" # logs time entry for today
@@ -26,7 +28,9 @@ tick log -d "Jan 1" "12am-1am partied!" # log time for Jan 1
 tick log "12pm-1pm great #lunch at Mervo's" # add #tags anywhere
 ```
 
-### `tick list` display time entries
+### `tick list` 
+
+display time entries
 
 ```shell
 tick list # shows you all your time entries for the past week
@@ -37,31 +41,41 @@ tick list -t lunch # list entries tagged with #lunch
 tick list -t dev design # list entries tagged with #dev AND #design
 ```
 
-### `tick rm` remove a time entry
+### `tick rm` 
+
+remove a time entry
 
 ```shell
 tick rm 4yKrumkjl # remove time entry with id 4yKrumkjl
 ```
 
-### `tick register` register for a tickbin.com account
+### `tick register` 
+
+register for a tickbin.com account
 
 ```shell
 tick register # asks you for username, email, password then creates an account with a couchdb for you
 ```
 
-### `tick login` login to tickbin, sets up syncing
+### `tick login` 
+
+login to tickbin, sets up syncing
 
 ```shell
 tick login # asks you for username and password and sets remote in .tickbinrc
 ```
 
-### `tick sync` sync local db with the remote
+### `tick sync` 
+
+sync local db with the remote
 
 ```shell
 tick sync # syncs your local db with the remote db
 ```
 
-### `tick upgrade` upgrades entries between releases
+### `tick upgrade` 
+
+upgrades entries between releases
 
 ```shell
 tick upgrade # upgrades your tickbin database when new tickbin is released
