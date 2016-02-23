@@ -1,6 +1,6 @@
 {
   "name": "tickbin",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "tickbin time tracking",
   "main": "index.js",
   "scripts": {
