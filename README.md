@@ -111,7 +111,7 @@ To sync with a remote database, add the following to `~/.tickbinrc`:
 remote=http://user:pass@host:port/dbname
 ```
 
-Any tickbin commands you run will sync your database with the remote server.
+Run `tick sync` in order to sync your database with your remote server.
 
 ## Building
 
