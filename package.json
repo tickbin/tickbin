@@ -1,8 +1,9 @@
 {
   "name": "tickbin",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "tickbin time tracking",
-  "main": "index.js",
+  "bin": { "tick": "./build/tick.js" },
+  "preferGlobal": true,
   "scripts": {
     "clean": "rm -rf build/*",
     "build": "babel src --out-dir build/",
@@ -12,7 +13,11 @@
     "prebuild": "npm run clean",
     "prewatch": "npm run clean"
   },
-  "author": "Jonathan Bowers <jonotron@gmail.com>",
+  "contributors": [
+    "Jonathan Bowers <jonotron@gmail.com>",
+    "Chad Fawcett <me@chadf.ca>",
+    "Christopher Foster <chris.james.foster@gmail.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/memoryleaf/tickbin.git"
