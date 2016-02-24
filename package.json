@@ -2,7 +2,8 @@
   "name": "tickbin",
   "version": "0.1.0",
   "description": "tickbin time tracking",
-  "main": "index.js",
+  "bin": { "tick": "./build/tick.js" },
+  "preferGlobal": true,
   "scripts": {
     "clean": "rm -rf build/*",
     "build": "babel src --out-dir build/",
