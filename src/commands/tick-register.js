@@ -16,8 +16,8 @@ function register (yargs) {
   let values = [
     { name : 'username' },
     { name : 'email' },
-    { name : 'password', hidden : true }
-
+    { name : 'password', hidden : true },
+    { name : 'betaKey' }
   ]
 
   prompt.message = ''
