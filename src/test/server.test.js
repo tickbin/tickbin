@@ -40,6 +40,7 @@ test('registering with the server', t => {
   let username = 'chrisfosterelli'
   let password = 'password'
   let email    = 'chrisfosterelli@nomail.com'
+  let betaKey  = 'beta'
 
   let couch = { 
     name : username,
@@ -48,10 +49,10 @@ test('registering with the server', t => {
   }
 
   let n = nock(config.api)
-  .post('/user', { username, password })
+  .post('/user', { username, password, email, betaKey })
   .reply(200, { username, password, couch })
 
-  let p = server.register({ username, password, email })
+  let p = server.register({ username, password, email, betaKey })
   t.equal(typeof p.then, 'function', 'returns a promise')
 
   p.then(user => {
