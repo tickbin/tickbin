@@ -14,6 +14,7 @@ import Query from '../query'
 function list (yargs) {
   let argv = yargs
   .usage('Usage: tick list [options]')
+  .example('tick list -t tickbin -d "Feb 1-30')
   .option('t', {
     alias: 'tag',
     describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
