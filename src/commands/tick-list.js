@@ -51,7 +51,7 @@ function list (yargs) {
             const tick = _.omit(getOutputs(t), ['simple', 'detailed'])
             data.push(tick)
           })
-          csvStringify(data,{ header: true }, (err, output) => {
+          csvStringify(data, { header: true, eof: false }, (err, output) => {
             console.log(output)
             return ticks
           })
