@@ -15,7 +15,7 @@ import csvStringify from 'csv-stringify'
 function list (yargs) {
   let argv = yargs
   .usage('Usage: tick list [options]')
-  .example('tick list -t tickbin -d "Jan 1-31')
+  .example('tick list -t sometag -d "Jan 1-31"')
   .example('tick list -d "Jan 1-15" -f csv')
   .option('t', {
     alias: 'tag',
