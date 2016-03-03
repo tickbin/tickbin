@@ -30,6 +30,7 @@ function list (yargs) {
   .option('f', {
     alias: 'format',
     describe: 'format to display data in',
+    choices: ['csv', 'group'],
     type: 'string'
   })
   .help('h')
