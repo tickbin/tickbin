@@ -23,8 +23,8 @@ function writeRemove (doc) {
 
 function getOutputs(entry) {
   const timePattern = new RegExp(/\s*/.source + entry.time + /\s*/.source, 'g')
-  const id = `${chalk.gray(pad(entry._id, 10))}`
-  const date = `${chalk.yellow(pad(moment(entry.start).format('ddd MMM DD'),9))}`
+  const id = chalk.gray(entry._id)
+  const date = chalk.yellow(moment(entry.start).format('ddd MMM DD'))
   const timeStart = moment(entry.start)
   const timeEnd = moment(entry.end)
   const time = `${timeStart.format('hh:mma')}-${timeEnd.format('hh:mma')}`
@@ -36,8 +36,8 @@ function getOutputs(entry) {
     .trim()
   const tags = chalk.cyan([...entry.tags].join(' '))
 
-  const detailed = `${id} ${date} ${time} ${duration} ${msg}`
-  const simple = `${id} ${time} ${duration} ${msg}`
+  const detailed = `${pad(id, 10)} ${pad(date, 9)} ${time} ${pad(duration, 7)} ${msg}`
+  const simple = `${pad(id, 10)} ${time} ${pad(duration, 7)} ${msg}`
 
   return {id, date, duration, seconds, msg, tags, detailed, simple}
 }
