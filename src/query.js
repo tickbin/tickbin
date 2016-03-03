@@ -37,6 +37,7 @@ export default class Query {
     this._queryOpts.endkey = start
 
     this._chain = this._chain.filter(_.partial(filterTags, hashTags(tags)))
+      .map(doc => Entry.fromJSON(doc))
 
     return this 
   }
@@ -52,7 +53,6 @@ export default class Query {
    */
   groupByDate () {
     this._chain = this._chain
-      .map(doc => Entry.fromJSON(doc))
       .groupBy(e => moment(e.start).startOf('day').format('YYYY-MM-DD') )
       .map((group, d) => { 
         return { 

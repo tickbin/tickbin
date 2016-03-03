@@ -10,11 +10,13 @@ import chrono from 'chrono-node'
 import db from '../db'
 import { parseDateRange } from '../query'
 import Query from '../query'
+import csvStringify from 'csv-stringify'
 
 function list (yargs) {
   let argv = yargs
   .usage('Usage: tick list [options]')
   .example('tick list -t tickbin -d "Feb 1-30')
+  .example('tick list -d "Jan 1-15" -f csv')
   .option('t', {
     alias: 'tag',
     describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
@@ -25,6 +27,11 @@ function list (yargs) {
     describe: 'date range to filter entries or number of days to list',
     type: 'string'
   })
+  .option('f', {
+    alias: 'format',
+    describe: 'format to display data in',
+    type: 'string'
+  })
   .help('h')
   .alias('h', 'help')
   .argv
@@ -33,19 +40,37 @@ function list (yargs) {
   start = moment(start).toArray()
   end = moment(end).toArray()
 
-  new Query(db)
-    .findEntries({ start, end, tags: argv.tag })
-    .groupByDate()
-    .exec()
-    .then(groups => {
-      _.each(groups, writeEntryGroup) 
-      return groups
-    })
-    .then(arr => {
-      if (arr.length === 0)
-        console.log('You have no recent entries in tickbin. ' 
-          + 'Create some with \'tick log\'')
-    })
+  const query = new Query(db).findEntries({ start, end, tags: argv.tag })
+
+  if (!argv.format) {
+    query.groupByDate()
+      .exec()
+      .then(groups => {
+        _.each(groups, writeEntryGroup)
+        return groups
+      })
+      .then(writeDefaultMessage)
+  } else {
+    query.exec()
+      .then(ticks => {
+        const data = []
+        _.each(ticks, t => {
+          const tick = _.omit(getOutputs(t), ['simple', 'detailed'])
+          data.push(tick)
+        })
+        csvStringify(data,{ header: true }, (err, output) => {
+          console.log(output)
+          return ticks
+        })
+      })
+      .then(writeDefaultMessage)
+  }
+}
+
+function writeDefaultMessage (arr) {
+  if (arr.length === 0)
+    console.log('You have no recent entries in tickbin. '
+      + 'Create some with \'tick log\'')
 }
 
 function writeEntryGroup (group) {
