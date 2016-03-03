@@ -46,29 +46,32 @@ function list (yargs) {
   switch (argv.format) {
     case 'csv':
       query.exec()
-        .then(ticks => {
-          const data = []
-          _.each(ticks, t => {
-            const tick = _.omit(getOutputs(t), ['simple', 'detailed'])
-            data.push(tick)
-          })
-          csvStringify(data, { header: true, eof: false }, (err, output) => {
-            console.log(output)
-            return ticks
-          })
-        })
+        .then(writeCSV)
         .then(writeDefaultMessage)
       break
     default:
       query.groupByDate()
         .exec()
-        .then(groups => {
-          _.each(groups, writeEntryGroup)
-          return groups
-        })
+        .then(writeGroup)
         .then(writeDefaultMessage)
       break
   }
+}
+
+function writeCSV (results) {
+  const data = _.map(results, t => {
+    return _.omit(getOutputs(t), ['simple', 'detailed'])
+  })
+
+  csvStringify(data, { header: true, eof: false }, (err, output) => {
+    console.log(output)
+    return results
+  })
+}
+
+function writeGroup (results) {
+  _.each(results, writeEntryGroup)
+  return results
 }
 
 function writeDefaultMessage (arr) {
