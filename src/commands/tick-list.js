@@ -42,28 +42,31 @@ function list (yargs) {
 
   const query = new Query(db).findEntries({ start, end, tags: argv.tag })
 
-  if (!argv.format) {
-    query.groupByDate()
-      .exec()
-      .then(groups => {
-        _.each(groups, writeEntryGroup)
-        return groups
-      })
-      .then(writeDefaultMessage)
-  } else {
-    query.exec()
-      .then(ticks => {
-        const data = []
-        _.each(ticks, t => {
-          const tick = _.omit(getOutputs(t), ['simple', 'detailed'])
-          data.push(tick)
+  switch (argv.format) {
+    case 'csv':
+      query.exec()
+        .then(ticks => {
+          const data = []
+          _.each(ticks, t => {
+            const tick = _.omit(getOutputs(t), ['simple', 'detailed'])
+            data.push(tick)
+          })
+          csvStringify(data,{ header: true }, (err, output) => {
+            console.log(output)
+            return ticks
+          })
         })
-        csvStringify(data,{ header: true }, (err, output) => {
-          console.log(output)
-          return ticks
+        .then(writeDefaultMessage)
+      break
+    default:
+      query.groupByDate()
+        .exec()
+        .then(groups => {
+          _.each(groups, writeEntryGroup)
+          return groups
         })
-      })
-      .then(writeDefaultMessage)
+        .then(writeDefaultMessage)
+      break
   }
 }
 
