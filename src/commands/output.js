@@ -1,7 +1,7 @@
 import moment from 'moment'
 import chalk from 'chalk'
 import format from '../time'
-import pad from 'pad'
+import pad from 'pad/lib/colors'
 import Entry from '../entry'
 import { hashPattern } from '../entry'
 
@@ -36,8 +36,8 @@ function getOutputs(entry) {
     .trim()
   const tags = chalk.cyan([...entry.tags].join(' '))
 
-  const detailed = `${pad(id, 10)} ${pad(date, 9)} ${time} ${pad(duration, 7)} ${msg}`
-  const simple = `${pad(id, 10)} ${time} ${pad(duration, 7)} ${msg}`
+  const detailed = `${pad(id, 9)} ${pad(date, 9)} ${time} ${duration} ${msg}`
+  const simple = `${pad(id, 9)} ${time} ${duration} ${msg}`
 
-  return {id, date, duration, seconds, msg, tags, detailed, simple}
+  return {id, date, seconds, msg, tags, detailed, simple}
 }
