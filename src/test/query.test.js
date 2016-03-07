@@ -103,13 +103,14 @@ test('findEntries().exec() returns array of entries', t => {
   const today = moment().startOf('day').toArray()
   const yesterday = moment().endOf('day').toArray()
 
-  t.plan(2)
+  t.plan(3)
   new Query(fakeDb)
     .findEntries({ start: today, end: yesterday })
     .exec()
     .then(entries => {
       t.equals(entries.length, 3, 'should only return three') 
       t.equals(entries[0].message, '1pm-2pm work', 'entries are on the list')
+      t.ok(entries[0].duration.from, 'docs are converted to entry objects')
     })
 })
 
