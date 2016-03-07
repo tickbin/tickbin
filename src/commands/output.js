@@ -1,7 +1,7 @@
 import moment from 'moment'
 import chalk from 'chalk'
 import format from '../time'
-import pad from 'pad'
+import pad from 'pad/lib/colors'
 import Entry from '../entry'
 import { hashPattern } from '../entry'
 
@@ -23,20 +23,21 @@ function writeRemove (doc) {
 
 function getOutputs(entry) {
   const timePattern = new RegExp(/\s*/.source + entry.time + /\s*/.source, 'g')
-  const id = `${chalk.gray(pad(entry._id, 10))}`
-  const date = `${chalk.yellow(pad(moment(entry.start).format('ddd MMM DD'),9))}`
+  const id = chalk.gray(entry._id)
+  const date = chalk.yellow(moment(entry.start).format('ddd MMM DD'))
   const timeStart = moment(entry.start)
   const timeEnd = moment(entry.end)
   const time = `${timeStart.format('hh:mma')}-${timeEnd.format('hh:mma')}`
   const duration = chalk.green(format(entry.duration.minutes))
+  const seconds = entry.duration.seconds
   const msg = entry.message
     .replace(hashPattern, chalk.cyan('$1'))
     .replace(timePattern, ' ')
     .trim()
   const tags = chalk.cyan([...entry.tags].join(' '))
 
-  const detailed = `${id} ${date} ${time} ${duration} ${msg}`
-  const simple = `${id} ${time} ${duration} ${msg}`
+  const detailed = `${pad(id, 9)} ${pad(date, 9)} ${time} ${duration} ${msg}`
+  const simple = `${pad(id, 9)} ${time} ${duration} ${msg}`
 
-  return {id, date, duration, msg, tags, detailed, simple}
+  return {id, date, seconds, msg, tags, detailed, simple}
 }
