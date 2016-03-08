@@ -2,10 +2,12 @@
 import chrono from 'chrono-node'
 import militaryParser from './parsers/militaryParser'
 import orderRefiner from './refiners/orderRefiner'
+import impliedPMStartRefiner from './refiners/impliedPMStartRefiner'
 
 const parser = new chrono.Chrono()
 parser.parsers.push(militaryParser)
 parser.refiners.push(orderRefiner)
+parser.refiners.push(impliedPMStartRefiner)
 
 export default function(str, ref) {
   let rslt = parser.parse(str, ref)[0]
