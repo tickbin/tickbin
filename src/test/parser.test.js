@@ -38,11 +38,24 @@ test('infer meridiem: 1-3pm', t => {
 // Test is skipped because it currently doesn't pass
 // Please see this issue: https://github.com/wanasit/chrono/issues/76 
 test.skip('infer meridiem: 1pm-3', t => {
+  let today = new Date()
   let {start, end} = parser('1pm-3')
   t.equals(start.getHours(), 13, 'start is 1pm (13)')
   t.equals(end.getHours(), 15, 'infer end is 3pm (15)')
+  t.ok(moment(start).isSame(today, 'day'), 'start is same as today')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
 
   t.end()
+})
+
+test.skip('infer meridiem: 11pm-2', t => {
+  let today = new Date()
+  let {start, end} = parser('11pm-2')
+
+  t.equals(start.getHours(), 23, 'start is 11pm (23)')
+  t.equals(end.getHours(), 2, 'end is 2am')
+  t.ok(moment(start).isSame(moment(today).subtract(1, 'day'), 'day'), 'start is same as yesterday')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
 })
 
 test('minutes: 9:15am-2:30pm', t => {
