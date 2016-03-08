@@ -131,3 +131,31 @@ test('matching text is returned', t => {
 
   t.end()
 })
+
+//  Test impliedPMStartRefiner
+//  See https://github.com/MemoryLeaf/tickbin/issues/96
+test('10-4pm should be implied as 10am-4pm', t => {
+  const today = new Date()
+  let {start, end} = parser('10-4pm')
+
+  t.equals(start.getHours(), 10, 'start is 10am')
+  t.equals(end.getHours(), 16, 'end is 4pm (16)')
+  t.ok(moment(start).isSame(today, 'day'), 'start is same as today')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
+
+  t.end()
+})
+
+//  See https://github.com/MemoryLeaf/tickbin/issues/42
+test('9:30-12pm should be implied as 9:30am-12pm', t => {
+  const today = new Date()
+  let {start, end} = parser('9:30-12pm')
+
+  t.equals(start.getHours(), 9, 'start is 9am')
+  t.equals(start.getMinutes(), 30, 'start is 30 minutes')
+  t.equals(end.getHours(), 12, 'end is 12pm')
+  t.ok(moment(start).isSame(today, 'day'), 'start is same as today')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
+
+  t.end()
+})
