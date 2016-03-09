@@ -35,9 +35,7 @@ test('infer meridiem: 1-3pm', t => {
   t.end()
 })
 
-// Test is skipped because it currently doesn't pass
-// Please see this issue: https://github.com/wanasit/chrono/issues/76 
-test.skip('infer meridiem: 1pm-3', t => {
+test('infer meridiem: 1pm-3', t => {
   let today = new Date()
   let {start, end} = parser('1pm-3')
   t.equals(start.getHours(), 13, 'start is 1pm (13)')
@@ -48,6 +46,10 @@ test.skip('infer meridiem: 1pm-3', t => {
   t.end()
 })
 
+//  Skipping as it doesn't pass currently
+//  See https://github.com/wanasit/chrono/issues/96
+//  This should pass using the dayOverlapRefiner if we are able to get implied
+//  meridiems.
 test.skip('infer meridiem: 11pm-2', t => {
   let today = new Date()
   let {start, end} = parser('11pm-2')
@@ -56,6 +58,8 @@ test.skip('infer meridiem: 11pm-2', t => {
   t.equals(end.getHours(), 2, 'end is 2am')
   t.ok(moment(start).isSame(moment(today).subtract(1, 'day'), 'day'), 'start is same as yesterday')
   t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
+
+  t.end()
 })
 
 test('minutes: 9:15am-2:30pm', t => {
