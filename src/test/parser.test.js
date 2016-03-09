@@ -124,7 +124,6 @@ test('overlapping times: 11pm-2am', t => {
   t.end()
 })
 
-// Test is skipped because it currently doesn't pass
 // Please see this issue: https://github.com/MemoryLeaf/tickbin/issues/26
 test('overlapping times for current day: 11pm-2am', t => {
   const today = new Date()
