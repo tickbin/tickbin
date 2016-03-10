@@ -18,5 +18,5 @@ function removeEntries (db, ids) {
     return db.bulkDocs(docs)
     .then(() => docs)
   })
-  .catch(err => console.error(chalk.bgRed('error'), err));
+  .catch(err => console.error(chalk.bgRed('error'), err))
 }
