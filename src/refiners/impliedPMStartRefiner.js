@@ -10,6 +10,7 @@
  */
 
 import chrono from 'chrono-node'
+import { subtract } from '../helpers/chronoDateManipulation'
 
 function refine (text, results, opt) {
   results.forEach(result => {
@@ -18,8 +19,8 @@ function refine (text, results, opt) {
         && result.end.get('meridiem') === 1
         && result.start.get('hour') > result.end.get('hour')) {
       result.start.assign('meridiem', 0)
-      result.start.assign('hour', result.start.get('hour') - 12)
-      result.end.assign('day', result.end.get('day') - 1)
+      subtract(12, 'hour', result.start)
+      subtract(1, 'day', result.end)
     }
   })
   return results

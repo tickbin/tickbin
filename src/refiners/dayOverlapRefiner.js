@@ -14,6 +14,7 @@
  */
 
 import chrono from 'chrono-node'
+import { subtract } from '../helpers/chronoDateManipulation'
 import moment from 'moment'
 
 function refine (text, results, opt) {
@@ -23,8 +24,8 @@ function refine (text, results, opt) {
     if (moment(result.ref).isSame(today, 'day')
         && result.start.get('meridiem') === 1
         && result.end.get('meridiem') === 0) {
-      result.start.assign('day', result.start.get('day') - 1)
-      result.end.assign('day', result.end.get('day') - 1)
+      subtract(1, 'day', result.start)
+      subtract(1, 'day', result.end)
     }
   })
   return results

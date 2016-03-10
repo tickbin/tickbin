@@ -1,10 +1,11 @@
 
 import chrono from 'chrono-node'
+import { subtract } from '../helpers/chronoDateManipulation'
 
 function refine(text, results, opt) {
   results.forEach(result => {
     if (result.start.date() > result.end.date()) {
-      result.start.assign('day', result.start.get('day') - 1)
+      subtract(1, 'day', result.start)
     }
   })
   return results
