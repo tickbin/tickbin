@@ -1,9 +1,10 @@
 /*
- * When specifying a meridiem for the end time and no meridiem for start, it
- * implies start is also in PM and sets end as then next day. This is usually
- * not the case.
+ * When specifying a meridiem for the end time and no meridiem for start,
+ * chrono implies start is also in PM and sets end as then next day. This is
+ * usually not the case.
  *
- * Refine the implied PM back to AM.
+ *   '10-4pm should parse to '10am-4pm'
+ *   '9:30-12pm should parse to '9:30am-12pm'
  *
  * See https://github.com/MemoryLeaf/tickbin/issues/96
  * and https://github.com/MemoryLeaf/tickbin/issues/42
