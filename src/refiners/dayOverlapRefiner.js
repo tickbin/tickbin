@@ -21,9 +21,14 @@ function refine (text, results, opt) {
   let today = new Date()
 
   results.forEach(result => {
+    //  Once the following issue is resolves, it would be nice to change the
+    //  last condition to be (&& result.end.get('meridiem') === 0). Logically
+    //  they are the same, however this would make it more consistant and
+    //  readable.
+    //  https://github.com/wanasit/chrono/issues/96
     if (moment(result.ref).isSame(today, 'day')
         && result.start.get('meridiem') === 1
-        && result.end.get('meridiem') === 0) {
+        && result.end.get('hour') < 12) {
       subtract(1, 'day', result.start)
       subtract(1, 'day', result.end)
     }

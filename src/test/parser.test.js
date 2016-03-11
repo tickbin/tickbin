@@ -46,11 +46,7 @@ test('infer meridiem: 1pm-3', t => {
   t.end()
 })
 
-//  Skipping as it doesn't pass currently
-//  See https://github.com/wanasit/chrono/issues/96
-//  This should pass using the dayOverlapRefiner if we are able to get implied
-//  meridiems.
-test.skip('infer meridiem: 11pm-2', t => {
+test('infer meridiem: 11pm-2', t => {
   let today = new Date()
   let {start, end} = parser('11pm-2')
 
