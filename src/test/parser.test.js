@@ -140,7 +140,7 @@ test('overlapping times for current day: 11pm-2am', t => {
 })
 
 test('overlapping time for specified day: 11pm-2am', t => {
-  const refDate = new Date('January 15, 2016 0:00:00') //  Jan 16, 2016
+  const refDate = new Date('January 15, 2016 0:00:00')
   let {start, end} = parser('11pm-2am', refDate)
 
   t.ok(moment(start).isSame(refDate, 'day'))
