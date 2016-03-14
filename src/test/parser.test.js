@@ -35,12 +35,25 @@ test('infer meridiem: 1-3pm', t => {
   t.end()
 })
 
-// Test is skipped because it currently doesn't pass
-// Please see this issue: https://github.com/wanasit/chrono/issues/76 
-test.skip('infer meridiem: 1pm-3', t => {
+test('infer meridiem: 1pm-3', t => {
+  let today = new Date()
   let {start, end} = parser('1pm-3')
   t.equals(start.getHours(), 13, 'start is 1pm (13)')
   t.equals(end.getHours(), 15, 'infer end is 3pm (15)')
+  t.ok(moment(start).isSame(today, 'day'), 'start is same as today')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
+
+  t.end()
+})
+
+test('infer meridiem: 11pm-2', t => {
+  let today = new Date()
+  let {start, end} = parser('11pm-2')
+
+  t.equals(start.getHours(), 23, 'start is 11pm (23)')
+  t.equals(end.getHours(), 2, 'end is 2am')
+  t.ok(moment(start).isSame(moment(today).subtract(1, 'day'), 'day'), 'start is same as yesterday')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
 
   t.end()
 })
@@ -111,14 +124,23 @@ test('overlapping times: 11pm-2am', t => {
   t.end()
 })
 
-// Test is skipped because it currently doesn't pass
 // Please see this issue: https://github.com/MemoryLeaf/tickbin/issues/26
-test.skip('overlapping times for current day: 11pm-2am', t => {
+test('overlapping times for current day: 11pm-2am', t => {
   const today = new Date()
   let {start, end} = parser('11pm-2am')
 
-  t.ok(moment(start).isSame(moment(today).subtract(1, 'day')), 'start is day before today')
-  t.ok(moment(end).isSame(today), 'end is same as today')
+  t.ok(moment(start).isSame(moment(today).subtract(1, 'day'), 'day'), 'start is day before today')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
+
+  t.end()
+})
+
+test('overlapping time for specified day: 11pm-2am', t => {
+  const refDate = new Date('January 15, 2016 0:00:00')
+  let {start, end} = parser('11pm-2am', refDate)
+
+  t.ok(moment(start).isSame(refDate, 'day'))
+  t.ok(moment(end).isSame(moment(refDate).add(1, 'day'), 'day'))
 
   t.end()
 })
@@ -128,6 +150,34 @@ test('matching text is returned', t => {
   let {text: only} = parser('1-3pm did some things')
   t.equals(text, '1-3pm', 'parser returns matching text')
   t.equals(only, '1-3pm', 'parser returns only matching text')
+
+  t.end()
+})
+
+//  Test impliedPMStartRefiner
+//  See https://github.com/MemoryLeaf/tickbin/issues/96
+test('10-4pm should be implied as 10am-4pm', t => {
+  const today = new Date()
+  let {start, end} = parser('10-4pm')
+
+  t.equals(start.getHours(), 10, 'start is 10am')
+  t.equals(end.getHours(), 16, 'end is 4pm (16)')
+  t.ok(moment(start).isSame(today, 'day'), 'start is same as today')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
+
+  t.end()
+})
+
+//  See https://github.com/MemoryLeaf/tickbin/issues/42
+test('9:30-12pm should be implied as 9:30am-12pm', t => {
+  const today = new Date()
+  let {start, end} = parser('9:30-12pm')
+
+  t.equals(start.getHours(), 9, 'start is 9am')
+  t.equals(start.getMinutes(), 30, 'start is 30 minutes')
+  t.equals(end.getHours(), 12, 'end is 12pm')
+  t.ok(moment(start).isSame(today, 'day'), 'start is same as today')
+  t.ok(moment(end).isSame(today, 'day'), 'end is same as today')
 
   t.end()
 })

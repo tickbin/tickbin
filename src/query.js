@@ -117,7 +117,7 @@ function parseDateRange (range) {
   let dates = chrono.parse(range)[0] || [{}]
   // by default, set the date range then check if chrono parsed anything good
   let start = moment().subtract(days, 'days').startOf('day').toDate()
-  let end   = moment().endOf('day').toDate();
+  let end   = moment().endOf('day').toDate()
   if (dates.start && dates.end) {
     start = moment(dates.start.date()).startOf('day').toDate()
     end   = moment(dates.end.date()).endOf('day').toDate()
