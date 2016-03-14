@@ -19,11 +19,8 @@ import { add, subtract } from '../helpers/chronoDateManipulation'
 
 function refine (text, results, opt) {
   results.forEach(result => {
-    //  TODO: If the following issue is resolved, we could also test that end
-    //  meridiem is AM (&& result.end.get('meridiem') === 0). This could make
-    //  the logic more robust.
-    //  https://github.com/wanasit/chrono/issues/96
     if (result.start.get('meridiem') === 1
+        && result.end.get('meridiem') === 0
         && !result.end.isCertain('meridiem')
         && result.end.get('hour') + 12 > result.start.get('hour')) {
       add(12, 'hour', result.end)
