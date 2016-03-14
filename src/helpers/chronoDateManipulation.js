@@ -49,6 +49,11 @@ function assignToParsedComponent (newTime, chronoComponent) {
       chronoComponent.assign(key, newValue)
     }
   }
+
+  //  Update meridiem using either chrono's imply or assign methods
+  const method   = chronoComponent.isCertain('meridiem') ? 'assign' : 'imply'
+  const meridiem = chronoComponent.get('hour') < 12 ? 0 : 1
+  chronoComponent[method]('meridiem', meridiem)
 }
 
 export { add }
