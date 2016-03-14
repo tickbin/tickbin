@@ -27,26 +27,26 @@ const dictChronoMoment = {
   millisecond: 'millisecond'
 }
 
-function add (duration, unit, chronoParsedComponent) {
-  const newTime = chronoParsedComponent.moment().add(duration, unit)
-  assignToParsedComponent(newTime, chronoParsedComponent)
+function add (duration, unit, chronoComponent) {
+  const newTime = chronoComponent.moment().add(duration, unit)
+  assignToParsedComponent(newTime, chronoComponent)
 }
 
-function subtract (duration, unit, chronoParsedComponent) {
-  const newTime = chronoParsedComponent.moment().subtract(duration, unit)
-  assignToParsedComponent(newTime, chronoParsedComponent)
+function subtract (duration, unit, chronoComponent) {
+  const newTime = chronoComponent.moment().subtract(duration, unit)
+  assignToParsedComponent(newTime, chronoComponent)
 }
 
-function assignToParsedComponent (newTime, chronoParsedComponent) {
+function assignToParsedComponent (newTime, chronoComponent) {
   for (const key in dictChronoMoment) {
     let newValue = newTime.get(dictChronoMoment[key])
     if (key === 'month') newValue++ //  Month is stored with index 0 in moment
 
-    if (key in chronoParsedComponent.impliedValues) {
-      chronoParsedComponent.imply(key, newValue)
+    if (key in chronoComponent.impliedValues) {
+      chronoComponent.imply(key, newValue)
     }
-    if (key in chronoParsedComponent.knownValues) {
-      chronoParsedComponent.assign(key, newValue)
+    if (key in chronoComponent.knownValues) {
+      chronoComponent.assign(key, newValue)
     }
   }
 }
