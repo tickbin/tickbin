@@ -1,8 +1,8 @@
-[![wercker status](https://app.wercker.com/status/8eae7aa26c3f3cf64321d4a37b163f1e/s/master "wercker status")](https://app.wercker.com/project/bykey/8eae7aa26c3f3cf64321d4a37b163f1e)
+[![wercker status](https://app.wercker.com/status/445b091cc8c834b5b3820d52420b82e7/s "wercker status")](https://app.wercker.com/project/bykey/445b091cc8c834b5b3820d52420b82e7)
 
 # tickbin
 
-time tracking, for developers
+A great time tracking tool.
 
 Use natural language and simple text based interfaces to track time on projects.
 

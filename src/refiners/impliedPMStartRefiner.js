@@ -6,8 +6,8 @@
  *   '10-4pm should parse to '10am-4pm'
  *   '9:30-12pm should parse to '9:30am-12pm'
  *
- * See https://github.com/MemoryLeaf/tickbin/issues/96
- * and https://github.com/MemoryLeaf/tickbin/issues/42
+ * See https://github.com/tickbin/tickbin/issues/96
+ * and https://github.com/tickbin/tickbin/issues/42
  */
 
 import chrono from 'chrono-node'
