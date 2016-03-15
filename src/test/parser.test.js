@@ -124,7 +124,7 @@ test('overlapping times: 11pm-2am', t => {
   t.end()
 })
 
-// Please see this issue: https://github.com/MemoryLeaf/tickbin/issues/26
+// Please see this issue: https://github.com/tickbin/tickbin/issues/26
 test('overlapping times for current day: 11pm-2am', t => {
   const today = new Date()
   let {start, end} = parser('11pm-2am')
@@ -155,7 +155,7 @@ test('matching text is returned', t => {
 })
 
 //  Test impliedPMStartRefiner
-//  See https://github.com/MemoryLeaf/tickbin/issues/96
+//  See https://github.com/tickbin/tickbin/issues/96
 test('10-4pm should be implied as 10am-4pm', t => {
   const today = new Date()
   let {start, end} = parser('10-4pm')
@@ -168,7 +168,7 @@ test('10-4pm should be implied as 10am-4pm', t => {
   t.end()
 })
 
-//  See https://github.com/MemoryLeaf/tickbin/issues/42
+//  See https://github.com/tickbin/tickbin/issues/42
 test('9:30-12pm should be implied as 9:30am-12pm', t => {
   const today = new Date()
   let {start, end} = parser('9:30-12pm')

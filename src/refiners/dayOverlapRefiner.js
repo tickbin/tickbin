@@ -10,7 +10,7 @@
  *   '11pm-2am' should parse as 'Jan 1 11pm - Jan 2 2am'
  *   Note: This is how the parser works by default
  *
- * See https://github.com/MemoryLeaf/tickbin/issues/26
+ * See https://github.com/tickbin/tickbin/issues/26
  */
 
 import chrono from 'chrono-node'

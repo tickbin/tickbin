@@ -11,7 +11,7 @@
  *   '10pm-4' should parse as '10pm-4am'
  *   Note: This is how the parser works by default
  *
- * See https://github.com/MemoryLeaf/tickbin/issues/15
+ * See https://github.com/tickbin/tickbin/issues/15
  */
 
 import chrono from 'chrono-node'
