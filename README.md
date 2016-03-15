@@ -2,7 +2,7 @@
 
 # tickbin
 
-time tracking, for developers
+A great time tracking tool.
 
 Use natural language and simple text based interfaces to track time on projects.
 
