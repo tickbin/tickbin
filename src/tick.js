@@ -23,9 +23,7 @@ yargs
 .help('h')
 .argv
 
-function checkCommand (argv) {
-  const validArgs = [ 'log', 'list', 'rm' ]
-  if (validArgs.indexOf(argv._[0]) == -1) {
-    throw new Error('you must provide a valid command')
-  }
+function checkCommand () {
+  // Only executed when no other commands are matched. Therefore, when executed, an invalid command was provided
+  throw new Error('you must provide a valid command')
 }
