@@ -118,4 +118,4 @@ To build the application:
 $ npm install
 $ npm run build
 $ ./build/tick --help
-
+```
