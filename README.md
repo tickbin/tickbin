@@ -117,7 +117,7 @@ To build the application:
 # Using node v4.2 or greater
 $ npm install
 $ npm run build
-$ ./bin/tick --help
+$ ./build/tick --help
 ```
 
 It's recommended to add an alias in your `.bashrc` (`alias tick='/PATH/TO/tickbin/build/tick'`)
