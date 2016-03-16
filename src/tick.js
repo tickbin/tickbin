@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import yargs    from 'yargs'
+import manifest from '../package.json'
 import log      from './commands/tick-log'
 import login    from './commands/tick-login'
 import list     from './commands/tick-list'
@@ -18,14 +19,16 @@ yargs
 .command('rm', 'delete a tick', rm)
 .command('upgrade', 'upgrade your tickbin', upgrade)
 .command('sync', 'sync your database with remotes', sync)
+.version(manifest.version, 'version', 'prints the current version of tickbin')
+.demand(1)
 .check(checkCommand)
 .alias('h', 'help')
 .help('h')
 .argv
 
-function checkCommand (argv) {
-  const validArgs = [ 'log', 'list', 'rm' ]
-  if (validArgs.indexOf(argv._[0]) == -1) {
-    throw new Error('you must provide a valid command')
-  }
+function checkCommand () {
+  // Only executed when no other commands are matched,
+  // and `demand(1)` are satisfied.
+  // Therefore, when executed, an invalid command was provided
+  throw new Error('An invalid command was provided')
 }
