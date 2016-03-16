@@ -118,4 +118,6 @@ To build the application:
 $ npm install
 $ npm run build
 $ ./build/tick --help
+
+Copyright (C) 2016 MemoryLeaf Media Inc.
 ```
