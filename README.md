@@ -12,8 +12,8 @@ Use natural language and simple text based interfaces to track time on projects.
 2. Download this package
 3. `npm install`
 4. `npm run build`
-5. run it! `./bin/tick --help`
-6. Optionally (and recommended until we deploy in npm) create an alias in your `.bashrc` (`alias tick='/PATH/TO/tickbin/bin/tick'`)
+5. run it! `./build/tick.js --help`
+6. Optionally (and recommended until we deploy in npm) create an alias in your `.bashrc` (`alias tick='/PATH/TO/tickbin/build/tick.js'`)
 
 ## usage
 
@@ -121,5 +121,5 @@ To build the application:
 # Using node v4.2 or greater
 $ npm install
 $ npm run build
-$ ./bin/tick --help
+$ ./build/tick.js --help
 ```
