@@ -6,16 +6,12 @@ A great time tracking tool.
 
 Use natural language and simple text based interfaces to track time on projects.
 
-## installation
+## Installation
 
-1. ensure you are running the latest LTS node (4.3) (not yet tested on 5)
-2. Download this package
-3. `npm install`
-4. `npm run build`
-5. run it! `./bin/tick --help`
-6. Optionally (and recommended until we deploy in npm) create an alias in your `.bashrc` (`alias tick='/PATH/TO/tickbin/bin/tick'`)
+1. `npm install -g tickbin`
+2. `tick --help`
 
-## usage
+## Usage
 
 ### `tick log` 
 
@@ -81,7 +77,7 @@ upgrades entries between releases
 tick upgrade # upgrades your tickbin database when new tickbin is released
 ```
 
-## goals
+## Goals
 tickbin is a simple time tracking application with an emphasis on minimizing
 disruption to the user. It accomplishes this by:
 
@@ -121,5 +117,5 @@ To build the application:
 # Using node v4.2 or greater
 $ npm install
 $ npm run build
-$ ./bin/tick --help
+$ ./build/tick --help
 ```
