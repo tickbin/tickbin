@@ -93,6 +93,17 @@ test('duration set for 11pm-2am', t => {
   t.end()
 })
 
+test('includes yesterday in message', t => {
+  const yesterday = moment().subtract(1, 'day')
+  const e = new Entry('yesterday 4-5pm worked on some things #test')
+
+  t.ok(yesterday.isSame(e.start), 'sets start to yesterday')
+  t.ok(yesterday.isSame(e.end), 'sets end to yesterday')
+  t.equals(e.time, 'yesterday 4-5pm', 'time component includes \'yesterday\'')
+
+  t.end()
+})
+
 test('constructor assigns _id', t => {
   const e = new Entry('8am-10am worked on some things')
 
