@@ -97,8 +97,8 @@ test('includes yesterday in message', t => {
   const yesterday = moment().subtract(1, 'day')
   const e = new Entry('yesterday 4-5pm worked on some things #test')
 
-  t.ok(yesterday.isSame(e.start), 'sets start to yesterday')
-  t.ok(yesterday.isSame(e.end), 'sets end to yesterday')
+  t.ok(yesterday.isSame(e.start, 'day'), 'sets start to yesterday')
+  t.ok(yesterday.isSame(e.end, 'day'), 'sets end to yesterday')
   t.equals(e.time, 'yesterday 4-5pm', 'time component includes \'yesterday\'')
 
   t.end()
