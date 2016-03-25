@@ -104,6 +104,17 @@ test('includes yesterday in message', t => {
   t.end()
 })
 
+test('specific day in message', t => {
+  const date = new Date(2016, 2, 24) // Thurs, March 24
+  const monday = moment(new Date(2016, 2, 21)) // Mon, March 21
+  const e = new Entry('monday 4-5pm worked on some things #test', {date})
+
+  t.ok(monday.isSame(e.start, 'day'), 'start is monday')
+  t.ok(monday.isSame(e.end, 'day'), 'end is monday')
+
+  t.end()
+})
+
 test('constructor assigns _id', t => {
   const e = new Entry('8am-10am worked on some things')
 
