@@ -19,8 +19,8 @@ logs time entries
 
 ```shell
 tick log "8am-12pm fixed a bunch of bugs" # logs time entry for today
-tick log -d yesterday "9pm-11pm late night code jamming" # log time entry for yesterday
-tick log -d "Jan 1" "12am-1am partied!" # log time for Jan 1
+tick log "9pm-11pm yesterday late night code jamming" # log time entry for yesterday
+tick log "Jan 1 12am-1am partied!" # log time for Jan 1
 tick log "12pm-1pm great #lunch at Mervo's" # add #tags anywhere
 ```
 
