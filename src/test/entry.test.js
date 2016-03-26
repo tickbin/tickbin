@@ -104,13 +104,24 @@ test('includes yesterday in message', t => {
   t.end()
 })
 
-test('specific day in message', t => {
+test('specific day of week in message', t => {
   const date = new Date(2016, 2, 24) // Thurs, March 24
   const monday = moment(new Date(2016, 2, 21)) // Mon, March 21
   const e = new Entry('monday 4-5pm worked on some things #test', {date})
 
   t.ok(monday.isSame(e.start, 'day'), 'start is monday')
   t.ok(monday.isSame(e.end, 'day'), 'end is monday')
+
+  t.end()
+})
+
+test('specific date in message', t => {
+  const date = new Date(2016, 2, 24) // Thurs, March 24
+  const mar15 = moment(new Date(2016, 2, 15)) // Mon, March 21
+  const e = new Entry('Mar 15 4-5pm worked on some things #test', {date})
+
+  t.ok(monday.isSame(e.start, 'day'), 'start is mar 15')
+  t.ok(monday.isSame(e.end, 'day'), 'end is mar 15')
 
   t.end()
 })
