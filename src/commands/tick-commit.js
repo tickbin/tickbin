@@ -4,14 +4,14 @@ import { writeSaved } from './output'
 import createEntry from '../create'
 import db from '../db'
 
-export default log
+export default commit
 
-function log (yargs) {
+function commit (yargs) {
   let argv = yargs
-  .usage('Usage: tick log [options] [message]')
-  .example('tick log "8am-12pm fixing bugs #tickbin"', 'log work for current day')
-  .example('tick log "Jan 22 11am-1pm fixing bugs #tickbin"', 'log work for Jan 22')
-  .example('tick log "yesterday 4-5pm learning javascript #dev"', 'log work for yesterday')
+  .usage('Usage: tick commit [options] [message]')
+  .example('tick commit "8am-12pm fixing bugs #tickbin"', 'record work for current day')
+  .example('tick commit "Jan 22 11am-1pm fixing bugs #tickbin"', 'record work for Jan 22')
+  .example('tick commit "yesterday 4-5pm learning javascript #dev"', 'record work for yesterday')
   .help('h')
   .alias('h', 'help')
   .argv

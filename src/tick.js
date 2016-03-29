@@ -2,7 +2,7 @@
 
 import yargs    from 'yargs'
 import manifest from '../package.json'
-import log      from './commands/tick-log'
+import commit   from './commands/tick-commit'
 import login    from './commands/tick-login'
 import list     from './commands/tick-list'
 import register from './commands/tick-register'
@@ -12,7 +12,7 @@ import sync     from './commands/tick-sync'
 
 yargs
 .usage('Usage: tick <command> [options]')
-.command('log', 'log a tick', log)
+.command('commit', 'commit a tick', commit)
 .command('login', 'login to your account', login)
 .command('list', 'list your ticks', list)
 .command('register', 'create an account', register)
