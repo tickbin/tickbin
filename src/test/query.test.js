@@ -149,12 +149,13 @@ test('findEntries().groupByDate().exec() returns expected entries', t => {
     })
 })
 
-test('filterTags() finds tags in source using AND', t => {
+test('filterTags() finds tags in source using OR', t => {
   const doc = { tags: ['a', 'b', 'c', 'd'] }
   t.ok(filterTags(['a'], doc), 'finds single tag')
   t.ok(filterTags(['a', 'b'], doc), 'finds multiple tags')
+  t.ok(filterTags(['a', 'x'], doc), 'finds one of multiple tags')
   t.notOk(filterTags(['x'], doc), 'does not find single tag')
-  t.notOk(filterTags(['a', 'x'], doc), 'does not find multiple tags')
+  t.notOk(filterTags(['x', 'y'], doc), 'does not find multiple tags')
 
   t.end()
 })
