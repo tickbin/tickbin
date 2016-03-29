@@ -2,9 +2,9 @@
 
 import yargs    from 'yargs'
 import manifest from '../package.json'
-import log      from './commands/tick-log'
+import commit   from './commands/tick-commit'
 import login    from './commands/tick-login'
-import list     from './commands/tick-list'
+import log      from './commands/tick-log'
 import register from './commands/tick-register'
 import rm       from './commands/tick-rm'
 import upgrade  from './commands/tick-upgrade'
@@ -12,9 +12,9 @@ import sync     from './commands/tick-sync'
 
 yargs
 .usage('Usage: tick <command> [options]')
-.command('log', 'log a tick', log)
+.command('commit', 'commit a tick', commit)
 .command('login', 'login to your account', login)
-.command('list', 'list your ticks', list)
+.command('log', 'display a log of your ticks', log)
 .command('register', 'create an account', register)
 .command('rm', 'delete a tick', rm)
 .command('upgrade', 'upgrade your tickbin', upgrade)

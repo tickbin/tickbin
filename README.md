@@ -13,28 +13,28 @@ Use natural language and simple text based interfaces to track time on projects.
 
 ## Usage
 
-### `tick log` 
+### `tick commit` 
 
-logs time entries
+commits time entries
 
 ```shell
-tick log "8am-12pm fixed a bunch of bugs" # logs time entry for today
-tick log "9pm-11pm yesterday late night code jamming" # log time entry for yesterday
-tick log "Jan 1 12am-1am partied!" # log time for Jan 1
-tick log "12pm-1pm great #lunch at Mervo's" # add #tags anywhere
+tick commit "8am-12pm fixed a bunch of bugs" # records time for today
+tick commit "yesterday 9pm-11pm late night code" # records time for yesterday
+tick commit "Jan 1 12am-1am partied!" # records time for Jan 1
+tick commit "12pm-1pm great #lunch at Mervo's" # add #tags anywhere
 ```
 
-### `tick list` 
+### `tick log` 
 
 display time entries
 
 ```shell
-tick list # shows you all your time entries for the past week
-tick list -d "jan1-31" # shows you time entries for Jan 1-31
-tick list -d2 # shows you time entries for the past 2 days (not including today - so 3 days)
-tick list -d0 # shows you time entries for today
-tick list -t lunch # list entries tagged with #lunch
-tick list -t dev design # list entries tagged with #dev AND #design
+tick log # shows you all your time entries for the past week
+tick log -d "jan1-31" # shows you time entries for Jan 1-31
+tick log -d2 # shows you time entries for the past 2 days (not including today - so 3 days)
+tick log -d0 # shows you time entries for today
+tick log -t lunch # display entries tagged with #lunch
+tick log -t dev design # display entries tagged with #dev AND #design
 ```
 
 ### `tick rm` 
