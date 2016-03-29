@@ -5,7 +5,7 @@ import impliedAMEndRefiner from './refiners/impliedAMEndRefiner'
 import impliedPMStartRefiner from './refiners/impliedPMStartRefiner'
 import dayOverlapRefiner from './refiners/dayOverlapRefiner'
 
-const parser = new chrono.Chrono()
+const parser = new chrono.Chrono(chrono.options.casualOption())
 parser.parsers.push(militaryParser)
 parser.refiners.push(impliedAMEndRefiner)
 parser.refiners.push(impliedPMStartRefiner)

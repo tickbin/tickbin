@@ -93,6 +93,39 @@ test('duration set for 11pm-2am', t => {
   t.end()
 })
 
+test('includes yesterday in message', t => {
+  const yesterday = moment().subtract(1, 'day')
+  const e = new Entry('yesterday 4-5pm worked on some things #test')
+
+  t.ok(yesterday.isSame(e.start, 'day'), 'sets start to yesterday')
+  t.ok(yesterday.isSame(e.end, 'day'), 'sets end to yesterday')
+  t.equals(e.time, 'yesterday 4-5pm', 'time component includes \'yesterday\'')
+
+  t.end()
+})
+
+test('specific day of week in message', t => {
+  const date = new Date(2016, 2, 24) // Thurs, March 24
+  const monday = moment(new Date(2016, 2, 21)) // Mon, March 21
+  const e = new Entry('monday 4-5pm worked on some things #test', {date})
+
+  t.ok(monday.isSame(e.start, 'day'), 'start is monday')
+  t.ok(monday.isSame(e.end, 'day'), 'end is monday')
+
+  t.end()
+})
+
+test('specific date in message', t => {
+  const date = new Date(2016, 2, 24) // Thurs, March 24
+  const mar15 = moment(new Date(2016, 2, 15)) // Mon, March 21
+  const e = new Entry('Mar 15 4-5pm worked on some things #test', {date})
+
+  t.ok(mar15.isSame(e.start, 'day'), 'start is mar 15')
+  t.ok(mar15.isSame(e.end, 'day'), 'end is mar 15')
+
+  t.end()
+})
+
 test('constructor assigns _id', t => {
   const e = new Entry('8am-10am worked on some things')
 
