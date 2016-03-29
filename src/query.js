@@ -83,7 +83,7 @@ export default class Query {
 }
 
 /**
- * helper function to filter a document by a set of tags (using AND)
+ * helper function to filter a document by a set of tags (using OR)
  * intended to be run as a filter step in a lodash chain
  */
 function filterTags (tags = [], doc) {
@@ -91,7 +91,7 @@ function filterTags (tags = [], doc) {
     return 'found'
 
   const docTags = doc.tags || [] 
-  const found = _.every(tags, t => _.includes(docTags, t))
+  const found = _.some(tags, t => _.includes(docTags, t))
 
   return found
 }
