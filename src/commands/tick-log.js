@@ -1,4 +1,4 @@
-export default list
+export default log
 
 import Entry from '../entry'
 import {getOutputs} from './output'
@@ -12,11 +12,11 @@ import { parseDateRange } from '../query'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
 
-function list (yargs) {
+function log (yargs) {
   let argv = yargs
-  .usage('Usage: tick list [options]')
-  .example('tick list -t sometag -d "Jan 1-31"')
-  .example('tick list -d "Jan 1-15" -f csv')
+  .usage('Usage: tick log [options]')
+  .example('tick log -t sometag -d "Jan 1-31"')
+  .example('tick log -d "Jan 1-15" -f csv')
   .option('t', {
     alias: 'tag',
     describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
@@ -24,7 +24,7 @@ function list (yargs) {
   })
   .option('d', {
     alias: 'date',
-    describe: 'date range to filter entries or number of days to list',
+    describe: 'date range to filter entries or number of days to display',
     type: 'string'
   })
   .option('f', {

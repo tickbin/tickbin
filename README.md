@@ -24,17 +24,17 @@ tick commit "Jan 1 12am-1am partied!" # records time for Jan 1
 tick commit "12pm-1pm great #lunch at Mervo's" # add #tags anywhere
 ```
 
-### `tick list` 
+### `tick log` 
 
 display time entries
 
 ```shell
-tick list # shows you all your time entries for the past week
-tick list -d "jan1-31" # shows you time entries for Jan 1-31
-tick list -d2 # shows you time entries for the past 2 days (not including today - so 3 days)
-tick list -d0 # shows you time entries for today
-tick list -t lunch # list entries tagged with #lunch
-tick list -t dev design # list entries tagged with #dev AND #design
+tick log # shows you all your time entries for the past week
+tick log -d "jan1-31" # shows you time entries for Jan 1-31
+tick log -d2 # shows you time entries for the past 2 days (not including today - so 3 days)
+tick log -d0 # shows you time entries for today
+tick log -t lunch # display entries tagged with #lunch
+tick log -t dev design # display entries tagged with #dev AND #design
 ```
 
 ### `tick rm` 
