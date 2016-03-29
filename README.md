@@ -8,6 +8,8 @@ Use natural language and simple text based interfaces to track time on projects.
 
 ## Installation
 
+Tickbin requires [Node.js v4.2](https://nodejs.org/en/) or greater.
+
 1. `npm install -g tickbin`
 2. `tick --help`
 
