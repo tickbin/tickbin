@@ -66,6 +66,18 @@ test('no date defaults to today', t => {
   t.end()
 })
 
+test('created date added to entry', t => {
+  const today = new Date()  
+  const e = new Entry('8am-5pm working on things')
+  const json = e.toJSON()
+
+  t.ok(e.ref, 'ref is set')
+  t.ok(moment(today).isSame(e.ref, 'second'), 'ref date is today')
+  t.ok(moment(today).isSame(json.ref, 'second'), 'json.ref date is today')
+  t.end()
+})
+
+
 test('duration set for 8am-10am', t => {
   const e = new Entry('8am-10am worked on some things')
   
