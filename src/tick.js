@@ -23,7 +23,7 @@ yargs
 .demand(1)
 .check(checkCommand)
 .alias('h', 'help')
-.help('h')
+.help()
 .argv
 
 function checkCommand () {
