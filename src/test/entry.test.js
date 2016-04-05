@@ -90,7 +90,6 @@ test('passed reference date added to entry', t => {
   t.end()
 })
 
-
 test('duration set for 8am-10am', t => {
   const e = new Entry('8am-10am worked on some things')
   
@@ -222,6 +221,7 @@ test('fromJSON() will create an Entry from existing document', t => {
   t.equals(e.tags.size, 2, '2 tags')
   t.equals(moment(existing.start).toString(), moment(e.start).toString(), 'start matches')
   t.equals(moment(existing.end).toString(), moment(e.end).toString(), 'end matches')
+  t.equals(moment(existing.ref).toString(), moment(e.ref).toString(), 'ref matches')
   t.equals(e.time, '8am-10am', 'time is preserved')
 
   t.end()
