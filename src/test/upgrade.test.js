@@ -5,6 +5,7 @@ import promised from 'sinon-as-promised'
 import { map0to1 } from '../upgrade'
 import { map1to2 } from '../upgrade'
 import { map2to3 } from '../upgrade'
+import { map3to4 } from '../upgrade'
 import upgrade from '../upgrade'
 
 var rows = [
@@ -83,6 +84,19 @@ test('map2to3', t => {
   t.equals(v3.startArr, v2.fromArr, 'fromArr was changed to startArr')
   t.equals(v3.end, v2.to, 'to was changed to end')
   t.equals(v3.endArr, v2.toArr, 'toArr was changed to endArr')
+
+  t.end()
+})
+
+test('map3to4', t => {
+  const v3 = {
+    start: new Date(2016, 0, 1, 12, 0, 0, 0),
+  }
+
+  const v4 = map3to4(v3)
+
+  t.equals(v4.version, 4, 'sets version to 4')
+  t.equals(v4.ref.toString(), v3.start.toString(), 'ref is set to start')
 
   t.end()
 })

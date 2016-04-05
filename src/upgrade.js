@@ -5,6 +5,7 @@ import _ from 'lodash'
 export { map0to1 }
 export { map1to2 }
 export { map2to3 }
+export { map3to4 }
 
 export default upgrade
 
@@ -22,6 +23,7 @@ function upgrade (db, start = 0, end = 2) {
       .map(map0to1)
       .map(map1to2)
       .map(map2to3)
+      .map(map3to4)
       .value()
     return db.bulkDocs(newDocs)
   })
@@ -73,6 +75,19 @@ function map2to3 (doc) {
   newDoc.end      = doc.to
   newDoc.endArr   = doc.toArr
   newDoc.version  = 3
+
+  return newDoc
+}
+
+function map3to4 (doc) {
+  if (doc.version >= 4)
+    return doc
+
+  let newDoc = {}
+  Object.assign(newDoc, doc)
+
+  newDoc.ref = moment(doc.start).toDate()
+  newDoc.version = 4
 
   return newDoc
 }
