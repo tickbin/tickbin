@@ -19,7 +19,7 @@ yargs
 .command('rm', 'delete a tick', rm)
 .command('upgrade', 'upgrade your tickbin', upgrade)
 .command('sync', 'sync your database with remotes', sync)
-.version(manifest.version, 'version', 'prints the current version of tickbin')
+.version('version', 'prints the current version of tickbin', manifest.version)
 .demand(1)
 .check(checkCommand)
 .alias('h', 'help')
