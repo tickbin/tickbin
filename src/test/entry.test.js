@@ -73,7 +73,20 @@ test('created date added to entry', t => {
 
   t.ok(e.ref, 'ref is set')
   t.ok(moment(today).isSame(e.ref, 'second'), 'ref date is today')
+  t.ok(json.ref, 'ref is set on json')
   t.ok(moment(today).isSame(json.ref, 'second'), 'json.ref date is today')
+  t.end()
+})
+
+test('passed reference date added to entry', t => {
+  const date = new Date(2016, 0, 1, 12, 15, 30) // Jan 1, 2016 12:15:30
+  const e = new Entry('8am-5pm working on things', {date})
+  const json = e.toJSON()
+
+  t.ok(e.ref, 'ref is set')
+  t.ok(moment(date).isSame(e.ref, 'second'), 'ref date is Jan 1')
+  t.ok(json.ref, 'ref is set on json')
+  t.ok(moment(date).isSame(json.ref, 'second'), 'json.ref date is Jan 1')
   t.end()
 })
 
