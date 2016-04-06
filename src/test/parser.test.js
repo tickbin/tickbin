@@ -86,6 +86,7 @@ test('proper 24h times: 0800-1330', t => {
   t.end()
 })
 
+//TODO: I believe this should fail, and we should require leading zero
 test('no leading zero 24h times: 800-1300', t => {
   let {start, end} = parser('800-1300')
   t.equals(start.getHours(), 8, 'start is 8am')
