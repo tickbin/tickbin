@@ -66,6 +66,30 @@ test('no date defaults to today', t => {
   t.end()
 })
 
+test('created date added to entry', t => {
+  const today = new Date()  
+  const e = new Entry('8am-5pm working on things')
+  const json = e.toJSON()
+
+  t.ok(e.ref, 'ref is set')
+  t.ok(moment(today).isSame(e.ref, 'second'), 'ref date is today')
+  t.ok(json.ref, 'ref is set on json')
+  t.ok(moment(today).isSame(json.ref, 'second'), 'json.ref date is today')
+  t.end()
+})
+
+test('passed reference date added to entry', t => {
+  const date = new Date(2016, 0, 1, 12, 15, 30) // Jan 1, 2016 12:15:30
+  const e = new Entry('8am-5pm working on things', {date})
+  const json = e.toJSON()
+
+  t.ok(e.ref, 'ref is set')
+  t.ok(moment(date).isSame(e.ref, 'second'), 'ref date is Jan 1')
+  t.ok(json.ref, 'ref is set on json')
+  t.ok(moment(date).isSame(json.ref, 'second'), 'json.ref date is Jan 1')
+  t.end()
+})
+
 test('duration set for 8am-10am', t => {
   const e = new Entry('8am-10am worked on some things')
   
@@ -197,6 +221,7 @@ test('fromJSON() will create an Entry from existing document', t => {
   t.equals(e.tags.size, 2, '2 tags')
   t.equals(moment(existing.start).toString(), moment(e.start).toString(), 'start matches')
   t.equals(moment(existing.end).toString(), moment(e.end).toString(), 'end matches')
+  t.equals(moment(existing.ref).toString(), moment(e.ref).toString(), 'ref matches')
   t.equals(e.time, '8am-10am', 'time is preserved')
 
   t.end()
