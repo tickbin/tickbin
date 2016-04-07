@@ -10,8 +10,6 @@ function builder(yargs) {
   .example('tick commit "8am-12pm fixing bugs #tickbin"', 'record work for current day')
   .example('tick commit "Jan 22 11am-1pm fixing bugs #tickbin"', 'record work for Jan 22')
   .example('tick commit "yesterday 4-5pm learning javascript #dev"', 'record work for yesterday')
-  .help('h')
-  .alias('h', 'help')
 }
 
 function commit(argv) {

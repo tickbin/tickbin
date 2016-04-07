@@ -6,8 +6,6 @@ import upgrader from '../upgrade'
 function builder(yargs) {
   return yargs
   .usage('Usage: tick upgrade')
-  .alias('h', 'help')
-  .help()
 }
 
 function upgrade(argv) {

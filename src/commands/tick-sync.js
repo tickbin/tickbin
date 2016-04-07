@@ -5,8 +5,6 @@ import dbsync from '../sync'
 function builder(yargs) {
   return yargs
   .usage('Usage: tick sync')
-  .help('h')
-  .alias('h', 'help')
 }
 
 function sync(argv) {

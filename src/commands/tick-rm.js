@@ -5,8 +5,6 @@ import db from '../db'
 function builder(yargs) {
   return yargs
   .usage('Usage: tick rm [options] <entryid ...>')
-  .help('h')
-  .alias('h', 'help')
 }
 
 function rm(argv) {

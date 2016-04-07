@@ -31,8 +31,6 @@ function builder(yargs) {
     choices: ['csv', 'group'],
     type: 'string'
   })
-  .help('h')
-  .alias('h', 'help')
 }
 
 function log(argv) {

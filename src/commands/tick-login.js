@@ -7,8 +7,6 @@ import { setConfig } from '../config'
 function builder(yargs) {
   return yargs
   .usage('Usage: tick login')
-  .help('h')
-  .alias('h', 'help')
 }
 
 function login(argv) {

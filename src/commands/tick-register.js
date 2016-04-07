@@ -7,8 +7,6 @@ import { setConfig } from '../config'
 function builder(yargs) {
   return yargs
   .usage('Usage: tick register')
-  .alias('h', 'help')
-  .help()
 }
 
 function register(yargs) {
