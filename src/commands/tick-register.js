@@ -1,18 +1,17 @@
-export default register
-
 import chalk from 'chalk'
 import prompt from 'prompt'
 import config from '../config'
 import server from '../server'
 import { setConfig } from '../config'
 
-function register (yargs) {
-  let argv = yargs
-  .usage('Usage: tick register')
-  .help('h')
-  .alias('h', 'help')
-  .argv
+export default { builder, handler : register }
 
+function builder(yargs) {
+  return yargs
+  .usage('Usage: tick register')
+}
+
+function register(yargs) {
   let values = [
     { name : 'username' },
     { name : 'email' },
@@ -33,7 +32,7 @@ function register (yargs) {
   })
 }
 
-function handleError (err) {
+function handleError(err) {
   let message = err.data
   if (message instanceof Array) {
     message = message.join('\n')

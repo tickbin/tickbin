@@ -1,17 +1,15 @@
-export default sync
-
 import db from '../db'
 import conf from '../config'
 import dbsync from '../sync'
 
-function sync(yargs) {
-  let argv = yargs
+export default { builder, handler : sync }
+
+function builder(yargs) {
+  return yargs
   .usage('Usage: tick sync')
-  .help('h')
-  .alias('h', 'help')
-  .argv
+}
 
-
+function sync(argv) {
   if (!conf.remote) return console.log('No remote specified in config')
 
   const evt = dbsync(db, conf.remote)

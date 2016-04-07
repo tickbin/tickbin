@@ -19,16 +19,9 @@ yargs
 .command('rm', 'delete a tick', rm)
 .command('upgrade', 'upgrade your tickbin', upgrade)
 .command('sync', 'sync your database with remotes', sync)
-.version(manifest.version, 'version', 'prints the current version of tickbin')
+.version('version', 'prints the current version of tickbin', manifest.version)
 .demand(1)
-.check(checkCommand)
+.strict()
 .alias('h', 'help')
-.help('h')
+.help()
 .argv
-
-function checkCommand () {
-  // Only executed when no other commands are matched,
-  // and `demand(1)` are satisfied.
-  // Therefore, when executed, an invalid command was provided
-  throw new Error('An invalid command was provided')
-}

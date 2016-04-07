@@ -1,5 +1,3 @@
-export default log
-
 import Entry from '../entry'
 import {getOutputs} from './output'
 import moment from 'moment'
@@ -12,8 +10,10 @@ import { parseDateRange } from '../query'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
 
-function log (yargs) {
-  let argv = yargs
+export default { builder, handler : log }
+
+function builder(yargs) {
+  return yargs
   .usage('Usage: tick log [options]')
   .example('tick log -t sometag -d "Jan 1-31"')
   .example('tick log -d "Jan 1-15" -f csv')
@@ -34,10 +34,9 @@ function log (yargs) {
     default: 'group',
     type: 'string'
   })
-  .help('h')
-  .alias('h', 'help')
-  .argv
+}
 
+function log(argv) {
   let { start, end } = parseDateRange(argv.date)
   start = moment(start).toArray()
   end = moment(end).toArray()
@@ -64,7 +63,7 @@ function log (yargs) {
   }
 }
 
-function writeCSV (results) {
+function writeCSV(results) {
   const data = _.map(results, t => {
     return _.omit(getOutputs(t), ['simple', 'detailed'])
   })
@@ -75,24 +74,24 @@ function writeCSV (results) {
   })
 }
 
-function writeJSON (results) {
+function writeJSON(results) {
   const out = results.map(tick => tick.toJSON())
   console.log(out)
   return results
 }
 
-function writeGroup (results) {
+function writeGroup(results) {
   _.each(results, writeEntryGroup)
   return results
 }
 
-function writeDefaultMessage (arr) {
+function writeDefaultMessage(arr) {
   if (arr.length === 0)
     console.log('You have no recent entries in tickbin. '
       + 'Create some with \'tick log\'')
 }
 
-function writeEntryGroup (group) {
+function writeEntryGroup(group) {
   const date = moment(group.date).format('ddd, MMM DD, YYYY')
   const duration = format(group.minutes)
   console.log(`${chalk.yellow(date)} ${chalk.green(duration)}`)
