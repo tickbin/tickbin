@@ -30,7 +30,8 @@ function log (yargs) {
   .option('f', {
     alias: 'format',
     describe: 'format to display data in',
-    choices: ['csv', 'group'],
+    choices: ['csv', 'group', 'json'],
+    default: 'group',
     type: 'string'
   })
   .help('h')
@@ -49,6 +50,11 @@ function log (yargs) {
         .then(writeCSV)
         .then(writeDefaultMessage)
       break
+    case 'json':
+      query.exec()
+        .then(writeJSON)
+      break
+    case 'group':
     default:
       query.groupByDate()
         .exec()
@@ -67,6 +73,12 @@ function writeCSV (results) {
     console.log(output)
     return results
   })
+}
+
+function writeJSON (results) {
+  const out = results.map(tick => tick.toJSON())
+  console.log(out)
+  return results
 }
 
 function writeGroup (results) {
