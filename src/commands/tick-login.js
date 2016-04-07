@@ -1,18 +1,17 @@
-export default login
-
 import chalk from 'chalk'
 import prompt from 'prompt'
 import config from '../config'
 import server from '../server'
 import { setConfig } from '../config'
 
-function login (yargs) {
-  let argv = yargs
+function builder(yargs) {
+  return yargs
   .usage('Usage: tick login')
   .help('h')
   .alias('h', 'help')
-  .argv
+}
 
+function login(argv) {
   let values = [
     { name : 'username' },
     { name : 'password', hidden : true }
@@ -31,3 +30,5 @@ function login (yargs) {
   })
 
 }
+
+export default { builder, handler : login }

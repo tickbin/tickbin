@@ -4,18 +4,17 @@ import { writeSaved } from './output'
 import createEntry from '../create'
 import db from '../db'
 
-export default commit
-
-function commit (yargs) {
-  let argv = yargs
+function builder(yargs) {
+  return yargs
   .usage('Usage: tick commit [options] [message]')
   .example('tick commit "8am-12pm fixing bugs #tickbin"', 'record work for current day')
   .example('tick commit "Jan 22 11am-1pm fixing bugs #tickbin"', 'record work for Jan 22')
   .example('tick commit "yesterday 4-5pm learning javascript #dev"', 'record work for yesterday')
   .help('h')
   .alias('h', 'help')
-  .argv
+}
 
+function commit(argv) {
   let message
 
   if (argv._[1]) {
@@ -37,3 +36,5 @@ function commit (yargs) {
     .then(writeSaved)
   }
 }
+
+export default { builder, handler : commit }
