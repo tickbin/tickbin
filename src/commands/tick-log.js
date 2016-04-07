@@ -10,6 +10,8 @@ import { parseDateRange } from '../query'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
 
+export default { builder, handler : log }
+
 function builder(yargs) {
   return yargs
   .usage('Usage: tick log [options]')
@@ -83,5 +85,3 @@ function writeEntryGroup(group) {
   console.log(`${chalk.yellow(date)} ${chalk.green(duration)}`)
   group.ticks.forEach(t => { console.log(getOutputs(t).simple) })
 }
-
-export default { builder, handler : log }

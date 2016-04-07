@@ -4,6 +4,8 @@ import config from '../config'
 import server from '../server'
 import { setConfig } from '../config'
 
+export default { builder, handler : register }
+
 function builder(yargs) {
   return yargs
   .usage('Usage: tick register')
@@ -37,5 +39,3 @@ function handleError(err) {
   } 
   console.error(chalk.bgRed('Error'), message)
 }
-
-export default { builder, handler : register }

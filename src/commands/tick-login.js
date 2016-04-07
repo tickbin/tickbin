@@ -4,6 +4,8 @@ import config from '../config'
 import server from '../server'
 import { setConfig } from '../config'
 
+export default { builder, handler : login }
+
 function builder(yargs) {
   return yargs
   .usage('Usage: tick login')
@@ -28,5 +30,3 @@ function login(argv) {
   })
 
 }
-
-export default { builder, handler : login }

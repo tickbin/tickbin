@@ -2,6 +2,8 @@ import db from '../db'
 import conf from '../config'
 import dbsync from '../sync'
 
+export default { builder, handler : sync }
+
 function builder(yargs) {
   return yargs
   .usage('Usage: tick sync')
@@ -24,5 +26,3 @@ function handleErr(err) {
 function showSync(info) {
   console.log(`Push: ${info.push.docs_written}  Pull: ${info.pull.docs_written}`)
 }
-
-export default { builder, handler : sync }

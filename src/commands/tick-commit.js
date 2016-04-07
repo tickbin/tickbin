@@ -4,6 +4,8 @@ import { writeSaved } from './output'
 import createEntry from '../create'
 import db from '../db'
 
+export default { builder, handler : commit }
+
 function builder(yargs) {
   return yargs
   .usage('Usage: tick commit [options] [message]')
@@ -34,5 +36,3 @@ function commit(argv) {
     .then(writeSaved)
   }
 }
-
-export default { builder, handler : commit }

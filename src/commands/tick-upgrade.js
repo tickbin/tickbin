@@ -3,6 +3,8 @@ import db from '../db'
 import createEntryIndex from '../db/designEntryIndex'
 import upgrader from '../upgrade'
 
+export default { builder, handler : upgrade }
+
 function builder(yargs) {
   return yargs
   .usage('Usage: tick upgrade')
@@ -14,5 +16,3 @@ function upgrade(argv) {
   .then( () => upgrader(db) )
   .then( res => console.log(`updated ${res.length} documents`))
 }
-
-export default { builder, handler : upgrade }
