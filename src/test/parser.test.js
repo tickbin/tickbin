@@ -68,7 +68,7 @@ test('minutes: 9:15am-2:30pm', t => {
   t.end()
 })
 
-test('colon segmented 24 times: 08:000-13:00', t => {
+test('colon segmented 24 times: 08:00-13:00', t => {
   let {start, end} = parser('0800-1330')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 13, 'end is 1pm (13)')
@@ -86,6 +86,7 @@ test('proper 24h times: 0800-1330', t => {
   t.end()
 })
 
+//TODO: I believe this should fail, and we should require leading zero
 test('no leading zero 24h times: 800-1300', t => {
   let {start, end} = parser('800-1300')
   t.equals(start.getHours(), 8, 'start is 8am')
