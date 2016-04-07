@@ -1,17 +1,16 @@
-export default upgrade
-
 import chalk from 'chalk'
 import db from '../db'
 import createEntryIndex from '../db/designEntryIndex'
 import upgrader from '../upgrade'
 
-function upgrade (yargs) {
-  let argv = yargs
-  .usage('Usage: tick upgrade')
-  .help('h')
-  .alias('h', 'help')
-  .argv
+export default { builder, handler : upgrade }
 
+function builder(yargs) {
+  return yargs
+  .usage('Usage: tick upgrade')
+}
+
+function upgrade(argv) {
   createEntryIndex(db)
   .then( () => console.log('index ensured'))
   .then( () => upgrader(db) )
