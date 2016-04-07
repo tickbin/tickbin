@@ -16,7 +16,7 @@ function extract(text, ref, match, opt) {
   let start = parseTime(match[1])
   let end = parseTime(match[2])
   const result = new chrono.ParsedResult({ 
-    ref, text, index, start, end,
+    ref, text: match[0], index, start, end,
   })
   result.tags['militaryParser'] = true
   result.start.assign('meridiem', result.start.get('hour') < 12 ? 0 : 1)
