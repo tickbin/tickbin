@@ -33,7 +33,7 @@
     "babel-plugin-transform-es2015-parameters": "^6.7.0",
     "babel-plugin-transform-es2015-spread": "^6.6.5",
     "eslint": "^2.7.0",
-    "nock": "^5.2.1",
+    "nock": "^8.0.0",
     "sinon": "^1.17.3",
     "sinon-as-promised": "^4.0.0",
     "tap-spec": "^4.1.0",
