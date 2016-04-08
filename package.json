@@ -10,7 +10,7 @@
     "clean": "rm -rf build/*",
     "build": "babel src --out-dir build/",
     "watch": "babel src --watch --out-dir build/",
-    "test": "tape 'build/test/**/*.js' | tap-spec",
+    "test": "tape -r source-map-support/register 'build/test/**/*.js' | tap-spec",
     "lint": "eslint 'src/**/*.js'",
     "prebuild": "npm run clean",
     "prewatch": "npm run clean"
@@ -36,6 +36,7 @@
     "nock": "^8.0.0",
     "sinon": "^1.17.3",
     "sinon-as-promised": "^4.0.0",
+    "source-map-support": "^0.4.0",
     "tap-spec": "^4.1.0",
     "tape": "^4.5.1"
   },
