@@ -25,7 +25,7 @@ export default class Query {
     this._queryOpts = { include_docs: true }
     this._rows = []
     this._chain = _.chain(this._rows) // start a chain on rows
-      .pluck('doc') // each rows has a doc 
+      .map('doc') // each rows has a doc 
   }
 
   /**

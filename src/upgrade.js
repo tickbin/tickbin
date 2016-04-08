@@ -19,7 +19,7 @@ function upgrade (db, start = 0, end = 2) {
   })
   .then(res => {
     let newDocs = _.chain(res.rows)
-      .pluck('doc')
+      .map('doc')
       .map(map0to1)
       .map(map1to2)
       .map(map2to3)
