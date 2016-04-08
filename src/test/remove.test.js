@@ -15,9 +15,11 @@ const rows = [
   { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
 ]
 
-let fakeDb = {
-  allDocs: function () {},
-  bulkDocs: function () {}
+function getFakeDb() {
+  return {
+    allDocs: function () {},
+    bulkDocs: function () {}
+  }
 }
 
 test('removeEntries requires a db', t => {
@@ -31,7 +33,7 @@ test('removeEntries requires a db', t => {
 
 test('removeEntries requires an array of ids', t => {
   function removeWithoutArray () {
-    return removeEntries(fakeDb)
+    return removeEntries(getFakeDb())
   }
 
   t.plan(1)
@@ -43,43 +45,37 @@ test('removeEntries requires an array of ids', t => {
 })
 
 test('removeEntries should return a promise', t => {
-  const sandbox = sinon.sandbox.create()
+  const fakeDb = getFakeDb()
+  const stubAllDocs  = sinon.stub(fakeDb, 'allDocs').resolves({ rows })
+  const stubBulkDocs = sinon.stub(fakeDb, 'bulkDocs').resolves()
 
-  const stubAllDocs  = sandbox.stub(fakeDb, 'allDocs').resolves({ rows })
-  const stubBulkDocs = sandbox.stub(fakeDb, 'bulkDocs').resolves()
-
-  let docIds = _.chain(rows).pluck('doc').pluck('_id').value()
+  let docIds = _.chain(rows).map('doc').map('_id').value()
   let res    = removeEntries(fakeDb, docIds)
 
   t.plan(1)
   t.ok(typeof res.then === 'function', 'removeEntries returns a promise')
-
-  res.then(() => sandbox.restore())
 })
 
 test('removeEntries calls db.allDocs and db.bulkDocs', t => {
-  const sandbox = sinon.sandbox.create()
+  const fakeDb = getFakeDb()
+  const stubAllDocs  = sinon.stub(fakeDb, 'allDocs').resolves({ rows })
+  const stubBulkDocs = sinon.stub(fakeDb, 'bulkDocs').resolves()
 
-  const stubAllDocs  = sandbox.stub(fakeDb, 'allDocs').resolves({ rows })
-  const stubBulkDocs = sandbox.stub(fakeDb, 'bulkDocs').resolves()
-
-  let docIds = _.chain(rows).pluck('doc').pluck('_id').value()
+  let docIds = _.chain(rows).map('doc').map('_id').value()
   removeEntries(fakeDb, docIds).then(() => {
     t.plan(2)
     t.ok(stubAllDocs.calledOnce, 'called db.allDocs once')
     t.ok(stubBulkDocs.calledOnce, 'called db.bulkDocs once')
   })
-  .then(() => sandbox.restore())
 })
 
 test('removeEntries promise resolves to removed docs', t => {
-  const sandbox = sinon.sandbox.create()
+  const fakeDb = getFakeDb()
+  const stubAllDocs  = sinon.stub(fakeDb, 'allDocs').resolves({ rows })
+  const stubBulkDocs = sinon.stub(fakeDb, 'bulkDocs').resolves()
 
-  const stubAllDocs  = sandbox.stub(fakeDb, 'allDocs').resolves({ rows })
-  const stubBulkDocs = sandbox.stub(fakeDb, 'bulkDocs').resolves()
-
-  let docs   = _.pluck(rows, 'doc')
-  let docIds = _.pluck(docs, '_id')
+  let docs   = _.map(rows, 'doc')
+  let docIds = _.map(docs, '_id')
 
   removeEntries(fakeDb, docIds).then((removedDocs) => {
     t.plan(1)
@@ -89,5 +85,4 @@ test('removeEntries promise resolves to removed docs', t => {
       'removeEntries promise resolves to removed docs'
     )
   })
-  .then(() => sandbox.restore())
 })

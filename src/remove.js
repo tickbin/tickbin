@@ -10,7 +10,7 @@ function removeEntries (db, ids) {
   .then(({ rows }) => {
     //  Mark all docs as deleted
     var docs = _.chain(rows)
-    .pluck('doc')
+    .map('doc')
     .forEach(doc => doc._deleted = true)
     .value()
 
