@@ -21,6 +21,10 @@ function refine (text, results, opt) {
   let today = new Date()
 
   results.forEach(result => {
+    // only operate on ranges
+    if (!result.start || !result.end)
+      return result
+
     if (moment(result.ref).isSame(today, 'day')
         && result.start.get('meridiem') === 1
         && result.end.get('meridiem') === 0) {

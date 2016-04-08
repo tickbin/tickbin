@@ -19,6 +19,10 @@ import { add, subtract } from '../helpers/chronoDateManipulation'
 
 function refine (text, results, opt) {
   results.forEach(result => {
+    // only operate on ranges
+    if (!result.start || !result.end)
+      return result
+
     if (result.start.get('meridiem') === 1
         && result.end.get('meridiem') === 0
         && !result.end.isCertain('meridiem')

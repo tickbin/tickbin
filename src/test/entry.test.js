@@ -150,16 +150,6 @@ test('specific date in message', t => {
   t.end()
 })
 
-test('proper holiday names', t => {
-  const date = new Date(2016, 2, 25) // Fri, March 25
-  const e = new Entry('8-4pm Good Friday #stat', {date})
-
-  t.ok(moment(date).isSame(e.start, 'day'), 'start is good friday')
-  t.ok(moment(date).isSame(e.end, 'day'), 'end is good friday')
-
-  t.end()
-})
-
 test('constructor assigns _id', t => {
   const e = new Entry('8am-10am worked on some things')
 

@@ -182,3 +182,14 @@ test('9:30-12pm should be implied as 9:30am-12pm', t => {
 
   t.end()
 })
+
+test('proper holiday names', t => {
+  const today = new Date(2016, 2, 26) // Sat, March 26
+  let {start, end} = parser('8-4pm Good Friday #stat', today)
+
+  t.ok(moment(start).isSame(today, 'day'), 'start is today')
+  t.ok(moment(end).isSame(today, 'day'), 'end is today')
+
+  t.end()
+})
+
