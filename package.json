@@ -8,8 +8,8 @@
   "preferGlobal": true,
   "scripts": {
     "clean": "rm -rf build/*",
-    "build": "babel src --out-dir build/",
-    "watch": "babel src --watch --out-dir build/",
+    "build": "babel src --source-maps --out-dir build/",
+    "watch": "babel src --source-maps --watch --out-dir build/",
     "test": "tape -r source-map-support/register 'build/test/**/*.js' | tap-spec",
     "lint": "eslint 'src/**/*.js'",
     "prebuild": "npm run clean",
