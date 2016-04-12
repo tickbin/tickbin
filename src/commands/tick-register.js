@@ -24,10 +24,12 @@ function register(yargs) {
   prompt.start()
 
   prompt.get(values, (err, user) => {
-    if (err.message === 'canceled') {
+    if (err && err.message === 'canceled')
       return console.log('\nNo? Ok, no hard feelings.') 
-    } else {
+
+    if (err) {
       throw err
+      return
     }
 
     server.register(user)
