@@ -29,10 +29,8 @@ function commit(argv) {
       if (err && err.message === 'canceled')
         return console.log('\nCanceled. Nothing to save.')
 
-      if (err) {
+      if (err) 
         throw err
-        return
-      }
 
       createEntry(db, res.message)
       .then(writeSaved)

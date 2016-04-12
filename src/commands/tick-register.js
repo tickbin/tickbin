@@ -27,10 +27,9 @@ function register(yargs) {
     if (err && err.message === 'canceled')
       return console.log('\nNo? Ok, no hard feelings.') 
 
-    if (err) {
+    if (err)
       throw err
-      return
-    }
+    
 
     server.register(user)
     .then(user => setConfig('remote', user.couch.url))
