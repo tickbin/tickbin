@@ -24,7 +24,13 @@ function register(yargs) {
   prompt.start()
 
   prompt.get(values, (err, user) => {
-    if (err) throw err
+    if (err && err.message === 'canceled')
+      return console.log('\nNo? Ok, no hard feelings.') 
+
+    if (err)
+      throw err
+    
+
     server.register(user)
     .then(user => setConfig('remote', user.couch.url))
     .then(() => console.log(chalk.bgGreen('Account created')))

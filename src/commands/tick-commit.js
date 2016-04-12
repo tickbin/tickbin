@@ -25,11 +25,15 @@ function commit(argv) {
     prompt.message = ''
     prompt.delimiter = ''
     prompt.start()
-    prompt.get('message', function(err, res) {
-      if (!err){
-        createEntry(db, res.message)
-        .then(writeSaved)
-      }
+    prompt.get('message', (err, res) => {
+      if (err && err.message === 'canceled')
+        return console.log('\nCanceled. Nothing to save.')
+
+      if (err) 
+        throw err
+
+      createEntry(db, res.message)
+      .then(writeSaved)
     })
   } else {
     createEntry(db, message)
