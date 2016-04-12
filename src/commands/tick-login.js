@@ -22,7 +22,12 @@ function login(argv) {
   prompt.start()
 
   prompt.get(values, (err, user) => {
-    if (err) throw err
+    if (err && err.message === 'canceled')
+      return console.log('\nCanceled login.')
+
+    if (err) 
+      throw err
+    
     server.login(user)
     .then(user => setConfig('remote', user.couch.url))
     .then(() => console.log('You\'re logged in now'))
