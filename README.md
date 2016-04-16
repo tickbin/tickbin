@@ -121,4 +121,4 @@ $ npm run build
 $ ./build/tick --help
 ```
 
-Copyright (C) 2016 MemoryLeaf Media Inc.
+Copyright (©) 2016 MemoryLeaf Media Inc.
