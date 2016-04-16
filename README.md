@@ -117,10 +117,9 @@ Run `tick sync` in order to sync your database with your remote server.
 To build the application:
 
 ```bash
-# Using node v4.2 or greater
 $ npm install
 $ npm run build
 $ ./build/tick --help
-
-Copyright (C) 2016 MemoryLeaf Media Inc.
 ```
+
+Copyright (©) 2016 MemoryLeaf Media Inc.
