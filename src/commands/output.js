@@ -28,7 +28,7 @@ function getOutputs(entry) {
   const timeStart = moment(entry.start)
   const timeEnd = moment(entry.end)
   const time = `${timeStart.format('hh:mma')}-${timeEnd.format('hh:mma')}`
-  const duration = chalk.green(format(entry.duration.minutes))
+  const duration = format(entry.duration.minutes)
   const seconds = entry.duration.seconds
   const msg = entry.message
     .replace(hashPattern, chalk.cyan('$1'))
