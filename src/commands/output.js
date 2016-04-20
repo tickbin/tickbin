@@ -12,13 +12,13 @@ export {getOutputs as getOutputs}
 function writeSaved (doc) {
   const entry = Entry.fromJSON(doc)
   const { detailed } = getOutputs(entry)
-  console.log(chalk.bgGreen('saved'), detailed)
+  console.log(chalk.bgGreen('+'), detailed)
 }
 
 function writeRemove (doc) {
   const entry = Entry.fromJSON(doc)
   const { detailed } = getOutputs(entry)
-  console.log(chalk.bgRed('removed'), detailed)
+  console.log(chalk.bgRed('-'), detailed)
 }
 
 function getOutputs(entry) {
@@ -28,16 +28,17 @@ function getOutputs(entry) {
   const timeStart = moment(entry.start)
   const timeEnd = moment(entry.end)
   const time = `${timeStart.format('hh:mma')}-${timeEnd.format('hh:mma')}`
-  const duration = chalk.green(format(entry.duration.minutes))
+  const duration = format(entry.duration.minutes)
   const seconds = entry.duration.seconds
   const msg = entry.message
     .replace(hashPattern, chalk.cyan('$1'))
     .replace(timePattern, ' ')
     .trim()
   const tags = chalk.cyan([...entry.tags].join(' '))
+  const icon = chalk.gray(' ') // TODO: make this reflect sync state
 
   const detailed = `${pad(id, 9)} ${pad(date, 9)} ${time} ${duration} ${msg}`
   const simple = `${pad(id, 9)} ${time} ${duration} ${msg}`
 
-  return {id, date, seconds, msg, tags, detailed, simple}
+  return {id, date, seconds, msg, tags, icon, detailed, simple}
 }
