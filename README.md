@@ -1,4 +1,4 @@
-[![wercker status](https://app.wercker.com/status/445b091cc8c834b5b3820d52420b82e7/s "wercker status")](https://app.wercker.com/project/bykey/445b091cc8c834b5b3820d52420b82e7)
+[![Build Status](https://semaphoreci.com/api/v1/jonotron/tickbin/branches/master/shields_badge.svg)](https://semaphoreci.com/jonotron/tickbin)
 [![dependency stats](https://david-dm.org/tickbin/tickbin.svg)](https://david-dm.org/tickbin/tickbin)
 
 # tickbin
