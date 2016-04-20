@@ -95,5 +95,5 @@ function writeEntryGroup(group) {
   const date = moment(group.date).format('ddd, MMM DD, YYYY')
   const duration = format(group.minutes)
   console.log(`${chalk.yellow(date)} ${chalk.green(duration)}`)
-  group.ticks.forEach(t => { console.log(getOutputs(t).simple) })
+  group.ticks.forEach(t => { console.log(`${getOutputs(t).icon} ${getOutputs(t).simple}`) })
 }
