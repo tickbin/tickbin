@@ -62,6 +62,31 @@ test('findEntries() prepares the query', t => {
   t.equals(qOpts.endkey, start, 'endkey is the start date')
 })
 
+test('findEntries() accepts filter OR start, end, tags', t => {
+  const q = new Query(getFakeDb)
+  const start = moment().startOf('day').toArray()
+  const end = moment().endOf('day').toArray()
+  const tags = ['a']
+  const filter = function() {}
+
+  function findEverything () {
+    q.findEntries({start, end, tags, filter}) 
+  }
+
+  function findFilterOnly () {
+    q.findEntries({filter}) 
+  }
+
+  function findStartEndTags () {
+    q.findEntries({start, end, tags}) 
+  }
+
+  t.plan(3)
+  t.throws(findEverything, 'do not call with start, end, tags AND filter')
+  t.doesNotThrow(findFilterOnly, 'you can call with just filter')
+  t.doesNotThrow(findStartEndTags, 'you can call with just start, end, tags')
+})
+
 test('exec() returns a promise', t => {
   const fakeDb = getFakeDb()
   const stub = sinon.stub(fakeDb, 'query').resolves(results)

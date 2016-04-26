@@ -31,7 +31,11 @@ export default class Query {
   /**
    * prepare query to find entries by date range filtered by tags
    */
-  findEntries ({start = null, end = null, tags = []} = {}) {
+  findEntries ({start = null, end = null, tags = [], filter = null} = {}) {
+    if ((start || end || tags.length >= 1) && filter) {
+      throw new Error(`You can not call findEntries with filter and 
+        (start or end or tags)`) 
+    } 
     this._queryOpts.descending = true
     this._queryOpts.startkey = end
     this._queryOpts.endkey = start
