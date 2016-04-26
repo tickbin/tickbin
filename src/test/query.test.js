@@ -10,6 +10,7 @@ import { hashTags } from '../query'
 import { parseDateRange } from '../query'
 import { groupEntries } from '../query'
 import Query from '../query'
+import compileFilter from 'tickbin-filter-parser'
 
 const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
@@ -154,6 +155,23 @@ test('findEntries().exec() filters by tag', t => {
       t.equals(entries[0].message, '2pm-3pm work #tag', 'check entry is tagged')
     })
 })
+
+test('findEntries().exec() filters by filter function', t => {
+  const fakeDb = getFakeDb()
+  const stub = sinon.stub(fakeDb, 'query').resolves(results)
+  const filter = compileFilter('#tag')
+
+  t.plan(2)
+  new Query(fakeDb)
+    .findEntries({filter})
+    .exec()
+    .then(entries => {
+      t.equals(entries.length, 1, 'there is only one entry tagged #tag') 
+      t.equals(entries[0].message, '2pm-3pm work #tag', 'check entry is tagged')
+    })
+
+})
+
 
 test('findEntries().groupByDate().exec() returns expected entries', t => {
   const fakeDb = getFakeDb()

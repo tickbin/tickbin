@@ -37,10 +37,14 @@ export default class Query {
         (start or end or tags)`) 
     } 
     this._queryOpts.descending = true
-    this._queryOpts.startkey = end
-    this._queryOpts.endkey = start
+    if (end)
+      this._queryOpts.startkey = end
+    if (start)
+      this._queryOpts.endkey = start
 
-    this._chain = this._chain.filter(_.partial(filterTags, hashTags(tags)))
+    filter = filter || _.partial(filterTags, hashTags(tags))
+
+    this._chain = this._chain.filter(filter)
       .map(doc => Entry.fromJSON(doc))
 
     return this 
