@@ -37,7 +37,7 @@ function builder(yargs) {
   })
   .option('f', {
     alias: 'filter',
-    describe: 'filter entries (e.g. #tag1 and #tag2 and May - Apr)',
+    describe: 'filter entries (e.g. #tag1 and #tag2)',
     type: 'string'
   })
 }
