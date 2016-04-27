@@ -17,21 +17,21 @@ function builder(yargs) {
   .usage('Usage: tick log [options]')
   .example('tick log -t sometag -d "Jan 1-31"')
   .example('tick log -d "Jan 1-15" -f csv')
-  .option('t', {
-    alias: 'tag',
-    describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
-    type: 'array'
-  })
+  //.option('t', {
+    //alias: 'tag',
+    //describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
+    //type: 'array'
+  //})
   .option('d', {
     alias: 'date',
     describe: 'date range to filter entries or number of days to display',
     type: 'string'
   })
-  .option('f', {
-    alias: 'format',
-    describe: 'format to display data in',
-    choices: ['csv', 'group', 'json'],
-    default: 'group',
+  .option('t', {
+    alias: 'type',
+    describe: 'type to display data in',
+    choices: ['csv', 'json', 'text'],
+    default: 'text',
     type: 'string'
   })
 }
@@ -43,7 +43,7 @@ function log(argv) {
 
   const query = new Query(db).findEntries({ start, end, tags: argv.tag })
 
-  switch (argv.format) {
+  switch (argv.type) {
     case 'csv':
       query.exec()
         .then(writeCSV)
@@ -53,7 +53,7 @@ function log(argv) {
       query.exec()
         .then(writeJSON)
       break
-    case 'group':
+    case 'text':
     default:
       query.groupByDate()
         .exec()
