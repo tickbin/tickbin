@@ -14,10 +14,14 @@ import compileFilter from 'tickbin-filter-parser'
 
 const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
+const march = moment(new Date('2015-03-15')).toDate()
+const april = moment(new Date('2015-04-15')).toDate()
 const results = { rows:[
   { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
   { doc: new Entry('2pm-3pm work #tag', { date: today }).toJSON()},
-  { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
+  { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()},
+  { doc: new Entry('1pm-2pm work in March', { date: march }).toJSON()},
+  { doc: new Entry('1pm-2pm work in April', { date: april }).toJSON()}
 ]}
 
 function getFakeDb() {
@@ -129,12 +133,11 @@ test('findEntries().exec() returns array of entries', t => {
   const today = moment().startOf('day').toArray()
   const yesterday = moment().endOf('day').toArray()
 
-  t.plan(3)
+  t.plan(2)
   new Query(fakeDb)
     .findEntries({ start: today, end: yesterday })
     .exec()
     .then(entries => {
-      t.equals(entries.length, 3, 'should only return three') 
       t.equals(entries[0].message, '1pm-2pm work', 'entries are on the list')
       t.ok(entries[0].duration.from, 'docs are converted to entry objects')
     })
@@ -169,7 +172,21 @@ test('findEntries().exec() filters by filter function', t => {
       t.equals(entries.length, 1, 'there is only one entry tagged #tag') 
       t.equals(entries[0].message, '2pm-3pm work #tag', 'check entry is tagged')
     })
+})
 
+test('findEntries().exec() filters by date function', t => {
+  const fakeDb = getFakeDb()
+  const stub = sinon.stub(fakeDb, 'query').resolves(results)
+  const filter = compileFilter('March 1 2015 - March 31 2015')
+
+  t.plan(2)
+  new Query(fakeDb)
+    .findEntries({filter})
+    .exec()
+    .then(entries => {
+      t.equals(entries.length, 1, 'there is only one entry in Mar 2015') 
+      t.equals(entries[0].message, '1pm-2pm work in March', 'check entry is from march')
+    })
 })
 
 
