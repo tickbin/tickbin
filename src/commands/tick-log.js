@@ -9,6 +9,7 @@ import db from '../db'
 import { parseDateRange } from '../query'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
+import compileFilter from 'tickbin-filter-parser'
 
 export default { builder, handler : log }
 
@@ -34,14 +35,21 @@ function builder(yargs) {
     default: 'text',
     type: 'string'
   })
+  .option('f', {
+    alias: 'filter',
+    describe: 'filter entries (e.g. #tag1 and #tag2 and May - Apr)',
+    type: 'string'
+  })
 }
 
 function log(argv) {
   let { start, end } = parseDateRange(argv.date)
   start = moment(start).toArray()
   end = moment(end).toArray()
+  const filter = argv.filter ? compileFilter(argv.filter) : null 
+  const opts = filter ? { filter } : { start, end, tags: argv.tag }
 
-  const query = new Query(db).findEntries({ start, end, tags: argv.tag })
+  const query = new Query(db).findEntries(opts)
 
   switch (argv.type) {
     case 'csv':
