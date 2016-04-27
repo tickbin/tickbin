@@ -1,4 +1,5 @@
 import chrono from 'chrono-node'
+import wholeMonth from 'chrono-refiner-wholemonth'
 import moment from 'moment'
 import _ from 'lodash'
 import Entry from './entry'
@@ -120,9 +121,12 @@ function hashTags (tags = []) {
  * }
  */
 function parseDateRange (range) {
+  const parser = new chrono.Chrono()
+  parser.refiners.push(wholeMonth)
+
   let days = parseInt(range)
   days = days >= 0 ? days : 6 // default 6 days
-  let dates = chrono.parse(range)[0] || [{}]
+  let dates = parser.parse(range)[0] || [{}]
   // by default, set the date range then check if chrono parsed anything good
   let start = moment().subtract(days, 'days').startOf('day').toDate()
   let end   = moment().endOf('day').toDate()

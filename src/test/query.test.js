@@ -237,12 +237,22 @@ test('hashTags() prepends # to tags', t => {
 })
 
 test('parseDateRange() returns start and end date', t => {
-
   const { start, end } = parseDateRange('Jan 1-31')
 
   t.equals(start.getMonth(), 0, 'start month is Jan')
   t.equals(start.getDate(), 1, 'start day is 1')
   t.equals(end.getMonth(), 0, 'end month is Jan')
+  t.equals(end.getDate(), 31, 'end day is 31')
+
+  t.end()
+})
+
+test('parseDateRange() handles whole months', t => {
+  const { start, end } = parseDateRange('Apr - May')
+
+  t.equals(start.getMonth(), 3, 'start month is Apr')
+  t.equals(start.getDate(), 1, 'start day is 1')
+  t.equals(end.getMonth(), 4, 'end month is May')
   t.equals(end.getDate(), 31, 'end day is 31')
 
   t.end()
