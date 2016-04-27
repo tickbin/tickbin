@@ -12,15 +12,11 @@ export default class Entry {
       date = new Date(), 
     } = opts
 
-    let {
-      user = null
-    } = config
-
     if (typeof message === 'object')
       return this._fromJSON(message)
 
-    this.user = user
     this.version = version
+    this.user = config.user
     this._id = shortid.generate()
     this.message = message
     this.ref = date
