@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import prompt from 'prompt'
 import config from '../config'
 import server from '../server'
-import { setConfig } from '../config'
+import { storeUser } from '../config'
 
 export default { builder, handler : login }
 
@@ -27,9 +27,9 @@ function login(argv) {
 
     if (err) 
       throw err
-    
+ 
     server.login(user)
-    .then(user => setConfig('remote', user.couch.url))
+    .then(user => storeUser(user))
     .then(() => console.log('You\'re logged in now'))
     .catch(err => console.error(chalk.bgRed('Error'), err.data))
   })
