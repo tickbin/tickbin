@@ -34,10 +34,13 @@ display time entries
 ```shell
 tick log # shows you all your time entries for the past week
 tick log -d "jan1-31" # shows you time entries for Jan 1-31
+tick log -d "jan - feb" # shows you time entries for Jan 1-Feb 28
 tick log -d2 # shows you time entries for the past 2 days (not including today - so 3 days)
 tick log -d0 # shows you time entries for today
-tick log -t lunch # display entries tagged with #lunch
-tick log -t dev design # display entries tagged with #dev AND #design
+tick log -f "#lunch" # display entries tagged with #lunch
+tick log -f "#dev and #bug" # display entries tagged with #dev AND #bug
+tick log -f "#dev or #design" # display entries tagged with #dev or #design
+tick log -f "#dev and not #nobill" # display entries tagged with #dev but not #nobill
 ```
 
 ### `tick rm` 

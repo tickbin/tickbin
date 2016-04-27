@@ -16,13 +16,10 @@ export default { builder, handler : log }
 function builder(yargs) {
   return yargs
   .usage('Usage: tick log [options]')
-  .example('tick log -t sometag -d "Jan 1-31"')
+  .example('tick log -f "#tag1 and #tag2" -d "Jan 1-31"')
+  .example('tick log -f "#tag1 or #tag2" -d "Jan - Feb"')
+  .example('tick log -f "#tag1 and not #tag2" -d "Jan - Feb"')
   .example('tick log -d "Jan 1-15" -f csv')
-  //.option('t', {
-    //alias: 'tag',
-    //describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
-    //type: 'array'
-  //})
   .option('d', {
     alias: 'date',
     describe: 'date range to filter entries or number of days to display',
