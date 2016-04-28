@@ -2,7 +2,7 @@ import Duration from 'duration'
 import shortid from 'shortid'
 import moment from 'moment'
 import parser from './parser'
-import config from './config'
+import conf from './config'
 
 export const hashPattern = /(#\w+[\w-]*)/g
 export const version = 4
@@ -16,7 +16,7 @@ export default class Entry {
       return this._fromJSON(message)
 
     this.version = version
-    this.user = config.user
+    this.user = conf.user
     this._id = shortid.generate()
     this.message = message
     this.ref = date
