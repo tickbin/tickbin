@@ -28,7 +28,7 @@ function login(argv) {
       throw err
  
     server.login(user)
-    .then(user => account.set(user))
+    .then(user => account.setUser(user))
     .then(() => console.log('You\'re logged in now'))
     .catch(err => console.error(chalk.bgRed('Error'), err.data))
   })

@@ -29,9 +29,8 @@ function register(yargs) {
     if (err)
       throw err
     
-
     server.register(user)
-    .then(user => account.set(user))
+    .then(user => account.setUser(user))
     .then(() => console.log(chalk.bgGreen('Account created')))
     .catch(handleError)
   })
