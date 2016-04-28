@@ -1,8 +1,7 @@
 import chalk from 'chalk'
 import prompt from 'prompt'
-import config from '../config'
 import server from '../server'
-import { storeUser } from '../config'
+import account from '../account'
 
 export default { builder, handler : register }
 
@@ -32,7 +31,7 @@ function register(yargs) {
     
 
     server.register(user)
-    .then(user => storeUser(user))
+    .then(user => account.set(user))
     .then(() => console.log(chalk.bgGreen('Account created')))
     .catch(handleError)
   })

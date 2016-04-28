@@ -17,11 +17,6 @@ if (!fs.existsSync(conf.local)) {
   mkdirp.sync(conf.local)
 }
 
-function storeUser(user) {
-  storeKey('remote', user.couch.url)
-  storeKey('user', user.id)
-}
-
 function storeKey(key, value) {
   let parsed = {}
   let target = conf.config || untildify('~/.tickbinrc')
@@ -30,5 +25,5 @@ function storeKey(key, value) {
   fs.writeFileSync(target, ini.stringify(parsed))
 }
 
-export { storeUser }
+export { storeKey }
 export default conf
