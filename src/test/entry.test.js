@@ -1,4 +1,5 @@
 import test from 'tape'
+import conf from '../config'
 import Entry, { version } from '../entry'
 import moment from 'moment'
 
@@ -87,6 +88,23 @@ test('passed reference date added to entry', t => {
   t.ok(moment(date).isSame(e.ref, 'second'), 'ref date is Jan 1')
   t.ok(json.ref, 'ref is set on json')
   t.ok(moment(date).isSame(json.ref, 'second'), 'json.ref date is Jan 1')
+  t.end()
+})
+
+test('current user added to entry', t => {
+  const userId = 'myUserId'
+  const oldUser = conf.user
+
+  conf.user = userId
+  const e1 = new Entry('8am-5pm working on things')
+
+  conf.user = undefined
+  const e2 = new Entry('8am-5pm working on things')
+
+  t.equals(e1.user, userId, 'logged in user is set to ID')
+  t.ok(!e2.user, 'anonymous user is set to undefined')
+
+  conf.user = oldUser
   t.end()
 })
 
