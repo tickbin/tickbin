@@ -174,22 +174,6 @@ test('findEntries().exec() filters by filter function', t => {
     })
 })
 
-test('findEntries().exec() filters by date function', t => {
-  const fakeDb = getFakeDb()
-  const stub = sinon.stub(fakeDb, 'query').resolves(results)
-  const filter = compileFilter('March 1 2015 - March 31 2015')
-
-  t.plan(2)
-  new Query(fakeDb)
-    .findEntries({filter})
-    .exec()
-    .then(entries => {
-      t.equals(entries.length, 1, 'there is only one entry in Mar 2015') 
-      t.equals(entries[0].message, '1pm-2pm work in March', 'check entry is from march')
-    })
-})
-
-
 test('findEntries().groupByDate().exec() returns expected entries', t => {
   const fakeDb = getFakeDb()
   const stub = sinon.stub(fakeDb, 'query').resolves(results)
