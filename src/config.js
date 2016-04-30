@@ -17,7 +17,7 @@ if (!fs.existsSync(conf.local)) {
   mkdirp.sync(conf.local)
 }
 
-function setConfig(key, value) {
+function storeKey(key, value) {
   let parsed = {}
   let target = conf.config || untildify('~/.tickbinrc')
   if (conf.config) parsed = ini.parse(fs.readFileSync(target, 'utf-8'))
@@ -25,5 +25,5 @@ function setConfig(key, value) {
   fs.writeFileSync(target, ini.stringify(parsed))
 }
 
-export { setConfig }
+export { storeKey }
 export default conf
