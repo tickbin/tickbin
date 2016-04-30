@@ -15,9 +15,11 @@ function setUser(user) {
   return db.allDocs(opts)
   .then(rslt => {
     const author = { user: user.id }
-    const docs = _.map(rslt.rows, 'doc')
-    const oldDocs = _.reject(docs, author)
-    const newDocs = oldDocs.map(e => _.merge(e, author))
-    return db.bulkDocs(newDocs)
+    const docs = _.chain(rslt.rows)
+      .map('doc')
+      .reject(author)
+      .map(e => _.merge(e, author))
+      .value()
+    return db.bulkDocs(docs)
   })
 }
