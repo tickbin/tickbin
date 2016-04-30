@@ -6,7 +6,7 @@ import _ from 'lodash'
 import db from './db'
 import { storeKey } from './config'
 
-export default { setUser }
+export default setUser
 
 function setUser(user) {
   storeKey('user', user.id)

@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import prompt from 'prompt'
 import server from '../server'
-import account from '../account'
+import setUser from '../account'
 
 export default { builder, handler : login }
 
@@ -28,7 +28,7 @@ function login(argv) {
       throw err
  
     server.login(user)
-    .then(user => account.setUser(user))
+    .then(user => setUser(user))
     .then(() => console.log('You\'re logged in now'))
     .catch(err => console.error(chalk.bgRed('Error'), err.data))
   })
