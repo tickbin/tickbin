@@ -67,31 +67,6 @@ test('findEntries() prepares the query', t => {
   t.equals(qOpts.endkey, start, 'endkey is the start date')
 })
 
-test('findEntries() accepts filter OR start, end, tags', t => {
-  const q = new Query(getFakeDb)
-  const start = moment().startOf('day').toArray()
-  const end = moment().endOf('day').toArray()
-  const tags = ['a']
-  const filter = function() {}
-
-  function findEverything () {
-    q.findEntries({start, end, tags, filter}) 
-  }
-
-  function findFilterOnly () {
-    q.findEntries({filter}) 
-  }
-
-  function findStartEndTags () {
-    q.findEntries({start, end, tags}) 
-  }
-
-  t.plan(3)
-  t.throws(findEverything, 'do not call with start, end, tags AND filter')
-  t.doesNotThrow(findFilterOnly, 'you can call with just filter')
-  t.doesNotThrow(findStartEndTags, 'you can call with just start, end, tags')
-})
-
 test('exec() returns a promise', t => {
   const fakeDb = getFakeDb()
   const stub = sinon.stub(fakeDb, 'query').resolves(results)
@@ -140,22 +115,6 @@ test('findEntries().exec() returns array of entries', t => {
     .then(entries => {
       t.equals(entries[0].message, '1pm-2pm work', 'entries are on the list')
       t.ok(entries[0].duration.from, 'docs are converted to entry objects')
-    })
-})
-
-test('findEntries().exec() filters by tag', t => {
-  const fakeDb = getFakeDb()
-  const stub = sinon.stub(fakeDb, 'query').resolves(results)
-  const today = moment().startOf('day').toArray()
-  const yesterday = moment().endOf('day').toArray()
-
-  t.plan(2)
-  new Query(fakeDb)
-    .findEntries({ start: today, end: yesterday, tags: ['tag']})
-    .exec()
-    .then(entries => {
-      t.equals(entries.length, 1, 'there is only one entry tagged')
-      t.equals(entries[0].message, '2pm-3pm work #tag', 'check entry is tagged')
     })
 })
 

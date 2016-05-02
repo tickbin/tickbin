@@ -32,18 +32,14 @@ export default class Query {
   /**
    * prepare query to find entries by date range filtered by tags
    */
-  findEntries ({start = null, end = null, tags = [], filter = null} = {}) {
-    if ((start || end || tags.length >= 1) && filter) {
-      throw new Error(`You can not call findEntries with filter and 
-        (start or end or tags)`) 
-    } 
+  findEntries ({start = null, end = null, filter = null} = {}) {
     this._queryOpts.descending = true
     if (end)
       this._queryOpts.startkey = end
     if (start)
       this._queryOpts.endkey = start
 
-    filter = filter || _.partial(filterTags, hashTags(tags))
+    filter = filter || function() { return true }
 
     this._chain = this._chain.filter(filter)
       .map(doc => Entry.fromJSON(doc))

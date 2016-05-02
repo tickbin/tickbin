@@ -44,7 +44,7 @@ function log(argv) {
   start = moment(start).toArray()
   end = moment(end).toArray()
   const filter = argv.filter ? compileFilter(argv.filter) : null 
-  const opts = filter ? { filter } : { start, end, tags: argv.tag }
+  const opts = { start, end, filter }
 
   const query = new Query(db).findEntries(opts)
 
