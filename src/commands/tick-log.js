@@ -9,29 +9,32 @@ import db from '../db'
 import { parseDateRange } from '../query'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
+import compileFilter from 'tickbin-filter-parser'
 
 export default { builder, handler : log }
 
 function builder(yargs) {
   return yargs
   .usage('Usage: tick log [options]')
-  .example('tick log -t sometag -d "Jan 1-31"')
+  .example('tick log -f "#tag1 and #tag2" -d "Jan 1-31"')
+  .example('tick log -f "#tag1 or #tag2" -d "Jan - Feb"')
+  .example('tick log -f "#tag1 and not #tag2" -d "Jan - Feb"')
   .example('tick log -d "Jan 1-15" -f csv')
-  .option('t', {
-    alias: 'tag',
-    describe: 'tags to filter as boolean AND (no # symbol - e.g. -t tag1 tag2)',
-    type: 'array'
-  })
   .option('d', {
     alias: 'date',
     describe: 'date range to filter entries or number of days to display',
     type: 'string'
   })
+  .option('t', {
+    alias: 'type',
+    describe: 'type to display data in',
+    choices: ['csv', 'json', 'text'],
+    default: 'text',
+    type: 'string'
+  })
   .option('f', {
-    alias: 'format',
-    describe: 'format to display data in',
-    choices: ['csv', 'group', 'json'],
-    default: 'group',
+    alias: 'filter',
+    describe: 'filter entries (e.g. #tag1 and #tag2)',
     type: 'string'
   })
 }
@@ -40,10 +43,12 @@ function log(argv) {
   let { start, end } = parseDateRange(argv.date)
   start = moment(start).toArray()
   end = moment(end).toArray()
+  const filter = argv.filter ? compileFilter(argv.filter) : null 
+  const opts = { start, end, filter }
 
-  const query = new Query(db).findEntries({ start, end, tags: argv.tag })
+  const query = new Query(db).findEntries(opts)
 
-  switch (argv.format) {
+  switch (argv.type) {
     case 'csv':
       query.exec()
         .then(writeCSV)
@@ -53,7 +58,7 @@ function log(argv) {
       query.exec()
         .then(writeJSON)
       break
-    case 'group':
+    case 'text':
     default:
       query.groupByDate()
         .exec()

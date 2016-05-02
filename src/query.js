@@ -1,4 +1,5 @@
 import chrono from 'chrono-node'
+import wholeMonth from 'chrono-refiner-wholemonth'
 import moment from 'moment'
 import _ from 'lodash'
 import Entry from './entry'
@@ -31,12 +32,16 @@ export default class Query {
   /**
    * prepare query to find entries by date range filtered by tags
    */
-  findEntries ({start = null, end = null, tags = []} = {}) {
+  findEntries ({start = null, end = null, filter = null} = {}) {
     this._queryOpts.descending = true
-    this._queryOpts.startkey = end
-    this._queryOpts.endkey = start
+    if (end)
+      this._queryOpts.startkey = end
+    if (start)
+      this._queryOpts.endkey = start
 
-    this._chain = this._chain.filter(_.partial(filterTags, hashTags(tags)))
+    filter = filter || function() { return true }
+
+    this._chain = this._chain.filter(filter)
       .map(doc => Entry.fromJSON(doc))
 
     return this 
@@ -112,9 +117,12 @@ function hashTags (tags = []) {
  * }
  */
 function parseDateRange (range) {
+  const parser = new chrono.Chrono()
+  parser.refiners.push(wholeMonth)
+
   let days = parseInt(range)
   days = days >= 0 ? days : 6 // default 6 days
-  let dates = chrono.parse(range)[0] || [{}]
+  let dates = parser.parse(range)[0] || [{}]
   // by default, set the date range then check if chrono parsed anything good
   let start = moment().subtract(days, 'days').startOf('day').toDate()
   let end   = moment().endOf('day').toDate()

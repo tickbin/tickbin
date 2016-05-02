@@ -10,13 +10,18 @@ import { hashTags } from '../query'
 import { parseDateRange } from '../query'
 import { groupEntries } from '../query'
 import Query from '../query'
+import compileFilter from 'tickbin-filter-parser'
 
 const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
+const march = moment(new Date('2015-03-15')).toDate()
+const april = moment(new Date('2015-04-15')).toDate()
 const results = { rows:[
   { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
   { doc: new Entry('2pm-3pm work #tag', { date: today }).toJSON()},
-  { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
+  { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()},
+  { doc: new Entry('1pm-2pm work in March', { date: march }).toJSON()},
+  { doc: new Entry('1pm-2pm work in April', { date: april }).toJSON()}
 ]}
 
 function getFakeDb() {
@@ -103,29 +108,27 @@ test('findEntries().exec() returns array of entries', t => {
   const today = moment().startOf('day').toArray()
   const yesterday = moment().endOf('day').toArray()
 
-  t.plan(3)
+  t.plan(2)
   new Query(fakeDb)
     .findEntries({ start: today, end: yesterday })
     .exec()
     .then(entries => {
-      t.equals(entries.length, 3, 'should only return three') 
       t.equals(entries[0].message, '1pm-2pm work', 'entries are on the list')
       t.ok(entries[0].duration.from, 'docs are converted to entry objects')
     })
 })
 
-test('findEntries().exec() filters by tag', t => {
+test('findEntries().exec() filters by filter function', t => {
   const fakeDb = getFakeDb()
   const stub = sinon.stub(fakeDb, 'query').resolves(results)
-  const today = moment().startOf('day').toArray()
-  const yesterday = moment().endOf('day').toArray()
+  const filter = compileFilter('#tag')
 
   t.plan(2)
   new Query(fakeDb)
-    .findEntries({ start: today, end: yesterday, tags: ['tag']})
+    .findEntries({filter})
     .exec()
     .then(entries => {
-      t.equals(entries.length, 1, 'there is only one entry tagged')
+      t.equals(entries.length, 1, 'there is only one entry tagged #tag') 
       t.equals(entries[0].message, '2pm-3pm work #tag', 'check entry is tagged')
     })
 })
@@ -177,12 +180,22 @@ test('hashTags() prepends # to tags', t => {
 })
 
 test('parseDateRange() returns start and end date', t => {
-
   const { start, end } = parseDateRange('Jan 1-31')
 
   t.equals(start.getMonth(), 0, 'start month is Jan')
   t.equals(start.getDate(), 1, 'start day is 1')
   t.equals(end.getMonth(), 0, 'end month is Jan')
+  t.equals(end.getDate(), 31, 'end day is 31')
+
+  t.end()
+})
+
+test('parseDateRange() handles whole months', t => {
+  const { start, end } = parseDateRange('Apr - May')
+
+  t.equals(start.getMonth(), 3, 'start month is Apr')
+  t.equals(start.getDate(), 1, 'start day is 1')
+  t.equals(end.getMonth(), 4, 'end month is May')
   t.equals(end.getDate(), 31, 'end day is 31')
 
   t.end()
