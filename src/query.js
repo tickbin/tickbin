@@ -3,6 +3,8 @@ import wholeMonth from 'chrono-refiner-wholemonth'
 import moment from 'moment'
 import _ from 'lodash'
 import Entry from './entry'
+import parseFilter from 'tickbin-filter-parser'
+import jouch from 'jouch'
 
 export { filterTags }
 export { hashTags }
@@ -26,22 +28,32 @@ export default class Query {
     this._queryOpts = { include_docs: true }
     this._rows = []
     this._chain = _.chain(this._rows) // start a chain on rows
-      .map('doc') // each rows has a doc 
+      //.map('doc') // each rows has a doc 
   }
 
   /**
    * prepare query to find entries by date range filtered by tags
    */
-  findEntries ({start = null, end = null, filter = null} = {}) {
-    this._queryOpts.descending = true
-    if (end)
-      this._queryOpts.startkey = end
-    if (start)
-      this._queryOpts.endkey = start
+  findEntries (query) {
+    //this._queryOpts.descending = true
+    //if (end)
+      //this._queryOpts.startkey = end
+    //if (start)
+      //this._queryOpts.endkey = start
 
-    filter = filter || function() { return true }
+    //filter = filter || function() { return true }
+    this._find = {
+      selector: jouch(parseFilter(query)),
+      //selector: {
+        //"$and": [
+          //{ "startArr": { "$gte": [ 2016, 4, 0, 0, 0, 0, 0 ]}},
+          //{ "startArr": { "$lte": [ 2016, 5, 0, 0, 0, 0, 0 ]}} 
+        //] 
+      //},
+      sort: ['startArr'] 
+    }
 
-    this._chain = this._chain.filter(filter)
+    this._chain = this._chain//.filter(filter)
       .map(doc => Entry.fromJSON(doc))
 
     return this 
@@ -79,11 +91,11 @@ export default class Query {
     
     this.isExecuted = true
 
-    return this.db.query(this._index, this._queryOpts)
+    return this.db.find(this._find)
       .then(results => {
-        this._rows.push(...results.rows) // this._chain is tied to this._rows 
+        this._rows.push(...results.docs) // this._chain is tied to this._rows 
         return this._chain.value() // execute the chain
-      })
+      }).catch(err => console.log('err', err))
   }
 }
 

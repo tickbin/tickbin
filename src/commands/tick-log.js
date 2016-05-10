@@ -43,10 +43,8 @@ function log(argv) {
   let { start, end } = parseDateRange(argv.date)
   start = moment(start).toArray()
   end = moment(end).toArray()
-  const filter = argv.filter ? compileFilter(argv.filter) : null 
-  const opts = { start, end, filter }
 
-  const query = new Query(db).findEntries(opts)
+  const query = new Query(db).findEntries(argv.filter)
 
   switch (argv.type) {
     case 'csv':
