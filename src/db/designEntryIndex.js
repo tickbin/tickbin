@@ -1,4 +1,5 @@
 import util from 'util'
+import Promise from 'lie'
 
 export default createIndex
 //export const ddoc = {
@@ -53,8 +54,29 @@ export const idxVersion = {
   }
 }
 
+export const idxStartTag = {
+  index: {
+    fields: ['startArr', 'tags'] 
+  }
+}
+
+export const idxTags = {
+  index: {
+    fields: ['tags'] 
+  }
+}
+
 function createIndex (db) {
-  return db.createIndex(idxStart)
-    .then(() => db.createIndex(idxVersion))
+  const promise = Promise.all([
+    db.createIndex(idxStart),
+    db.createIndex(idxVersion),
+    //db.createIndex(idxStartTag),
+    //db.createIndex(idxTags)
+  ]).then(indexes => {
+    db.emit('indexed', indexes)  
+    return indexes
+  })
+
+  return promise
 }
 
