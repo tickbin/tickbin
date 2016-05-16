@@ -92,8 +92,8 @@ function writeGroup(results) {
 
 function writeDefaultMessage(arr) {
   if (arr.length === 0)
-    console.log('You have no recent entries in tickbin. '
-      + 'Create some with \'tick log\'')
+    console.log('No entries found in tickbin. '
+      + 'Create some with \'tick commit\'')
 }
 
 function writeEntryGroup(group) {
