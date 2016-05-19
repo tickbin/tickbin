@@ -9,7 +9,6 @@ import db from '../db'
 import { parseDateRange } from '../query'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
-import compileFilter from 'tickbin-filter-parser'
 
 export default { builder, handler : log }
 
