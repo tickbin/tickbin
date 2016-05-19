@@ -35,8 +35,8 @@ export default class Query {
    */
   findEntries (query) {
     // setup a default date query term for the last 7 days
-    const defStart = moment().subtract(7, 'days').startOf('day').utc().toArray()
-    const defEnd = moment().endOf('day').utc().toArray()
+    const defStart = JSON.stringify(moment().subtract(7, 'days').startOf('day').utc().toArray())
+    const defEnd = JSON.stringify(moment().endOf('day').utc().toArray())
     const defaultDatesQuery = `(startArr >= ${defStart} and startArr <= ${defEnd})`
 
     const {parsed, dates} = parseFilter(query)
