@@ -34,7 +34,18 @@ export default class Query {
    * prepare query to find entries by date range filtered by tags
    */
   findEntries (query) {
-    const selector = jouch(parseFilter(query))
+    // setup a default date query term for the last 7 days
+    const defStart = moment().subtract(7, 'days').startOf('day').utc().toArray()
+    const defEnd = moment().endOf('day').utc().toArray()
+    const defaultDatesQuery = `(startArr >= ${defStart} and startArr <= ${defEnd})`
+
+    const {parsed, dates} = parseFilter(query)
+
+    // check if the query has dates and build the query expression
+    const queryDates = dates[0] ? dates[0].text : defaultDatesQuery 
+    const reconstructed = `(${parsed}) and ${queryDates}`
+
+    const selector = jouch(reconstructed)
     this._find = {
       selector,
       sort: ['startArr'] 
