@@ -43,7 +43,7 @@ export default class Query {
 
     // check if the query has dates and build the query expression
     const queryDates = dates[0] ? dates[0].text : defaultDatesQuery 
-    const reconstructed = `(${parsed}) and ${queryDates}`
+    const reconstructed = parsed ? `(${parsed}) and ${queryDates}` : queryDates
 
     const selector = jouch(reconstructed)
     this._find = {
