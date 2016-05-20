@@ -33,7 +33,7 @@ export default class Query {
   /**
    * prepare query to find entries by date range filtered by tags
    */
-  findEntries (query) {
+  findEntries (query = '') {
     // setup a default date query term for the last 7 days
     const defStart = JSON.stringify(moment().subtract(7, 'days').startOf('day').utc().toArray())
     const defEnd = JSON.stringify(moment().endOf('day').utc().toArray())
