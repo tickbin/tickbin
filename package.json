@@ -10,7 +10,7 @@
     "clean": "rm -rf build/*",
     "build": "babel src --source-maps --out-dir build/",
     "watch": "babel src --source-maps --watch --out-dir build/",
-    "test": "tape -r source-map-support/register 'build/test/**/*.js' | tap-spec",
+    "test": "env TZ='Etc/UTC' tape -r source-map-support/register 'build/test/**/*.js' | tap-spec",
     "lint": "eslint 'src/**/*.js'",
     "prebuild": "npm run clean",
     "prewatch": "npm run clean"
