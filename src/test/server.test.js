@@ -20,7 +20,7 @@ test('logging into the server', t => {
   let n = nock(config.api)
   .post('/token', { username, password })
   .reply(200, { token })
-  .get('/user')
+  .get('/user/self')
   .reply(200, { username, password, couch })
 
   let p = server.login({ username, password })
