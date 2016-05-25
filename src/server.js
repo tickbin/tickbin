@@ -15,7 +15,7 @@ function login(user) {
     let headers = { Authorization : token }
     let options = { headers }
     return axios
-    .get(server + 'user', options)
+    .get(server + 'user/self', options)
     .then(res => res.data)
   })
 }
