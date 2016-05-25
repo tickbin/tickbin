@@ -25,7 +25,6 @@ export default class Query {
     this.db = db
     this.isExecuted = false
     this._index = 'entry_index/by_start'
-    this._queryOpts = { include_docs: true }
     this._docs = []
     this._chain = _.chain(this._docs) // start a chain on docs
   }

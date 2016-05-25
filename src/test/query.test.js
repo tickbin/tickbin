@@ -54,17 +54,18 @@ test('query functions are fluent', t => {
 
 test('findEntries() prepares the query', t => {
   const q = new Query(getFakeDb)
-  const start = moment().startOf('day').toArray() 
-  const end = moment().endOf('day').toArray() 
-  const tags = ['a']
-  q.findEntries({ start, end, tags })
-  const qOpts = q._queryOpts
+  const filter = "#a May"
+  q.findEntries(filter)
+  const qFind = q._find
+  const selector = { '$and': [
+    {'tags': {'$elemMatch': {'$eq': '#a'}}},
+    {'startArr': {'$gte': [2016,4,1,0,0,0,0]}},
+    {'startArr': {'$lte': [2016,4,31,23,59,59,999]}} 
+  ]}
 
-  t.plan(4)
-  t.ok(qOpts.descending, 'return results descending')
-  t.ok(qOpts.include_docs, 'include the docs in results')
-  t.equals(qOpts.startkey, end, 'startkey is the end date')
-  t.equals(qOpts.endkey, start, 'endkey is the start date')
+  t.plan(2)
+  t.deepEquals(qFind.sort, ['startArr'], 'always sort by startArr')
+  t.deepEquals(qFind.selector, selector)
 })
 
 test('exec() returns a promise', t => {
