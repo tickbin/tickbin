@@ -30,7 +30,13 @@ function login(argv) {
     server.login(user)
     .then(user => setUser(user))
     .then(() => console.log('You\'re logged in now'))
-    .catch(err => console.error(chalk.bgRed('Error'), err.data))
+    .catch(err => console.error(formatError(err)))
   })
 
+}
+
+function formatError(err) {
+  const prefix = chalk.bgRed('Error')
+  const message = err.data || err.message
+  return prefix + ' ' + message
 }
