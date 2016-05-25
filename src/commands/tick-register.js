@@ -32,14 +32,14 @@ function register(yargs) {
     server.register(user)
     .then(user => setUser(user))
     .then(() => console.log(chalk.bgGreen('Account created')))
-    .catch(handleError)
+    .catch(err => console.error(formatError(err)))
   })
 }
 
-function handleError(err) {
-  let message = err.data
-  if (message instanceof Array) {
-    message = message.join('\n')
-  } 
-  console.error(chalk.bgRed('Error'), message)
+function formatError(err) {
+  const prefix = chalk.bgRed('Error')
+  const message = err.data || err.message
+  const isArray = message instanceof Array
+  if (isArray) return prefix + ' ' + message.join('\n')
+  else return prefix + ' ' + message
 }
