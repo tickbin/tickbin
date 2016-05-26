@@ -2,6 +2,10 @@
 
 /**
  * Simple command to delete all indexes in pouch
+ *
+ * This is intended as a developer utility helpful when developing new indexes.
+ * It will find all the indexes, delete them, and then rerun the
+ * createEntryIndex function that installs indexes
  */
 
 import db from '../db'
