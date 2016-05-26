@@ -22,7 +22,7 @@ db.on('indexed', () => {
     return createEntryIndex(db)
   })
   .then(indexes => {
-    console.log('re-indexed');
+    console.log('re-indexed')
     return db.getIndexes()
   })
   .then(indexes => {
