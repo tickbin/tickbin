@@ -6,7 +6,6 @@ import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
-import { parseDateRange } from '../query'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
 
@@ -15,15 +14,10 @@ export default { builder, handler : log }
 function builder(yargs) {
   return yargs
   .usage('Usage: tick log [options]')
-  .example('tick log -f "#tag1 and #tag2" -d "Jan 1-31"')
-  .example('tick log -f "#tag1 or #tag2" -d "Jan - Feb"')
-  .example('tick log -f "#tag1 and not #tag2" -d "Jan - Feb"')
-  .example('tick log -d "Jan 1-15" -f csv')
-  .option('d', {
-    alias: 'date',
-    describe: 'date range to filter entries or number of days to display',
-    type: 'string'
-  })
+  .example('tick log -f "#tag1 and #tag2 Jan 1-31"')
+  .example('tick log -f "#tag1 or #tag2 Jan - Feb"')
+  .example('tick log -f "#tag1 and not #tag2 Jan - Feb"')
+  .example('tick log -f "Jan 1-15" -f csv')
   .option('t', {
     alias: 'type',
     describe: 'type to display data in',
@@ -39,10 +33,6 @@ function builder(yargs) {
 }
 
 function log(argv) {
-  let { start, end } = parseDateRange(argv.date)
-  start = moment(start).toArray()
-  end = moment(end).toArray()
-
   const query = new Query(db).findEntries(argv.filter)
 
   switch (argv.type) {

@@ -8,7 +8,6 @@ import jouch from 'jouch'
 
 export { filterTags }
 export { hashTags }
-export { parseDateRange }
 
 /**
  * Prepare queries on Entries and execute them
@@ -115,30 +114,4 @@ function filterTags (tags = [], doc) {
  */
 function hashTags (tags = []) {
   return tags.map(tag => tag.startsWith('#') ? tag : '#' + tag)
-}
-
-/**
- * helper function to parse a string date range into start and end dates
- * uses chrono to compute the range defaults to
- * { 
- *   start: 6daysago,
- *   end: today
- * }
- */
-function parseDateRange (range) {
-  const parser = new chrono.Chrono()
-  parser.refiners.push(wholeMonth)
-
-  let days = parseInt(range)
-  days = days >= 0 ? days : 6 // default 6 days
-  let dates = parser.parse(range)[0] || [{}]
-  // by default, set the date range then check if chrono parsed anything good
-  let start = moment().subtract(days, 'days').startOf('day').toDate()
-  let end   = moment().endOf('day').toDate()
-  if (dates.start && dates.end) {
-    start = moment(dates.start.date()).startOf('day').toDate()
-    end   = moment(dates.end.date()).endOf('day').toDate()
-  }
-
-  return { start, end }
 }
