@@ -3,10 +3,11 @@ import wholeMonth from 'chrono-refiner-wholemonth'
 import moment from 'moment'
 import _ from 'lodash'
 import Entry from './entry'
+import parseFilter from 'tickbin-filter-parser'
+import jouch from 'jouch'
 
 export { filterTags }
 export { hashTags }
-export { parseDateRange }
 
 /**
  * Prepare queries on Entries and execute them
@@ -23,25 +24,32 @@ export default class Query {
     this.db = db
     this.isExecuted = false
     this._index = 'entry_index/by_start'
-    this._queryOpts = { include_docs: true }
-    this._rows = []
-    this._chain = _.chain(this._rows) // start a chain on rows
-      .map('doc') // each rows has a doc 
+    this._docs = []
+    this._chain = _.chain(this._docs) // start a chain on docs
   }
 
   /**
    * prepare query to find entries by date range filtered by tags
    */
-  findEntries ({start = null, end = null, filter = null} = {}) {
-    this._queryOpts.descending = true
-    if (end)
-      this._queryOpts.startkey = end
-    if (start)
-      this._queryOpts.endkey = start
+  findEntries (filter = '') {
+    // setup a default date filter term for the last 7 days
+    const defStart = JSON.stringify(moment().subtract(7, 'days').startOf('day').utc().toArray())
+    const defEnd = JSON.stringify(moment().endOf('day').utc().toArray())
+    const defaultDatesFilter = `(startArr >= ${defStart} and startArr <= ${defEnd})`
 
-    filter = filter || function() { return true }
+    const {parsed, dates} = parseFilter(filter)
 
-    this._chain = this._chain.filter(filter)
+    // check if the filter has dates and build the filter expression
+    const filterDates = dates[0] ? dates[0].text : defaultDatesFilter 
+    const reconstructed = parsed ? `(${parsed}) and ${filterDates}` : filterDates
+
+    const selector = jouch(reconstructed)
+    this._find = {
+      selector,
+      sort: ['startArr'] 
+    }
+
+    this._chain = this._chain//.filter(filter)
       .map(doc => Entry.fromJSON(doc))
 
     return this 
@@ -79,11 +87,11 @@ export default class Query {
     
     this.isExecuted = true
 
-    return this.db.query(this._index, this._queryOpts)
+    return this.db.find(this._find)
       .then(results => {
-        this._rows.push(...results.rows) // this._chain is tied to this._rows 
+        this._docs.push(...results.docs) // this._chain is tied to this._docs 
         return this._chain.value() // execute the chain
-      })
+      }).catch(err => console.log('err', err))
   }
 }
 
@@ -106,30 +114,4 @@ function filterTags (tags = [], doc) {
  */
 function hashTags (tags = []) {
   return tags.map(tag => tag.startsWith('#') ? tag : '#' + tag)
-}
-
-/**
- * helper function to parse a string date range into start and end dates
- * uses chrono to compute the range defaults to
- * { 
- *   start: 6daysago,
- *   end: today
- * }
- */
-function parseDateRange (range) {
-  const parser = new chrono.Chrono()
-  parser.refiners.push(wholeMonth)
-
-  let days = parseInt(range)
-  days = days >= 0 ? days : 6 // default 6 days
-  let dates = parser.parse(range)[0] || [{}]
-  // by default, set the date range then check if chrono parsed anything good
-  let start = moment().subtract(days, 'days').startOf('day').toDate()
-  let end   = moment().endOf('day').toDate()
-  if (dates.start && dates.end) {
-    start = moment(dates.start.date()).startOf('day').toDate()
-    end   = moment(dates.end.date()).endOf('day').toDate()
-  }
-
-  return { start, end }
 }

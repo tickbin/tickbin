@@ -14,19 +14,20 @@ import compileFilter from 'tickbin-filter-parser'
 
 const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
-const march = moment(new Date('2015-03-15')).toDate()
-const april = moment(new Date('2015-04-15')).toDate()
-const results = { rows:[
-  { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
-  { doc: new Entry('2pm-3pm work #tag', { date: today }).toJSON()},
-  { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()},
-  { doc: new Entry('1pm-2pm work in March', { date: march }).toJSON()},
-  { doc: new Entry('1pm-2pm work in April', { date: april }).toJSON()}
+const march = moment(new Date('2016-03-15')).toDate()
+const april = moment(new Date('2016-04-15')).toDate()
+const results = { docs:[
+  new Entry('1pm-2pm work', { date: today }).toJSON(),
+  new Entry('2pm-3pm work #tag', { date: today }).toJSON(),
+  new Entry('1pm-2pm work', { date: yesterday }).toJSON(),
+  new Entry('1pm-2pm work in March', { date: march }).toJSON(),
+  new Entry('1pm-2pm work in April', { date: april }).toJSON()
 ]}
 
 function getFakeDb() {
   return {
-    query: function() {}
+    query: function() {},
+    find: function() {}
   }
 }
 
@@ -54,22 +55,23 @@ test('query functions are fluent', t => {
 
 test('findEntries() prepares the query', t => {
   const q = new Query(getFakeDb)
-  const start = moment().startOf('day').toArray() 
-  const end = moment().endOf('day').toArray() 
-  const tags = ['a']
-  q.findEntries({ start, end, tags })
-  const qOpts = q._queryOpts
+  const filter = "#a May"
+  q.findEntries(filter)
+  const qFind = q._find
+  const selector = { '$and': [
+    {'tags': {'$elemMatch': {'$eq': '#a'}}},
+    {'startArr': {'$gte': [2016,4,1,0,0,0,0]}},
+    {'startArr': {'$lte': [2016,4,31,23,59,59,999]}} 
+  ]}
 
-  t.plan(4)
-  t.ok(qOpts.descending, 'return results descending')
-  t.ok(qOpts.include_docs, 'include the docs in results')
-  t.equals(qOpts.startkey, end, 'startkey is the end date')
-  t.equals(qOpts.endkey, start, 'endkey is the start date')
+  t.plan(2)
+  t.deepEquals(qFind.sort, ['startArr'], 'always sort by startArr')
+  t.deepEquals(qFind.selector, selector)
 })
 
 test('exec() returns a promise', t => {
   const fakeDb = getFakeDb()
-  const stub = sinon.stub(fakeDb, 'query').resolves(results)
+  const stub = sinon.stub(fakeDb, 'find').resolves(results)
   const q = new Query(fakeDb)
   const res = q.exec()
 
@@ -79,38 +81,35 @@ test('exec() returns a promise', t => {
 
 test('exec() triggers executed flag', t => {
   const fakeDb = getFakeDb()
-  const stub = sinon.stub(fakeDb, 'query').resolves(results)
+  const stub = sinon.stub(fakeDb, 'find').resolves(results)
   const q = new Query(fakeDb)
 
   t.plan(3)
   t.notOk(q.isExecuted, 'query has not yet been executed')
   q.exec()
   t.ok(q.isExecuted, 'query has been executed')
-  t.throws(q.exec.bind(q), /already been executed/, 'calling exec() again throws error')
+  t.throws(() => q.exec(), /already been executed/, 'calling exec() again throws error')
 })
 
 test('exec() calls query with prepared query options', t => {
   const fakeDb = getFakeDb()
-  const stub = sinon.stub(fakeDb, 'query').resolves(results)
+  const stub = sinon.stub(fakeDb, 'find').resolves(results)
   const q = new Query(fakeDb)
   q.exec()
-  const qOpts = q._queryOpts
+  const qFind = q._findOpts
 
-  t.plan(3)
-  t.ok(stub.calledOnce, 'query is called once')
-  t.equals(stub.getCall(0).args[0], 'entry_index/by_start', 'query agains index')
-  t.equals(stub.getCall(0).args[1], qOpts, 'calls db.query with prepared options')
+  t.plan(2)
+  t.ok(stub.calledOnce, 'find is called once')
+  t.equals(stub.getCall(0).args[0], qFind, 'calls db.find with prepared options')
 })
 
 test('findEntries().exec() returns array of entries', t => {
   const fakeDb = getFakeDb()
-  const stub = sinon.stub(fakeDb, 'query').resolves(results)
-  const today = moment().startOf('day').toArray()
-  const yesterday = moment().endOf('day').toArray()
+  const stub = sinon.stub(fakeDb, 'find').resolves(results)
 
   t.plan(2)
   new Query(fakeDb)
-    .findEntries({ start: today, end: yesterday })
+    .findEntries()
     .exec()
     .then(entries => {
       t.equals(entries[0].message, '1pm-2pm work', 'entries are on the list')
@@ -118,30 +117,13 @@ test('findEntries().exec() returns array of entries', t => {
     })
 })
 
-test('findEntries().exec() filters by filter function', t => {
-  const fakeDb = getFakeDb()
-  const stub = sinon.stub(fakeDb, 'query').resolves(results)
-  const filter = compileFilter('#tag')
-
-  t.plan(2)
-  new Query(fakeDb)
-    .findEntries({filter})
-    .exec()
-    .then(entries => {
-      t.equals(entries.length, 1, 'there is only one entry tagged #tag') 
-      t.equals(entries[0].message, '2pm-3pm work #tag', 'check entry is tagged')
-    })
-})
-
 test('findEntries().groupByDate().exec() returns expected entries', t => {
   const fakeDb = getFakeDb()
-  const stub = sinon.stub(fakeDb, 'query').resolves(results)
-  const today = moment().startOf('day').toArray()
-  const yesterday = moment().endOf('day').toArray()
+  const stub = sinon.stub(fakeDb, 'find').resolves(results)
   
   t.plan(4)
   new Query(fakeDb)
-    .findEntries({ start: today, end: yesterday })
+    .findEntries()
     .groupByDate()
     .exec()
     .then(groups => {
@@ -176,49 +158,5 @@ test('hashTags() prepends # to tags', t => {
   t.deepEquals(hashTags(['#a']), ['#a'], 'does not prepend if # already exists')
   t.deepEquals(hashTags(['#a', 'b']), ['#a', '#b'], 'prepends only tags without #')
 
-  t.end()
-})
-
-test('parseDateRange() returns start and end date', t => {
-  const { start, end } = parseDateRange('Jan 1-31')
-
-  t.equals(start.getMonth(), 0, 'start month is Jan')
-  t.equals(start.getDate(), 1, 'start day is 1')
-  t.equals(end.getMonth(), 0, 'end month is Jan')
-  t.equals(end.getDate(), 31, 'end day is 31')
-
-  t.end()
-})
-
-test('parseDateRange() handles whole months', t => {
-  const { start, end } = parseDateRange('Apr - May')
-
-  t.equals(start.getMonth(), 3, 'start month is Apr')
-  t.equals(start.getDate(), 1, 'start day is 1')
-  t.equals(end.getMonth(), 4, 'end month is May')
-  t.equals(end.getDate(), 31, 'end day is 31')
-
-  t.end()
-})
-
-test('parseDateRange() supports integers', t => {
-  const { start, end } = parseDateRange('2')
-  const before = moment().subtract(2, 'days')
-  const today = moment()
-
-  t.ok(before.isSame(start, 'day'), 'start is 2 days ago')
-  t.ok(today.isSame(end, 'day'), 'end is today')
-  
-  t.end()
-})
-
-test('parseDateRange() defaults to 6 days prior', t => {
-  const { start, end } = parseDateRange()
-  const before = moment().subtract(6, 'days')
-  const today = moment()
-
-  t.ok(before.isSame(start, 'day'), 'start is 6 days ago')
-  t.ok(today.isSame(end, 'day'), 'end is today')
-  
   t.end()
 })

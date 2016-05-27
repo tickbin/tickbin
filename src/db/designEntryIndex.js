@@ -1,36 +1,33 @@
-export default createIndex
-export const ddoc = {
-  _id: '_design/entry_index',
-  version: 2,
-  views: {
-    by_start: {
-      map: function(doc) {
-        emit(doc.startArr)
-      }.toString()
-    },
-    by_version: {
-      map: function(doc) {
-        
-        var version = 0
-        if (doc.version) { 
-          version = doc.version
-        }
+import util from 'util'
+import Promise from 'lie'
 
-        emit(version)
-      }.toString()  
-    }
+export default createIndex
+
+// TODO: We can not use a tags index here because it causes an error
+// and is run in memory anyways
+// see: https://github.com/nolanlawson/pouchdb-find/issues/153
+// and: https://github.com/nolanlawson/pouchdb-find/issues/116 
+export const idxStart  = {
+  index: {
+    fields: ['startArr']
   }
 }
 
-function createIndex (dbName) {
-  return dbName.get(ddoc._id)
-  .then(doc => { 
-    if (doc.version >= ddoc.version) return doc
-
-    let newddoc = ddoc
-    newddoc._rev = doc._rev
-    return dbName.put(newddoc) 
-  }, err => {
-    return dbName.put(ddoc)
-  })
+export const idxVersion = {
+  index: {
+    fields: ['version'] 
+  }
 }
+
+function createIndex (db) {
+  const promise = Promise.all([
+    db.createIndex(idxStart),
+    db.createIndex(idxVersion)
+  ]).then(indexes => {
+    db.emit('indexed', indexes)  
+    return indexes
+  })
+
+  return promise
+}
+
