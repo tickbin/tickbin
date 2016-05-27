@@ -49,7 +49,7 @@ export default class Query {
       sort: ['startArr'] 
     }
 
-    this._chain = this._chain//.filter(filter)
+    this._chain = this._chain
       .map(doc => Entry.fromJSON(doc))
 
     return this 
