@@ -1,6 +1,3 @@
-import EventEmitter from 'events'
-import forward from 'forward-events'
-
 export default sync
 
 function sync (db, remote) {
