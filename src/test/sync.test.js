@@ -34,7 +34,9 @@ test('requires a db, dst', t => {
   t.throws(syncWithoutRemote, /provide a remote/, 'sync requires a remote')
 })
 
-test('return an event emitter', t => {
+// TODO: we likely don't need this test as we don't emit on the emitter
+// anywhere in the code base
+test.skip('return an event emitter', t => {
   const fakeDb = getFakeDb()
   sinon.stub(fakeDb, 'get').resolves()
   const evt = sync(fakeDb, 'remote')
@@ -43,7 +45,9 @@ test('return an event emitter', t => {
   t.ok(evt.emit, 'sync returns something with emit()')
 })
 
-test('tries to get last_sync doc', t => {
+// skipping last_sync related tests for now, we've removed this code
+// from sync
+test.skip('tries to get last_sync doc', t => {
   const fakeDb = getFakeDb()
   const stubGet = sinon.stub(fakeDb, 'get').resolves()
 
@@ -55,7 +59,9 @@ test('tries to get last_sync doc', t => {
   t.ok(getCall.calledWith('_local/last_sync'), 'tries to get last_sync')
 })
 
-test('if last_sync not found, put it', t => {
+// skipping last_sync related tests for now, we've removed this code
+// from sync
+test.skip('if last_sync not found, put it', t => {
   const fakeDb = getFakeDb()
   const stubGet = sinon.stub(fakeDb, 'get')
   const stubPut = sinon.stub(fakeDb, 'put').resolves()
@@ -72,7 +78,9 @@ test('if last_sync not found, put it', t => {
   })
 })
 
-test('syncs with last_sync info', t => {
+// skipping last_sync related tests for now, we've removed this code
+// from sync
+test.skip('syncs with last_sync info', t => {
   const fakeDb = getFakeDb()
   const stubGet = sinon.stub(fakeDb, 'get').resolves(last_sync)
   const stubSync = sinon.stub(fakeDb, 'sync')
@@ -89,7 +97,9 @@ test('syncs with last_sync info', t => {
   })
 })
 
-test('updates last_sync doc when complete', t => {
+// skipping last_sync related tests for now, we've removed this code
+// from sync
+test.skip('updates last_sync doc when complete', t => {
   const fakeDb = getFakeDb()
   const stubGet = sinon.stub(fakeDb, 'get').resolves(last_sync)
   const stubPut = sinon.stub(fakeDb, 'put')
