@@ -1,6 +1,7 @@
 import db from '../db'
 import conf from '../config'
 import dbsync from '../sync'
+import chalk from 'chalk'
 
 export default { builder, handler : sync }
 
@@ -20,7 +21,7 @@ function sync(argv) {
 
 function handleErr(err) {
   let msg = 'Could not sync with remote CouchDB:'
-  console.error(chalk.bgRed('error'), msg, err.message)
+  console.error(chalk.bgRed('error'), msg, err.doc.id, err.doc.message, err.doc.reason)
 }
 
 function showSync(info) {
