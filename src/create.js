@@ -1,5 +1,6 @@
-import Entry from './entry'
+import Entry from 'tickbin-entry-parser'
 import chalk from 'chalk'
+import conf from './config'
 
 export default createEntry
 
@@ -7,7 +8,7 @@ function createEntry (db, message, opts = {}) {
   if (!db) throw new Error('Please provide a couchdb instance')
   if (!message) throw new Error('Please provide a message')
 
-  let entry = new Entry(message, opts)
+  let entry = new Entry(conf.user, message, opts)
 
   if (!entry.duration) {
     const err = 'You must specify a time in your message.'

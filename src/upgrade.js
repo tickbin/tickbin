@@ -1,5 +1,5 @@
 import moment from 'moment'
-import Entry from './entry'
+import Entry from 'tickbin-entry-parser'
 import _ from 'lodash'
 
 export { map0to1 }
@@ -37,7 +37,7 @@ function map0to1 (doc) {
     return doc
 
   const date = moment(doc.from).toDate()
-  const e = new Entry(doc.message, { date })
+  const e = new Entry(doc.user, doc.message, { date })
   let newDoc = {}
   Object.assign(newDoc, doc)
 
@@ -51,7 +51,7 @@ function map1to2 (doc) {
     return doc
 
   const date = moment(doc.from).toDate()
-  const e = new Entry(doc.message, { date })
+  const e = new Entry(doc.user, doc.message, { date })
   let newDoc = {}
   Object.assign(newDoc, doc)
 
