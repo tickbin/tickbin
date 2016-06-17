@@ -47,9 +47,9 @@ export default class Entry {
   setDates(opts) {
     this.hasDates = true
     this.start = opts.start
-    this.startArr = moment(this.start).toArray()
+    this.startArr = moment(this.start).utc().toArray()
     this.end = opts.end
-    this.endArr = moment(this.end).toArray()
+    this.endArr = moment(this.end).utc().toArray()
     this.time = opts.text
     this.duration = new Duration(this.start, this.end)
   }

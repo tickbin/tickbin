@@ -219,8 +219,8 @@ test('toJSON() returns a json obj', t => {
   t.equals(json._id, e._id, '_id')
   t.equals(json.version, version, 'version')
   t.deepEquals(json.tags, [...e.tags], 'tags array')
-  t.ok(moment(json.startArr).isSame(json.start), 'start and startArr are same date')
-  t.ok(moment(json.endArr).isSame(json.end), 'end and endArr are same date')
+  t.ok(moment.utc(json.startArr).isSame(json.start), 'start and startArr are same date')
+  t.ok(moment.utc(json.endArr).isSame(json.end), 'end and endArr are same date')
   t.ok(json.startArr instanceof Array, 'startArr is an array')
   t.ok(json.endArr instanceof Array, 'endArr is an array')
 
