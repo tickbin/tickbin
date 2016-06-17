@@ -1,8 +1,7 @@
 import chrono from 'chrono-node'
-import wholeMonth from 'chrono-refiner-wholemonth'
 import moment from 'moment'
 import _ from 'lodash'
-import Entry from './entry'
+import Entry from 'tickbin-entry-parser'
 import parseFilter from 'tickbin-filter-parser'
 import jouch from 'jouch'
 

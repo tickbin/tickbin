@@ -2,7 +2,7 @@ import test from 'tape'
 import sinon from 'sinon'
 import promised from 'sinon-as-promised'
 import moment from 'moment'
-import Entry from '../entry'
+import Entry from 'tickbin-entry-parser'
 import removeEntries from '../remove'
 import _ from 'lodash'
 import { writeRemove } from '../commands/output'
@@ -10,9 +10,9 @@ import { writeRemove } from '../commands/output'
 const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
 const rows = [
-  { doc: new Entry('1pm-2pm work', { date: today }).toJSON()},
-  { doc: new Entry('2pm-3pm work #tag', { date: today }).toJSON()},
-  { doc: new Entry('1pm-2pm work', { date: yesterday }).toJSON()}
+  { doc: new Entry(undefined, '1pm-2pm work', { date: today }).toJSON()},
+  { doc: new Entry(undefined, '2pm-3pm work #tag', { date: today }).toJSON()},
+  { doc: new Entry(undefined, '1pm-2pm work', { date: yesterday }).toJSON()}
 ]
 
 function getFakeDb() {
