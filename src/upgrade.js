@@ -6,27 +6,30 @@ export { map0to1 }
 export { map1to2 }
 export { map2to3 }
 export { map3to4 }
+export { map4to5 }
 
 export default upgrade
 
-function upgrade (db, start = 0, end = 2) {
+function upgrade (db, start = 0, end = 4) {
   if (!db) throw new Error('Please provide a couchdb instance')
 
-  return db.query('entry_index/by_version', {
-    startkey: start,
-    endkey: end,
-    include_docs: true 
+  return db.find({
+    selector: {
+      version: { "$gte": start },
+      version: { "$lte": end }
+    }
   })
   .then(res => {
-    let newDocs = _.chain(res.rows)
-      .map('doc')
+    let newDocs = _.chain(res.docs)
       .map(map0to1)
       .map(map1to2)
       .map(map2to3)
       .map(map3to4)
+      .map(map4to5)
       .value()
     return db.bulkDocs(newDocs)
   })
+  .catch(err => console.error(err))
 }
 
 function map0to1 (doc) {
@@ -88,6 +91,20 @@ function map3to4 (doc) {
 
   newDoc.ref = moment(doc.start).toDate()
   newDoc.version = 4
+
+  return newDoc
+}
+
+function map4to5 (doc) {
+  if (doc.version >= 5)
+    return doc
+
+  let newDoc = {}
+  Object.assign(newDoc, doc)
+
+  newDoc.startArr = moment(newDoc.start).utc().toArray()
+  newDoc.endArr   = moment(newDoc.end).utc().toArray()
+  newDoc.version = 5
 
   return newDoc
 }

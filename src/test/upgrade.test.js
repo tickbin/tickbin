@@ -6,14 +6,15 @@ import { map0to1 } from '../upgrade'
 import { map1to2 } from '../upgrade'
 import { map2to3 } from '../upgrade'
 import { map3to4 } from '../upgrade'
+import { map4to5 } from '../upgrade'
 import upgrade from '../upgrade'
 
-var rows = [
-  { doc: { from: new Date(), message: '1pm-2pm work'} },
-  { doc: { from: new Date(), message: '1pm-2pm work'} }
+var docs = [
+  { from: new Date(), message: '1pm-2pm work'},
+  { from: new Date(), message: '1pm-2pm work'}
 ]
 var fakeDb = {
-  query: function() {},
+  find: function() {},
   bulkDocs: function() {}
 }
 
@@ -30,13 +31,13 @@ test('upgrade requires a db', t => {
   t.throws(upgradeWithoutDb, /provide a couchdb/, 'upgrade requires a db')
 })
 
-test('upgrade calls query', t => {
-  const stubQuery = sinon.stub(fakeDb, 'query').resolves(rows)
+test('upgrade calls find', t => {
+  const stubFind = sinon.stub(fakeDb, 'find').resolves(docs)
   const stubBulkDocs = sinon.stub(fakeDb, 'bulkDocs').resolves()
 
   t.plan(2)
   upgrade(fakeDb).then( () => {
-    t.ok(stubQuery.calledOnce, 'query called once')
+    t.ok(stubFind.calledOnce, 'query called once')
     t.ok(stubBulkDocs.calledOnce, 'bulkDocs called once')
   })
 })
@@ -97,6 +98,39 @@ test('map3to4', t => {
 
   t.equals(v4.version, 4, 'sets version to 4')
   t.equals(v4.ref.toString(), v3.start.toString(), 'ref is set to start')
+
+  t.end()
+})
+
+test('map4to5', t => {
+  const v4 = {
+    "start": "2016-05-27T22:45:00.000Z",
+    "startArr": [
+      2016,
+      4,
+      27,
+      15,
+      45,
+      0,
+      0
+    ],
+    "end": "2016-05-28T00:00:00.000Z",
+    "endArr": [
+      2016,
+      4,
+      27,
+      17,
+      0,
+      0,
+      0
+    ]
+  }
+
+  const v5 = map4to5(v4)
+
+  t.equals(v5.version, 5, 'sets version to 5')
+  t.equals(v5.startArr[3], 22, 'set startArr to UTC')
+  t.equals(v5.endArr[3], 0, 'set endArr to UTC')
 
   t.end()
 })
