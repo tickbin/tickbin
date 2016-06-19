@@ -1,5 +1,6 @@
 [![Build Status](https://semaphoreci.com/api/v1/jonotron/tickbin/branches/master/shields_badge.svg)](https://semaphoreci.com/jonotron/tickbin)
 [![dependency stats](https://david-dm.org/tickbin/tickbin.svg)](https://david-dm.org/tickbin/tickbin)
+[![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
 
 # tickbin
 
