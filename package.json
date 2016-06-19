@@ -12,6 +12,8 @@
     "watch": "babel src --source-maps --watch --out-dir build/",
     "test": "env TZ='Etc/UTC' tape -r source-map-support/register 'build/test/**/*.js' | tap-spec",
     "lint": "eslint 'src/**/*.js'",
+    "release": "standard-version",
+    "prepublish": "npm run build",
     "prebuild": "npm run clean",
     "prewatch": "npm run clean"
   },
@@ -37,6 +39,7 @@
     "sinon": "^1.17.3",
     "sinon-as-promised": "^4.0.0",
     "source-map-support": "^0.4.0",
+    "standard-version": "^2.3.1",
     "tap-spec": "^4.1.0",
     "tape": "^4.5.1"
   },
