@@ -115,14 +115,4 @@ remote=http://user:pass@host:port/dbname
 
 Run `tick sync` in order to sync your database with your remote server.
 
-## Building
-
-To build the application:
-
-```bash
-$ npm install
-$ npm run build
-$ ./build/tick --help
-```
-
 Copyright (©) 2016 MemoryLeaf Media Inc.
