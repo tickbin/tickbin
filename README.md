@@ -1,5 +1,6 @@
 [![Build Status](https://semaphoreci.com/api/v1/jonotron/tickbin/branches/master/shields_badge.svg)](https://semaphoreci.com/jonotron/tickbin)
 [![dependency stats](https://david-dm.org/tickbin/tickbin.svg)](https://david-dm.org/tickbin/tickbin)
+[![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
 
 # tickbin
 
@@ -113,15 +114,5 @@ remote=http://user:pass@host:port/dbname
 ```
 
 Run `tick sync` in order to sync your database with your remote server.
-
-## Building
-
-To build the application:
-
-```bash
-$ npm install
-$ npm run build
-$ ./build/tick --help
-```
 
 Copyright (©) 2016 MemoryLeaf Media Inc.
