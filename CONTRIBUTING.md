@@ -23,7 +23,28 @@ Please be descriptive in your PR descriptions and ensure that only one feature
 or fix is included in a PR. Use the [conventional changelog](https://github.com/conventional-changelog/standard-version#commit-message-convention-at-a-glance)
 standard for your pull request title and description.
 
-We will squash your commits.
+_patches:_
+
+    git commit -a -m "fix(parsing): fixed a bug in our parser"
+
+_features:_
+
+    git commit -a -m "feat(parser): we now have a parser \o/"
+
+_breaking changes:_
+
+    git commit -a -m "feat(new-parser): introduces a new parsing library
+    BREAKING CHANGE: new library does not support foo-construct"
+
+_other changes:_
+
+You decide, e.g., docs, chore, etc.
+
+    git commit -a -m "docs: fixed up the docs a bit"
+    git commit -a -m "chore"
+
+For a more detailed description of changelog conventions see
+https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md
 
 ## Releasing
 
