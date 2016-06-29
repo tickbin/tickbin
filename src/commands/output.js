@@ -18,7 +18,7 @@ function writeSaved (doc) {
 function writeRemove (doc) {
   const entry = Entry.fromJSON(doc)
   const { detailed } = getOutputs(entry)
-  console.log(chalk.bgRed('-'), detailed)
+  console.log(chalk.red('-'), detailed)
 }
 
 function getOutputs(entry) {
