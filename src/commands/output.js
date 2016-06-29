@@ -12,7 +12,7 @@ export {getOutputs as getOutputs}
 function writeSaved (doc) {
   const entry = Entry.fromJSON(doc)
   const { detailed } = getOutputs(entry)
-  console.log(chalk.bgGreen('+'), detailed)
+  console.log(chalk.green('+'), detailed)
 }
 
 function writeRemove (doc) {
