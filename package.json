@@ -59,7 +59,7 @@
     "pouchdb-find": "^0.10.2",
     "prompt": "^1.0.0",
     "rc": "^1.1.1",
-    "tickbin-entry-parser": "0.0.3",
+    "tickbin-entry-parser": "0.0.4",
     "tickbin-filter-parser": "0.0.3",
     "untildify": "^3.0.2",
     "yargs": "^4.6.0"
