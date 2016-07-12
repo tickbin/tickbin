@@ -1,4 +1,4 @@
-import Entry from 'tickbin-entry-parser'
+import { Entry } from 'tickbin-parser'
 import chalk from 'chalk'
 import conf from './config'
 

@@ -1,7 +1,7 @@
 import chrono from 'chrono-node'
 import moment from 'moment'
 import _ from 'lodash'
-import Entry from 'tickbin-entry-parser'
+import { Entry } from 'tickbin-parser'
 import parseFilter from 'tickbin-filter-parser'
 import jouch from 'jouch'
 

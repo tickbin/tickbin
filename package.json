@@ -20,7 +20,7 @@
   "contributors": [
     "Jonathan Bowers <jonotron@gmail.com>",
     "Chad Fawcett <me@chadf.ca>",
-    "Christopher Foster <chris.james.foster@gmail.com>"
+    "Chris Foster <chris.james.foster@gmail.com>"
   ],
   "license": "AGPL-3.0",
   "repository": {
@@ -59,7 +59,7 @@
     "pouchdb-find": "^0.10.2",
     "prompt": "^1.0.0",
     "rc": "^1.1.1",
-    "tickbin-entry-parser": "0.0.4",
+    "tickbin-parser": "0.0.2",
     "tickbin-filter-parser": "0.0.3",
     "untildify": "^3.0.2",
     "yargs": "^4.6.0"

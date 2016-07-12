@@ -2,7 +2,7 @@ import moment from 'moment'
 import chalk from 'chalk'
 import format from '../time'
 import pad from 'pad/lib/colors'
-import Entry from 'tickbin-entry-parser'
+import { Entry } from 'tickbin-parser'
 import { hashPattern } from 'tickbin-entry-parser'
 
 export { writeSaved }
