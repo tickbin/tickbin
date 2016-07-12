@@ -1,5 +1,5 @@
 import moment from 'moment'
-import Entry from 'tickbin-entry-parser'
+import { Entry } from 'tickbin-parser'
 import _ from 'lodash'
 
 export { map0to1 }

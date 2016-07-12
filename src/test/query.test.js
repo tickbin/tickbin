@@ -1,7 +1,7 @@
 import test from 'tape'
 import moment from 'moment'
 import _ from 'lodash'
-import Entry from 'tickbin-entry-parser'
+import { Entry } from 'tickbin-parser'
 import sinon from 'sinon'
 import promised from 'sinon-as-promised'
 
@@ -16,12 +16,12 @@ const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
 const march = moment(new Date('2016-03-15')).toDate()
 const april = moment(new Date('2016-04-15')).toDate()
-const results = { docs:[
-  new Entry(undefined, '1pm-2pm work', { date: today }).toJSON(),
-  new Entry(undefined, '2pm-3pm work #tag', { date: today }).toJSON(),
-  new Entry(undefined, '1pm-2pm work', { date: yesterday }).toJSON(),
-  new Entry(undefined, '1pm-2pm work in March', { date: march }).toJSON(),
-  new Entry(undefined, '1pm-2pm work in April', { date: april }).toJSON()
+const results = { docs: [
+  new Entry(undefined, '1pm-2pm work', { date: today }).toObject(),
+  new Entry(undefined, '2pm-3pm work #tag', { date: today }).toObject(),
+  new Entry(undefined, '1pm-2pm work', { date: yesterday }).toObject(),
+  new Entry(undefined, '1pm-2pm work in March', { date: march }).toObject(),
+  new Entry(undefined, '1pm-2pm work in April', { date: april }).toObject()
 ]}
 
 function getFakeDb() {

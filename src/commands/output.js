@@ -2,21 +2,22 @@ import moment from 'moment'
 import chalk from 'chalk'
 import format from '../time'
 import pad from 'pad/lib/colors'
-import Entry from 'tickbin-entry-parser'
-import { hashPattern } from 'tickbin-entry-parser'
+import { Entry } from 'tickbin-parser'
 
 export { writeSaved }
 export { writeRemove }
 export {getOutputs as getOutputs}
 
-function writeSaved (doc) {
-  const entry = Entry.fromJSON(doc)
+const hashPattern = /(#\w+[\w-]*)/g
+
+function writeSaved(doc) {
+  const entry = Entry.fromObject(doc)
   const { detailed } = getOutputs(entry)
   console.log(chalk.green('+'), detailed)
 }
 
-function writeRemove (doc) {
-  const entry = Entry.fromJSON(doc)
+function writeRemove(doc) {
+  const entry = Entry.fromObject(doc)
   const { detailed } = getOutputs(entry)
   console.log(chalk.red('-'), detailed)
 }

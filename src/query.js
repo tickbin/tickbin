@@ -1,7 +1,7 @@
 import chrono from 'chrono-node'
 import moment from 'moment'
 import _ from 'lodash'
-import Entry from 'tickbin-entry-parser'
+import { Entry } from 'tickbin-parser'
 import parseFilter from 'tickbin-filter-parser'
 import jouch from 'jouch'
 
@@ -49,7 +49,7 @@ export default class Query {
     }
 
     this._chain = this._chain
-      .map(doc => Entry.fromJSON(doc))
+      .map(doc => Entry.fromObject(doc))
 
     return this 
   }

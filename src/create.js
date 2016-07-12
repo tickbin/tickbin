@@ -1,4 +1,4 @@
-import Entry from 'tickbin-entry-parser'
+import { Entry } from 'tickbin-parser'
 import chalk from 'chalk'
 import conf from './config'
 
@@ -16,7 +16,7 @@ function createEntry (db, message, opts = {}) {
     return new Promise((resolve, reject) => reject(err))
   }
 
-  const doc = entry.toJSON()
+  const doc = entry.toObject()
   return db.put(doc)
   .then(() => doc)
   .catch(err => {
