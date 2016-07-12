@@ -10,9 +10,9 @@ import { writeRemove } from '../commands/output'
 const today = moment().toDate()
 const yesterday = moment().subtract(1, 'day').toDate()
 const rows = [
-  { doc: new Entry(undefined, '1pm-2pm work', { date: today }).toJSON()},
-  { doc: new Entry(undefined, '2pm-3pm work #tag', { date: today }).toJSON()},
-  { doc: new Entry(undefined, '1pm-2pm work', { date: yesterday }).toJSON()}
+  { doc: new Entry(undefined, '1-2pm work', { date: today }).toObject() },
+  { doc: new Entry(undefined, '2-3pm work #tag', { date: today }).toObject() },
+  { doc: new Entry(undefined, '1-2pm work', { date: yesterday }).toObject() }
 ]
 
 function getFakeDb() {

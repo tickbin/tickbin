@@ -9,14 +9,14 @@ export { writeSaved }
 export { writeRemove }
 export {getOutputs as getOutputs}
 
-function writeSaved (doc) {
-  const entry = Entry.fromJSON(doc)
+function writeSaved(doc) {
+  const entry = Entry.fromObject(doc)
   const { detailed } = getOutputs(entry)
   console.log(chalk.green('+'), detailed)
 }
 
-function writeRemove (doc) {
-  const entry = Entry.fromJSON(doc)
+function writeRemove(doc) {
+  const entry = Entry.fromObject(doc)
   const { detailed } = getOutputs(entry)
   console.log(chalk.red('-'), detailed)
 }

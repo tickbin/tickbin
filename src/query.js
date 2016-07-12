@@ -49,7 +49,7 @@ export default class Query {
     }
 
     this._chain = this._chain
-      .map(doc => Entry.fromJSON(doc))
+      .map(doc => Entry.fromObject(doc))
 
     return this 
   }
