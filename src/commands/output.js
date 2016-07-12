@@ -3,11 +3,12 @@ import chalk from 'chalk'
 import format from '../time'
 import pad from 'pad/lib/colors'
 import { Entry } from 'tickbin-parser'
-import { hashPattern } from 'tickbin-entry-parser'
 
 export { writeSaved }
 export { writeRemove }
 export {getOutputs as getOutputs}
+
+const hashPattern = /(#\w+[\w-]*)/g
 
 function writeSaved(doc) {
   const entry = Entry.fromObject(doc)
