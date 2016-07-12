@@ -67,7 +67,7 @@ function writeCSV(results) {
 
 function writeJSON(results) {
   const out = results.map(tick => tick.toObject())
-  console.log(out)
+  console.log(JSON.stringify(out, null, 2))
   return results
 }
 
