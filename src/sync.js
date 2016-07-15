@@ -9,7 +9,10 @@ function sync (db, remote) {
       since: 0, 
       filter: filterUnsyncable
     },
-    pull: { since: 0 }
+    pull: {
+      since: 0,
+      filter: filterUnsyncable
+    }
   }
 
   const evt = db.sync(remote, opts)
