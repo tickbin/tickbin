@@ -18,7 +18,7 @@ function register(yargs) {
     { name : 'betaKey' }
   ]
 
-  prompt.message = ''
+  prompt.message = 'Registration currently requires a beta key while we are in testing. Sign up for the waiting list at https://tickbin.com\n'
   prompt.delimiter = ''
   prompt.start()
 
