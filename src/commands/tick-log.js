@@ -29,6 +29,10 @@ function builder(yargs) {
     describe: 'filter entries (e.g. #tag1 and #tag2)',
     type: 'string'
   })
+  .option('hide-details', {
+    describe: 'hide the entry details',
+    type: 'boolean'
+  })
 }
 
 function log(argv) {
@@ -48,8 +52,9 @@ function log(argv) {
     default:
       query.groupByDate()
         .exec()
-        .then(writeGroup)
+        .then(group => writeGroup(group, argv.hideDetails))
         .then(writeDefaultMessage)
+        .catch(console.error)
       break
   }
 }
@@ -71,8 +76,10 @@ function writeJSON(results) {
   return results
 }
 
-function writeGroup(results) {
-  _.each(results, writeEntryGroup)
+function writeGroup(results, hideDetails = false) {
+  results.forEach(r => {
+    writeEntryGroup(r, hideDetails) 
+  })
   return results
 }
 
@@ -82,9 +89,11 @@ function writeDefaultMessage(arr) {
       + 'Create some with \'tick commit\'')
 }
 
-function writeEntryGroup(group) {
+function writeEntryGroup(group, hideDetails = false) {
   const date = moment(group.date).format('ddd, MMM DD, YYYY')
   const duration = format(group.minutes)
   console.log(`${chalk.yellow(date)} ${duration}`)
-  group.ticks.forEach(t => { console.log(`${getOutputs(t).icon} ${getOutputs(t).simple}`) })
+  if (!hideDetails) {
+    group.ticks.forEach(t => { console.log(`${getOutputs(t).icon} ${getOutputs(t).simple}`) })
+  }
 }
