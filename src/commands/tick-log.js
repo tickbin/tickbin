@@ -52,8 +52,9 @@ function log(argv) {
     default:
       query.groupByDate()
         .exec()
-        .then(group => { writeGroup(group, argv.hideDetails) })
+        .then(group => writeGroup(group, argv.hideDetails))
         .then(writeDefaultMessage)
+        .catch(console.error)
       break
   }
 }
