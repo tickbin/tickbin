@@ -41,5 +41,5 @@ function getOutputs(entry) {
   const detailed = `${pad(id, 9)} ${pad(date, 9)} ${time} ${duration} ${msg}`
   const simple = `${pad(id, 9)} ${time} ${duration} ${msg}`
 
-  return {id, date, seconds, msg, tags, icon, detailed, simple}
+  return {id, date, seconds, msg, tags, detailed, simple}
 }
