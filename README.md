@@ -105,6 +105,8 @@ Local database path will default to `~/.tickbin`. If you would like to specify a
 local=~/custom/path
 ```
 
+If you're developing you can add a `.tickbinrc` file to your development directory.
+
 ## Remote sync
 
 To sync with a remote database, add the following to `~/.tickbinrc`:
