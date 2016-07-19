@@ -11,6 +11,9 @@ function builder(yargs) {
 
 function rm(argv) {
   argv._.shift()
+  if (argv._.length == 0) {
+    console.warn('No remove ID provided. Look for one in your \'tick log\'.')
+  }
   removeEntries(db, argv._)
   .then(docs => {
     docs.forEach(writeRemove)
