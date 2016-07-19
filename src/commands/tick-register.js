@@ -12,13 +12,15 @@ function builder(yargs) {
 
 function register(yargs) {
   let values = [
+    { name : 'betaKey' },
     { name : 'username' },
     { name : 'email' },
-    { name : 'password', hidden : true },
-    { name : 'betaKey' }
+    { name : 'password', hidden : true }
   ]
 
-  prompt.message = 'Registration currently requires a beta key while we are in testing. Sign up for the waiting list at https://tickbin.com\n'
+  prompt.message = 'Registration currently requires'
+  + ' a beta key while we are in testing. Sign up for'
+  + ' the waiting list at https://tickbin.com\n'
   prompt.delimiter = ''
   prompt.start()
 
