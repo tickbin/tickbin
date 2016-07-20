@@ -93,7 +93,10 @@ function writeEntryGroup(group, hideDetails = false) {
   const date = moment(group.date).format('ddd, MMM DD, YYYY')
   const duration = format(group.minutes)
   console.log(`${chalk.yellow(date)} ${duration}`)
+
   if (!hideDetails) {
-    group.ticks.forEach(t => { console.log(`${getOutputs(t).icon} ${getOutputs(t).simple}`) })
+    group.ticks.forEach(t => 
+    { console.log(` ${getOutputs(t).simple}`) })
   }
 }
+

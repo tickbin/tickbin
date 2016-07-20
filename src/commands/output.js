@@ -36,10 +36,8 @@ function getOutputs(entry) {
     .replace(timePattern, ' ')
     .trim()
   const tags = chalk.cyan([...entry.tags].join(' '))
-  const icon = chalk.gray(' ') // TODO: make this reflect sync state
-
   const detailed = `${pad(id, 9)} ${pad(date, 9)} ${time} ${duration} ${msg}`
   const simple = `${pad(id, 9)} ${time} ${duration} ${msg}`
 
-  return {id, date, seconds, msg, tags, icon, detailed, simple}
+  return {id, date, seconds, msg, tags, detailed, simple}
 }
