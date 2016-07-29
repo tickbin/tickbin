@@ -16,7 +16,7 @@ function builder(yargs) {
   .example('tick log -f "#tag1 and #tag2 Jan 1-31"')
   .example('tick log -f "#tag1 or #tag2 Jan - Feb"')
   .example('tick log -f "#tag1 and not #tag2 Jan - Feb"')
-  .example('tick log -f "Jan 1-15" -f csv')
+  .example('tick log -f "Jan 1-15" -t csv')
   .option('t', {
     alias: 'type',
     describe: 'type to display data in',
