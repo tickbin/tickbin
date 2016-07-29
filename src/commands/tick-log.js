@@ -62,6 +62,7 @@ function log(argv) {
       break
   }
 }
+
 function writeFilterError() {
   console.log('There was an error while parsing the filter. '
   + 'Here are some examples of a valid filter:'
@@ -70,6 +71,7 @@ function writeFilterError() {
   + '\n  tick log -f "#tag1 and not #tag2 Jan - Feb"'
   + '\n  tick log -f "Jan 1-15" -f csv"')
 }
+
 function writeCSV(results) {
   const data = _.map(results, t => {
     return _.omit(getOutputs(t), ['simple', 'detailed'])
