@@ -36,8 +36,12 @@ function builder(yargs) {
 }
 
 function log(argv) {
-  const query = new Query(db).findEntries(argv.filter)
-
+  let query
+  try {
+    query = new Query(db).findEntries(argv.filter)
+  } catch(e){
+    return writeFilterError()
+  }
   switch (argv.type) {
     case 'csv':
       query.exec()
@@ -58,7 +62,14 @@ function log(argv) {
       break
   }
 }
-
+function writeFilterError() {
+  console.log('There was an error while parsing the filter. '
+  + 'Here are some examples of a valid filter:'
+  + '\n  tick log -f "#tag1 and #tag2 Jan 1-31"'
+  + '\n  tick log -f "#tag1 or #tag2 Jan - Feb"'
+  + '\n  tick log -f "#tag1 and not #tag2 Jan - Feb"'
+  + '\n  tick log -f "Jan 1-15" -f csv"')
+}
 function writeCSV(results) {
   const data = _.map(results, t => {
     return _.omit(getOutputs(t), ['simple', 'detailed'])
