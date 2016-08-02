@@ -95,7 +95,7 @@ function writeJSON(results) {
 
 function writeGroup(results, hideDetails = false, hideSummary = false) {
   results.forEach(r => {
-    writeEntryGroup(r, hideDetails, hideSummary) 
+    writeEntryGroup(r, hideDetails, hideSummary)
   })
   return results
 }
@@ -109,14 +109,13 @@ function writeDefaultMessage(arr) {
 function writeEntryGroup(group, hideDetails = false, hideSummary = false) {
   const date = moment(group.date).format('ddd, MMM DD, YYYY')
   const duration = format(group.minutes)
-  
+
   if (!hideSummary) {
     console.log(`${chalk.yellow(date)} ${duration}`)
   }
-  
+
   if (!hideDetails) {
     group.ticks.forEach(t => console.log(`  ${getOutputs(t).simple}`))
   }
-  
+
 }
-  
