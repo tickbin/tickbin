@@ -114,7 +114,9 @@ function writeEntryGroup(group, hideDetails = false, hideSummary = false) {
     console.log(`${chalk.yellow(date)} ${duration}`)
   }
 
-  if (!hideDetails) {
+  if (hideSummary) {
+    group.ticks.forEach(t => console.log(` ${getOutputs(t).detailed}`))
+} else if (!hideDetails) {
     group.ticks.forEach(t => console.log(`  ${getOutputs(t).simple}`))
   }
 
