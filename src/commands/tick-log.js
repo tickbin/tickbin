@@ -33,6 +33,10 @@ function builder(yargs) {
     describe: 'hide the entry details',
     type: 'boolean'
   })
+  .option('hide-summary', {
+    describe: 'hide the daily summary',
+    type: 'boolean'
+  })
 }
 
 function log(argv) {
@@ -56,7 +60,7 @@ function log(argv) {
     default:
       query.groupByDate()
         .exec()
-        .then(group => writeGroup(group, argv.hideDetails))
+        .then(group => writeGroup(group, argv.hideDetails, argv.hideSummary))
         .then(writeDefaultMessage)
         .catch(console.error)
       break
@@ -89,9 +93,9 @@ function writeJSON(results) {
   return results
 }
 
-function writeGroup(results, hideDetails = false) {
+function writeGroup(results, hideDetails = false, hideSummary = false) {
   results.forEach(r => {
-    writeEntryGroup(r, hideDetails) 
+    writeEntryGroup(r, hideDetails, hideSummary)
   })
   return results
 }
@@ -102,13 +106,20 @@ function writeDefaultMessage(arr) {
       + 'Create some with \'tick commit\'')
 }
 
-function writeEntryGroup(group, hideDetails = false) {
+function writeEntryGroup(group, hideDetails = false, hideSummary = false) {
   const date = moment(group.date).format('ddd, MMM DD, YYYY')
   const duration = format(group.minutes)
-  console.log(`${chalk.yellow(date)} ${duration}`)
+
+  if (!hideSummary) {
+    console.log(`${chalk.yellow(date)} ${duration}`)
+  }
 
   if (!hideDetails) {
-    group.ticks.forEach(t => console.log(`  ${getOutputs(t).simple}`))
+    if (hideSummary) {
+      group.ticks.forEach(t => console.log(`${getOutputs(t).detailed}`))
+    } else {
+      group.ticks.forEach(t => console.log(`  ${getOutputs(t).simple}`))
+    }
   }
-}
 
+}
