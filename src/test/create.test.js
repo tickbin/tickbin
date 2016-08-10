@@ -63,7 +63,7 @@ test('createEntry resolves to created doc', t => {
 
   createEntry(fakeDb, message).then(doc => {
     t.plan(1)
-    t.equal(doc.message, message, 'createEntry resolved to created doc')
+    t.equal(doc.original, message, 'createEntry resolved to created doc')
   })
   .then(() => sandbox.restore())
 })
