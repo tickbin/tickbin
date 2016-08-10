@@ -112,7 +112,7 @@ test('findEntries().exec() returns array of entries', t => {
     .findEntries()
     .exec()
     .then(entries => {
-      t.equals(entries[0].message, '1pm-2pm work', 'entries are on the list')
+      t.equals(entries[0].original, '1pm-2pm work', 'entries are on the list')
       t.ok(entries[0].duration.from, 'docs are converted to entry objects')
     })
 })

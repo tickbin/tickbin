@@ -33,7 +33,6 @@ function getOutputs(entry) {
   const seconds = entry.duration.seconds
   const msg = entry.message
     .replace(hashPattern, chalk.cyan('$1'))
-    .replace(timePattern, ' ')
     .trim()
   const tags = chalk.cyan([...entry.tags].join(' '))
   const detailed = `${pad(id, 9)} ${pad(date, 9)} ${time} ${duration} ${msg}`
