@@ -7,6 +7,7 @@ import { map1to2 } from '../upgrade'
 import { map2to3 } from '../upgrade'
 import { map3to4 } from '../upgrade'
 import { map4to5 } from '../upgrade'
+import { map5to6 } from '../upgrade'
 import upgrade from '../upgrade'
 
 var docs = [
@@ -131,6 +132,23 @@ test('map4to5', t => {
   t.equals(v5.version, 5, 'sets version to 5')
   t.equals(v5.startArr[3], 22, 'set startArr to UTC')
   t.equals(v5.endArr[3], 0, 'set endArr to UTC')
+
+  t.end()
+})
+
+test('map5to6', t => {
+  const messageWithoutTime = 'did some #stuff'
+
+  const v5 = {
+    message: `1-2pm ${messageWithoutTime}`,
+    time: '1-2pm'
+  }
+
+  const v6 = map5to6(v5)
+
+  t.equals(v6.version, 6, 'sets version to 6')
+  t.equals(v6.original, v5.message, 'saves original message')
+  t.equals(v6.message, messageWithoutTime, 'saves message without time')
 
   t.end()
 })

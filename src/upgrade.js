@@ -7,10 +7,11 @@ export { map1to2 }
 export { map2to3 }
 export { map3to4 }
 export { map4to5 }
+export { map5to6 }
 
 export default upgrade
 
-function upgrade (db, start = 0, end = 4) {
+function upgrade (db, start = 0, end = 5) {
   if (!db) throw new Error('Please provide a couchdb instance')
 
   return db.find({
@@ -26,6 +27,7 @@ function upgrade (db, start = 0, end = 4) {
       .map(map2to3)
       .map(map3to4)
       .map(map4to5)
+      .map(map5to6)
       .value()
     return db.bulkDocs(newDocs)
   })
@@ -105,6 +107,24 @@ function map4to5 (doc) {
   newDoc.startArr = moment(newDoc.start).utc().toArray()
   newDoc.endArr   = moment(newDoc.end).utc().toArray()
   newDoc.version = 5
+
+  return newDoc
+}
+
+function map5to6 (doc) {
+  if (doc.version >= 6)
+    return doc
+
+  const timePattern = new RegExp(/\s*/.source + doc.time + /\s*/.source, 'g')
+
+  let newDoc = {}
+  Object.assign(newDoc, doc)
+
+  newDoc.original = newDoc.message
+  newDoc.message = newDoc.message
+  .replace(timePattern, ' ')
+  .trim()
+  newDoc.version = 6
 
   return newDoc
 }
