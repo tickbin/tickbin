@@ -32,5 +32,6 @@ function removeKey(key) {
   delete parsed[key]
   fs.writeFileSync(target, ini.stringify(parsed))
 }
+
 export { storeKey, removeKey }
 export default conf
