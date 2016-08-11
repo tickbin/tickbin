@@ -10,6 +10,7 @@ import rm       from './commands/tick-rm'
 import upgrade  from './commands/tick-upgrade'
 import sync     from './commands/tick-sync'
 import start    from './commands/tick-start'
+import stop     from './commands/tick-stop'
 
 yargs
 .usage('Usage: tick <command> [options]')
@@ -21,6 +22,7 @@ yargs
 .command('upgrade', 'upgrade your tickbin', upgrade)
 .command('sync', 'sync your database with remotes', sync)
 .command('start', 'start a timer', start)
+.command('stop', 'stop a timer', stop)
 .version('version', 'prints the current version of tickbin', manifest.version)
 .demand(1)
 .strict()
