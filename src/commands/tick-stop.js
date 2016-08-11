@@ -6,5 +6,5 @@ function builder(yargs) {
 }
 
 function stop(argv) {
-  console.log('Your timer has been stopped')
+  console.log('Stopping a timer')
 }
