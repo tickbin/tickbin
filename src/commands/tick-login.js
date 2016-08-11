@@ -2,6 +2,8 @@ import chalk from 'chalk'
 import prompt from 'prompt'
 import server from '../server'
 import setUser from '../account'
+import conf from '../config'
+import url from 'url'
 
 export default { builder, handler : login }
 
@@ -11,6 +13,13 @@ function builder(yargs) {
 }
 
 function login(argv) {
+  const parsedUrl = url.parse(conf.remote)
+  if (parsedUrl.hostname === 'couch.tickbin.com') {
+    return console.log('You are already logged in, type tick logout to logout')
+  } else if (parsedUrl.hostname) {
+    return console.log('You already have a custom remote set.')
+  }
+
   let values = [
     { name : 'username' },
     { name : 'password', hidden : true }
