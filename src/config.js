@@ -25,5 +25,13 @@ function storeKey(key, value) {
   fs.writeFileSync(target, ini.stringify(parsed))
 }
 
-export { storeKey }
+function removeKey(key) {
+  let parsed = {}
+  let target = conf.config || untildify('~/.tickbinrc')
+  if (conf.config) parsed = ini.parse(fs.readFileSync(target, 'utf-8'))
+  delete parsed[key]
+  fs.writeFileSync(target, ini.stringify(parsed))
+}
+
+export { storeKey, removeKey }
 export default conf
