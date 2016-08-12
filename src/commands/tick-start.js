@@ -17,7 +17,7 @@ function start(argv) {
   .then(
     //  If the timers document exists, pass it to saveTimer. Otherwise pass the
     //  defTimersDoc
-    t => saveTimer(t, argv._[1]),
+    timerDoc => saveTimer(timerDoc, argv._[1]),
     () => saveTimer(defTimerDoc, argv._[1])
   )
   .then(() => console.log('Started timer'))
