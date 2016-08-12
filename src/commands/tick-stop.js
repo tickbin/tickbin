@@ -29,8 +29,8 @@ function stopTimer(timersDoc) {
 
 function commitTimer(timer, message) {
   const dateFormat = 'MMM D h:mma'
-  const start = moment(timer).format(dateFormat)
+  const start = moment(timer.start).format(dateFormat)
   const stop = moment().format(dateFormat)
 
-  return createEntry(db, `${start} - ${stop} ${message}`)
+  return createEntry(db, `${start} - ${stop} ${message || timer.message}`)
 }
