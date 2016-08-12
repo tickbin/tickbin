@@ -17,7 +17,7 @@ function stop(argv) {
   .then(timersDoc => parseMessage(timersDoc, argv._[1]))
   .then(commitTimer)
   .then(writeSaved)
-  .catch(err => console.log(`Could not stop your timer\n${err.message}`))
+  .catch(err => console.log(`\nCould not stop your timer\n${err.message}`))
 }
 
 function parseMessage(timersDoc, newMessage) {
@@ -27,16 +27,15 @@ function parseMessage(timersDoc, newMessage) {
 
   if (!timer.message && !newMessage) {
     prompt.message = ''
-    prompt.delimeter = ''
+    prompt.delimiter = ''
     prompt.start()
     return new Promise((resolve, reject) => {
       prompt.get('message', (err, res) => {
         if (err && err.message === 'canceled')
-          throw { message: 'You canceled the stop command' }
+          return reject({ message: 'You canceled the stop command' })
 
-        if (err) {
-          throw err
-        }
+        if (err)
+          return reject(err)
 
         //  When parsing a single date it is always returned as 'start'. Renaming
         //  to 'end' here for clarity.
