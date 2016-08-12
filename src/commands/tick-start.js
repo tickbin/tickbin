@@ -1,3 +1,5 @@
+import { parser } from 'tickbin-parser'
+import { writeSavedTimer } from './output'
 import db from '../db'
 
 export default { builder, handler : start}
@@ -20,11 +22,11 @@ function start(argv) {
     timerDoc => saveTimer(timerDoc, argv._[1]),
     () => saveTimer(defTimerDoc, argv._[1])
   )
-  .then(() => console.log('Started timer'))
+  .then(writeSavedTimer)
   .catch(err => console.log(`Could not start your timer\n${err.message}`))
 }
 
-function saveTimer(timersDoc, message) {
+function saveTimer(timersDoc, originalMessage) {
   //  For now only allow one timer at a time
   if (timersDoc.timers.length > 0) {
     throw { message: 'You already have a timer running. You can run:\n'
@@ -32,9 +34,16 @@ function saveTimer(timersDoc, message) {
       + '  tick cancel-timer: to abort the timer' }
   }
 
-  const start = new Date()
+  let timer
+  if (originalMessage) {
+    const { start, message } = parser(originalMessage)
+    timer = { start: start || new Date(), message }
+  } else {
+    timer = { start: new Date() }
+  }
 
-  timersDoc.timers.push({ start, message })
+  timersDoc.timers.push(timer)
 
   return db.put(timersDoc)
+  .then(() => timer)
 }
