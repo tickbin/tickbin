@@ -1,4 +1,7 @@
+import moment from 'moment'
 import db from '../db'
+import createEntry from '../create'
+import { writeSaved } from './output'
 
 export default { builder, handler : stop}
 
@@ -19,6 +22,18 @@ function stopTimer(timersDoc) {
   if (!timer) return console.log('You do not have a timer started')
 
   db.put(timersDoc)
-  .then(() => console.log(`Stopped ${timer} timer`))
+  .then(() => commitTimer(timer))
   .catch(err => console.log(`Could not stop your timer\n${err.message}`))
+}
+
+function commitTimer(timer) {
+  const dateFormat = 'MMM D h:mma'
+  const start = moment(timer).format(dateFormat)
+  const stop = moment().format(dateFormat)
+  const message = 'entry made by a timer'
+
+  const commitMessage = `${start} - ${stop} ${message}`
+
+  createEntry(db, commitMessage)
+  .then(writeSaved)
 }
