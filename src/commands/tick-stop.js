@@ -13,7 +13,7 @@ function builder(yargs) {
 function stop(argv) {
   db.get('_local/timers')
   .then(stopTimer)
-  .then(commitTimer)
+  .then(t => commitTimer(t, argv._[1]))
   .then(writeSaved)
   .catch(err => console.log(`Could not stop your timer\n${err.message}`))
 }
@@ -27,13 +27,10 @@ function stopTimer(timersDoc) {
   .then(() => timer)
 }
 
-function commitTimer(timer) {
+function commitTimer(timer, message) {
   const dateFormat = 'MMM D h:mma'
   const start = moment(timer).format(dateFormat)
   const stop = moment().format(dateFormat)
-  const message = 'entry made by a timer'
 
-  const commitMessage = `${start} - ${stop} ${message}`
-
-  return createEntry(db, commitMessage)
+  return createEntry(db, `${start} - ${stop} ${message}`)
 }
