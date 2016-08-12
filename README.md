@@ -43,6 +43,26 @@ tick log -f "#dev and not #nobill" # entries tagged with #dev but not #nobill
 tick log -f "#dev or #design May - June" # #dev or #design from May to June
 ```
 
+### `tick start`
+
+start a timer
+
+```shell
+tick start # starts a timer for the current time
+tick start "8am" # starts a timer for 8am
+tick start "8am squashing some bugs #dev" # starts a timer for 8am and provides a message
+```
+
+### `tick stop`
+
+stop a timer and commit an entry
+
+```shell
+tick stop # stops a timer and creates an entry for the duration
+tick stop "10am" # stops a timer as of 10am
+tick stop "10am creating bugs :( #dev" # stops a timer as of 10 and provides a commit message
+```
+
 ### `tick rm` 
 
 remove a time entry
