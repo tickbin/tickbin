@@ -12,18 +12,19 @@ function builder(yargs) {
 
 function stop(argv) {
   db.get('_local/timers')
-  .then(timersDoc => stopTimer(timersDoc))
-  .catch(() => console.log('You do not have a timer started'))
+  .then(stopTimer)
+  .then(commitTimer)
+  .then(writeSaved)
+  .catch(err => console.log(`Could not stop your timer\n${err.message}`))
 }
 
 function stopTimer(timersDoc) {
   const timer = timersDoc.timers.pop()
 
-  if (!timer) return console.log('You do not have a timer started')
+  if (!timer) throw { message: 'You do not have a timer started' }
 
-  db.put(timersDoc)
-  .then(() => commitTimer(timer))
-  .catch(err => console.log(`Could not stop your timer\n${err.message}`))
+  return db.put(timersDoc)
+  .then(() => timer)
 }
 
 function commitTimer(timer) {
@@ -34,6 +35,5 @@ function commitTimer(timer) {
 
   const commitMessage = `${start} - ${stop} ${message}`
 
-  createEntry(db, commitMessage)
-  .then(writeSaved)
+  return createEntry(db, commitMessage)
 }
