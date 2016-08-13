@@ -7,6 +7,7 @@ import { Entry } from 'tickbin-parser'
 export { writeSaved }
 export { writeRemove }
 export { getOutputs }
+export { writeTimer }
 export { writeSavedTimer }
 export { writeRemoveTimer }
 export { getTimerOutput }
@@ -44,14 +45,19 @@ function getOutputs(entry) {
   return {id, date, seconds, msg, tags, detailed, simple}
 }
 
+function writeTimer(timer) {
+  const output = getTimerOutput(timer)
+  console.log(`◷ ${output}`)
+}
+
 function writeSavedTimer(timer) {
-  const clockIcon = chalk.green('◷')
+  const clockIcon = chalk.green('+ ◷')
   const output = getTimerOutput(timer)
   console.log(clockIcon, output)
 }
 
 function writeRemoveTimer(timer) {
-  const clockIcon = chalk.red('◷')
+  const clockIcon = chalk.red('- ◷')
   const output = getTimerOutput(timer)
   console.log(clockIcon, output)
 }
