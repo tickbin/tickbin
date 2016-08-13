@@ -65,5 +65,8 @@ function writeRemoveTimer(timer) {
 function getTimerOutput({ start, message = '' }) {
   const date = chalk.yellow(moment(start).format('ddd MMM DD'))
   const time = moment(start).format('hh:mma')
-  return `${pad(date, 9)} ${time} ${message}`
+  const msg = message
+    .replace(hashPattern, chalk.cyan('$1'))
+    .trim()
+  return `${pad(date, 9)} ${time} ${msg}`
 }
