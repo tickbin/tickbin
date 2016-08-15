@@ -63,6 +63,12 @@ tick stop "10am" # stops a timer as of 10am
 tick stop "10am creating bugs :( #dev" # stops a timer as of 10 and provides a commit message
 ```
 
+### `tick cancel-timer`
+
+```shell
+tick cancel-timer # cancels the current timer without creating an entry
+```
+
 ### `tick rm` 
 
 remove a time entry
