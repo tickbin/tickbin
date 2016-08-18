@@ -24,7 +24,7 @@ yargs
 .command('upgrade', 'upgrade your tickbin', upgrade)
 .command('sync', 'sync your database with remotes', sync)
 .command('start', 'start a timer', start)
-.command('stop', 'stop a timer', stop)
+.command('stop', 'stop a timer and commit entry', stop)
 .command('timer', 'list timer details', timer)
 .command('cancel-timer', 'cancel a timer', cancelTimer)
 .version('version', 'prints the current version of tickbin', manifest.version)

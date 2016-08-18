@@ -10,6 +10,9 @@ export default { builder, handler : stop}
 function builder(yargs) {
   return yargs
   .usage('Usage: tick stop')
+  .example('tick stop', 'stop timer for the current time')
+  .example('tick stop "10am"', 'stop timer for 10am')
+  .example('tick stop "10am creating bugs #dev"', 'stop timer for 10am and provide new commit message')
 }
 
 function stop(argv) {

@@ -11,7 +11,10 @@ const defTimersDoc = {
 
 function builder(yargs) {
   return yargs
-  .usage('Usage: tick start')
+  .usage('Usage: tick start [message]')
+  .example('tick start', 'start a timer for the current time')
+  .example('tick start "8am"', 'start a timer for 8am')
+  .example('tick start "8am squashing bugs #dev"', 'start a timer for 8am and provide a message for the commit')
 }
 
 function start(argv) {

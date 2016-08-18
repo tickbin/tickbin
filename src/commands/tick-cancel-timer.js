@@ -6,6 +6,7 @@ export default { builder, handler: cancelTimer }
 function builder(yargs) {
   return yargs
   .usage('Usage: tick cancel-timer')
+  .example('tick cancel-timer', 'cancels the current timer without commiting')
 }
 
 function cancelTimer() {
