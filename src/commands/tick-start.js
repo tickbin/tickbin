@@ -18,13 +18,17 @@ function builder(yargs) {
 }
 
 function start(argv) {
+  const message = argv._[1]
+
   db.get('_local/timers')
-  .then(
-    //  If the timers document exists, pass it to saveTimer. Otherwise pass the
-    //  defTimersDoc
-    timerDoc => saveTimer(timerDoc, argv._[1]),
-    () => saveTimer(defTimersDoc, argv._[1])
-  )
+  .then(timersDoc => saveTimer(timersDoc, message))
+  .catch(err => {
+    //  If the timersDoc doesn't exist, pass the defTimersDoc
+    if (err.name === 'not_found')
+      return saveTimer(defTimersDoc, message)
+    else
+      throw err
+  })
   .then(writeSavedTimer)
   .catch(err => console.error(`Could not start your timer\n${err.message}`))
 }
