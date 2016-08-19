@@ -20,7 +20,7 @@ function stop(argv) {
   .then(timersDoc => parseMessage(timersDoc, argv._[1]))
   .then(commitTimer)
   .then(writeSaved)
-  .catch(err => console.error(`\nCould not stop your timer\n${err.message}`))
+  .catch(err => console.error(`Could not stop your timer\n${err.message}`))
 }
 
 function parseMessage(timersDoc, newMessage) {
