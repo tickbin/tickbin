@@ -1,5 +1,6 @@
 import db from '../db'
 import { writeRemoveTimer } from './output'
+import { removeTimer } from '../timers'
 
 export default { builder, handler: cancel }
 
@@ -14,13 +15,4 @@ function cancel() {
   .then(removeTimer)
   .then(writeRemoveTimer)
   .catch(err => console.error(`Could not cancel your timer\n${err.message}`))
-}
-
-function removeTimer(timersDoc) {
-  const timer = timersDoc.timers.pop()
-
-  if (!timer) throw new Error('You do not have a timer started')
-
-  return db.put(timersDoc)
-  .then(() => timer)
 }

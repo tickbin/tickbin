@@ -1,5 +1,6 @@
 import db from '../db'
 import { writeTimer } from './output'
+import { getTimer } from '../timers'
 
 export default { builder, handler: timer }
 
@@ -13,12 +14,4 @@ function timer() {
   .then(getTimer)
   .then(writeTimer)
   .catch(err => console.log(`Could not list your timer\n${err.message}`))
-}
-
-function getTimer(timersDoc) {
-  const timer = timersDoc.timers[0]
-
-  if (!timer) throw new Error('You do not have a timer started')
-
-  return timer
 }
