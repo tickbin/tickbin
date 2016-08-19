@@ -18,7 +18,7 @@ function timer() {
 function getTimer(timersDoc) {
   const timer = timersDoc.timers[0]
 
-  if (!timer) throw { message: 'You do not have a timer started' }
+  if (!timer) throw new Error('You do not have a timer started')
 
   return timer
 }

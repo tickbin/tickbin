@@ -20,13 +20,13 @@ function stop(argv) {
   .then(timersDoc => parseMessage(timersDoc, argv._[1]))
   .then(commitTimer)
   .then(writeSaved)
-  .catch(err => console.log(`\nCould not stop your timer\n${err.message}`))
+  .catch(err => console.error(`\nCould not stop your timer\n${err.message}`))
 }
 
 function parseMessage(timersDoc, newMessage) {
   const timer = timersDoc.timers.pop()
 
-  if (!timer) throw { message: 'You do not have a timer started' }
+  if (!timer) throw new Error('You do not have a timer started')
 
   if (!timer.message && !newMessage) {
     prompt.message = ''
@@ -35,7 +35,7 @@ function parseMessage(timersDoc, newMessage) {
     return new Promise((resolve, reject) => {
       prompt.get('message', (err, res) => {
         if (err && err.message === 'canceled')
-          return reject({ message: 'You canceled the stop command' })
+          return reject(new Error('You canceled the stop command'))
 
         if (err)
           return reject(err)

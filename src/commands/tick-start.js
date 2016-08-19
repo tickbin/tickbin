@@ -26,15 +26,15 @@ function start(argv) {
     () => saveTimer(defTimersDoc, argv._[1])
   )
   .then(writeSavedTimer)
-  .catch(err => console.log(`Could not start your timer\n${err.message}`))
+  .catch(err => console.error(`Could not start your timer\n${err.message}`))
 }
 
 function saveTimer(timersDoc, originalMessage) {
   //  For now only allow one timer at a time
   if (timersDoc.timers.length > 0) {
-    throw { message: 'You already have a timer running. You can run:\n'
+    throw new Error('You already have a timer running. You can run:\n'
       + '  tick stop: to finish timer and commit entry\n'
-      + '  tick cancel-timer: to abort the timer' }
+      + '  tick cancel-timer: to abort the timer')
   }
 
   let timer
