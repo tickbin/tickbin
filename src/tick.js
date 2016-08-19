@@ -12,7 +12,7 @@ import sync     from './commands/tick-sync'
 import start    from './commands/tick-start'
 import stop     from './commands/tick-stop'
 import timer    from './commands/tick-timer'
-import cancelTimer from './commands/tick-cancel-timer'
+import cancel from './commands/tick-cancel'
 
 yargs
 .usage('Usage: tick <command> [options]')
@@ -26,7 +26,7 @@ yargs
 .command('start', 'start a timer', start)
 .command('stop', 'stop a timer and commit entry', stop)
 .command('timer', 'list timer details', timer)
-.command('cancel-timer', 'cancel a timer', cancelTimer)
+.command('cancel', 'cancel a timer', cancel)
 .version('version', 'prints the current version of tickbin', manifest.version)
 .demand(1)
 .strict()

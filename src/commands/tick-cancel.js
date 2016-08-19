@@ -1,7 +1,7 @@
 import db from '../db'
 import { writeRemoveTimer } from './output'
 
-export default { builder, handler: cancelTimer }
+export default { builder, handler: cancel }
 
 function builder(yargs) {
   return yargs
@@ -9,7 +9,7 @@ function builder(yargs) {
   .example('tick cancel-timer', 'cancels the current timer without commiting')
 }
 
-function cancelTimer() {
+function cancel() {
   db.get('_local/timers')
   .then(removeTimer)
   .then(writeRemoveTimer)
