@@ -21,11 +21,11 @@ function start(argv) {
   const message = argv._[1]
 
   db.get('_local/timers')
-  .then(timersDoc => saveTimer(timersDoc, message))
+  .then(timersDoc => saveTimer(db, timersDoc, message))
   .catch(err => {
     //  If the timersDoc doesn't exist, pass the defTimersDoc
     if (err.name === 'not_found')
-      return saveTimer(defTimersDoc, message)
+      return saveTimer(db, defTimersDoc, message)
     else
       throw err
   })

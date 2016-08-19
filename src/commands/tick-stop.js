@@ -14,8 +14,8 @@ function builder(yargs) {
 
 function stop(argv) {
   db.get('_local/timers')
-  .then(timersDoc => parseMessage(timersDoc, argv._[1]))
-  .then(commitTimer)
+  .then(timersDoc => parseMessage(db, timersDoc, argv._[1]))
+  .then(timer => commitTimer(db, timer))
   .then(writeSaved)
   .catch(err => console.error(`Could not stop your timer\n${err.message}`))
 }

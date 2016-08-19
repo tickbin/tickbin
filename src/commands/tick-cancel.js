@@ -12,7 +12,7 @@ function builder(yargs) {
 
 function cancel() {
   db.get('_local/timers')
-  .then(removeTimer)
+  .then(timersDoc => removeTimer(db, timersDoc))
   .then(writeRemoveTimer)
   .catch(err => console.error(`Could not cancel your timer\n${err.message}`))
 }

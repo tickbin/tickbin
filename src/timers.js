@@ -1,7 +1,6 @@
 import prompt from 'prompt'
 import moment from 'moment'
 import { parser } from 'tickbin-parser'
-import db from './db'
 import createEntry from './create'
 
 export { saveTimer }
@@ -10,7 +9,7 @@ export { commitTimer }
 export { removeTimer }
 export { getTimer }
 
-function saveTimer(timersDoc, originalMessage) {
+function saveTimer(db, timersDoc, originalMessage) {
   //  For now only allow one timer at a time
   if (timersDoc.timers.length > 0) {
     throw new Error('You already have a timer running. You can run:\n'
@@ -32,7 +31,7 @@ function saveTimer(timersDoc, originalMessage) {
   .then(() => timer)
 }
 
-function parseMessage(timersDoc, newMessage) {
+function parseMessage(db, timersDoc, newMessage) {
   const timer = timersDoc.timers.pop()
 
   if (!timer) throw new Error('You do not have a timer started')
@@ -76,7 +75,7 @@ function parseMessage(timersDoc, newMessage) {
   }
 }
 
-function commitTimer(timer) {
+function commitTimer(db, timer) {
   const dateFormat = 'MMM D h:mma'
   const start = moment(timer.start).format(dateFormat)
   const end = moment(timer.end).format(dateFormat)
@@ -85,7 +84,7 @@ function commitTimer(timer) {
   return createEntry(db, `${start} - ${end} ${message}`)
 }
 
-function removeTimer(timersDoc) {
+function removeTimer(db, timersDoc) {
   const timer = timersDoc.timers.pop()
 
   if (!timer) throw new Error('You do not have a timer started')
