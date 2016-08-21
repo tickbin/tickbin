@@ -28,8 +28,6 @@ function parseMessage(timersDoc, newMessage) {
 
   if (!timer) throw new Error('You do not have a timer started')
 
-  console.log(timer.message, newMessage)
-
   if (!timer.message && !newMessage) {
     prompt.message = ''
     prompt.delimiter = ''
