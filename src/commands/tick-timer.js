@@ -13,5 +13,5 @@ function timer() {
   db.get('_local/timers')
   .then(getTimer)
   .then(writeTimer)
-  .catch(err => console.log(`Could not list your timer\n${err.message}`))
+  .catch(err => console.error(`Could not list your timer\n${err.message}`))
 }
