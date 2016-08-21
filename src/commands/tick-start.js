@@ -1,6 +1,6 @@
-import { parser } from 'tickbin-parser'
 import { writeSavedTimer } from './output'
 import db from '../db'
+import { saveTimer } from '../timers'
 
 export default { builder, handler : start}
 
@@ -18,35 +18,17 @@ function builder(yargs) {
 }
 
 function start(argv) {
+  const message = argv._[1]
+
   db.get('_local/timers')
-  .then(
-    //  If the timers document exists, pass it to saveTimer. Otherwise pass the
-    //  defTimersDoc
-    timerDoc => saveTimer(timerDoc, argv._[1]),
-    () => saveTimer(defTimersDoc, argv._[1])
-  )
+  .then(timersDoc => saveTimer(db, timersDoc, message))
+  .catch(err => {
+    //  If the timersDoc doesn't exist, pass the defTimersDoc
+    if (err.name === 'not_found')
+      return saveTimer(db, defTimersDoc, message)
+    else
+      throw err
+  })
   .then(writeSavedTimer)
-  .catch(err => console.log(`Could not start your timer\n${err.message}`))
-}
-
-function saveTimer(timersDoc, originalMessage) {
-  //  For now only allow one timer at a time
-  if (timersDoc.timers.length > 0) {
-    throw { message: 'You already have a timer running. You can run:\n'
-      + '  tick stop: to finish timer and commit entry\n'
-      + '  tick cancel-timer: to abort the timer' }
-  }
-
-  let timer
-  if (originalMessage) {
-    const { start, message } = parser(originalMessage)
-    timer = { start: start || new Date(), message }
-  } else {
-    timer = { start: new Date() }
-  }
-
-  timersDoc.timers.push(timer)
-
-  return db.put(timersDoc)
-  .then(() => timer)
+  .catch(err => console.error(`Could not start your timer\n${err.message}`))
 }

@@ -1,9 +1,7 @@
-import prompt from 'prompt'
-import moment from 'moment'
 import { parser } from 'tickbin-parser'
 import db from '../db'
-import createEntry from '../create'
 import { writeSaved } from './output'
+import { commitTimer } from '../timers'
 
 export default { builder, handler : stop}
 
@@ -16,17 +14,21 @@ function builder(yargs) {
 }
 
 function stop(argv) {
+  const message = argv._[1]
+
   db.get('_local/timers')
-  .then(timersDoc => parseMessage(timersDoc, argv._[1]))
-  .then(commitTimer)
+  .then(timersDoc => parseMessage(timersDoc, message))
+  .then(timer => commitTimer(db, timer))
   .then(writeSaved)
-  .catch(err => console.log(`\nCould not stop your timer\n${err.message}`))
+  .catch(err => console.error(`Could not stop your timer\n${err.message}`))
 }
 
 function parseMessage(timersDoc, newMessage) {
   const timer = timersDoc.timers.pop()
 
-  if (!timer) throw { message: 'You do not have a timer started' }
+  if (!timer) throw new Error('You do not have a timer started')
+
+  console.log(timer.message, newMessage)
 
   if (!timer.message && !newMessage) {
     prompt.message = ''
@@ -35,7 +37,7 @@ function parseMessage(timersDoc, newMessage) {
     return new Promise((resolve, reject) => {
       prompt.get('message', (err, res) => {
         if (err && err.message === 'canceled')
-          return reject({ message: 'You canceled the stop command' })
+          return reject(new Error('You canceled the stop command'))
 
         if (err)
           return reject(err)
@@ -65,13 +67,4 @@ function parseMessage(timersDoc, newMessage) {
     return db.put(timersDoc)
     .then(() => timer)
   }
-}
-
-function commitTimer(timer) {
-  const dateFormat = 'MMM D h:mma'
-  const start = moment(timer.start).format(dateFormat)
-  const end = moment(timer.end).format(dateFormat)
-  const message = timer.message
-
-  return createEntry(db, `${start} - ${end} ${message}`)
 }
