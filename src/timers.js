@@ -4,12 +4,14 @@ import { parser } from 'tickbin-parser'
 import createEntry from './create'
 
 export { saveTimer }
-export { parseMessage }
 export { commitTimer }
 export { removeTimer }
 export { getTimer }
 
 function saveTimer(db, timersDoc, originalMessage) {
+  if (!db) throw new Error('Please provide a couchdb instance')
+  if (!timersDoc) throw new Error('Please provide a document of timers')
+
   //  For now only allow one timer at a time
   if (timersDoc.timers.length > 0) {
     throw new Error('You already have a timer running. You can run:\n'
@@ -31,51 +33,10 @@ function saveTimer(db, timersDoc, originalMessage) {
   .then(() => timer)
 }
 
-function parseMessage(db, timersDoc, newMessage) {
-  const timer = timersDoc.timers.pop()
-
-  if (!timer) throw new Error('You do not have a timer started')
-
-  if (!timer.message && !newMessage) {
-    prompt.message = ''
-    prompt.delimiter = ''
-    prompt.start()
-    return new Promise((resolve, reject) => {
-      prompt.get('message', (err, res) => {
-        if (err && err.message === 'canceled')
-          return reject(new Error('You canceled the stop command'))
-
-        if (err)
-          return reject(err)
-
-        //  When parsing a single date it is always returned as 'start'. Renaming
-        //  to 'end' here for clarity.
-        const { start: end, message } = parser(res.message)
-        timer.end = end || new Date()
-        if (message) timer.message = message
-
-        db.put(timersDoc)
-        .then(() => resolve(timer))
-      })
-    })
-  } else if (newMessage) {
-    //  When parsing a single date it is always returned as 'start'. Renaming
-    //  to 'end' here for clarity.
-    const { start: end, message } = parser(newMessage)
-    timer.end = end || new Date()
-    if (message) timer.message = message
-
-    return db.put(timersDoc)
-    .then(() => timer)
-  } else {
-    timer.end = new Date()
-
-    return db.put(timersDoc)
-    .then(() => timer)
-  }
-}
-
 function commitTimer(db, timer) {
+  if (!db) throw new Error('Please provide a couchdb instance')
+  if (!timer) throw new Error('Please provide a timer')
+
   const dateFormat = 'MMM D h:mma'
   const start = moment(timer.start).format(dateFormat)
   const end = moment(timer.end).format(dateFormat)
@@ -85,6 +46,9 @@ function commitTimer(db, timer) {
 }
 
 function removeTimer(db, timersDoc) {
+  if (!db) throw new Error('Please provide a couchdb instance')
+  if (!timersDoc) throw new Error('Please provide a document of timers')
+
   const timer = timersDoc.timers.pop()
 
   if (!timer) throw new Error('You do not have a timer started')
@@ -94,6 +58,8 @@ function removeTimer(db, timersDoc) {
 }
 
 function getTimer(timersDoc) {
+  if (!timersDoc) throw new Error('Please provide a document of timers')
+
   const timer = timersDoc.timers[0]
 
   if (!timer) throw new Error('You do not have a timer started')
