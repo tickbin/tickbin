@@ -52,7 +52,7 @@ Core developers will handle cutting and publishing of releases (which we will
 eventually automate). To do a release:
 
     npm run release
-    npm push <upstream> master --tags
+    git push <upstream> master --tags
     npm publish
 
 This will update the CHANGELOG with changes and set the correct version
