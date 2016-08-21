@@ -6,7 +6,11 @@ import { Entry } from 'tickbin-parser'
 
 export { writeSaved }
 export { writeRemove }
-export {getOutputs as getOutputs}
+export { getOutputs }
+export { writeTimer }
+export { writeSavedTimer }
+export { writeRemoveTimer }
+export { getTimerOutput }
 
 const hashPattern = /(#\w+[\w-]*)/g
 
@@ -39,4 +43,30 @@ function getOutputs(entry) {
   const simple = `${pad(id, 9)} ${time} ${duration} ${msg}`
 
   return {id, date, seconds, msg, tags, detailed, simple}
+}
+
+function writeTimer(timer) {
+  const output = getTimerOutput(timer)
+  console.log(`◷ ${output}`)
+}
+
+function writeSavedTimer(timer) {
+  const clockIcon = chalk.green('+ ◷')
+  const output = getTimerOutput(timer)
+  console.log(clockIcon, output)
+}
+
+function writeRemoveTimer(timer) {
+  const clockIcon = chalk.red('- ◷')
+  const output = getTimerOutput(timer)
+  console.log(clockIcon, output)
+}
+
+function getTimerOutput({ start, message = '' }) {
+  const date = chalk.yellow(moment(start).format('ddd MMM DD'))
+  const time = moment(start).format('hh:mma')
+  const msg = message
+    .replace(hashPattern, chalk.cyan('$1'))
+    .trim()
+  return `${pad(date, 9)} ${time} ${msg}`
 }
