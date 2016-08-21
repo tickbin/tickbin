@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/tickbin/tickbin/compare/v0.4.0...v1.0.0) (2016-08-21)
+
+
+* Update parser (#250) ([cc623ee](https://github.com/tickbin/tickbin/commit/cc623ee))
+
+
+### Bug Fixes
+
+* Fixed parse error message and type filter example ([#245](https://github.com/tickbin/tickbin/issues/245)) ([263e722](https://github.com/tickbin/tickbin/commit/263e722))
+* Icon is no longer included as a column in csv. ([#240](https://github.com/tickbin/tickbin/issues/240)) ([bc743bc](https://github.com/tickbin/tickbin/commit/bc743bc))
+* remove debug log ([#272](https://github.com/tickbin/tickbin/issues/272)) ([7b2344e](https://github.com/tickbin/tickbin/commit/7b2344e))
+
+
+### Features
+
+* Directs users to tickbin.com when registering. ([#238](https://github.com/tickbin/tickbin/issues/238)) ([f2542b4](https://github.com/tickbin/tickbin/commit/f2542b4))
+* hide-summary boolean to hide the daily summary in the tick log command ([#246](https://github.com/tickbin/tickbin/issues/246)) ([830ae8f](https://github.com/tickbin/tickbin/commit/830ae8f))
+* Logout command  ([#251](https://github.com/tickbin/tickbin/issues/251)) ([7815337](https://github.com/tickbin/tickbin/commit/7815337))
+* **timers:** track time using a start/stop timer ([#270](https://github.com/tickbin/tickbin/issues/270)) ([9b0a14a](https://github.com/tickbin/tickbin/commit/9b0a14a)), closes [#271](https://github.com/tickbin/tickbin/issues/271)
+
+
+### BREAKING CHANGES
+
+* Uses updated entry parser for easier displaying of message
+
+
+
 <a name="0.4.0"></a>
 # 0.4.0 (2016-07-19)
 
