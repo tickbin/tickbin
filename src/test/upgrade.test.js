@@ -8,6 +8,7 @@ import { map2to3 } from '../upgrade'
 import { map3to4 } from '../upgrade'
 import { map4to5 } from '../upgrade'
 import { map5to6 } from '../upgrade'
+import { map6to7 } from '../upgrade'
 import upgrade from '../upgrade'
 
 var docs = [
@@ -149,6 +150,16 @@ test('map5to6', t => {
   t.equals(v6.version, 6, 'sets version to 6')
   t.equals(v6.original, v5.message, 'saves original message')
   t.equals(v6.message, messageWithoutTime, 'saves message without time')
+
+  t.end()
+})
+
+test('map6to7', t => {
+  const v6 = {}
+
+  const v7 = map6to7(v6)
+
+  t.equals(v7.createdFrom, 'calendar', 'sets createdFrom to calendar')
 
   t.end()
 })
