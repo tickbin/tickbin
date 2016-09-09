@@ -29,6 +29,7 @@ function upgrade (db, start = 0, end = 6) {
       .map(map3to4)
       .map(map4to5)
       .map(map5to6)
+      .map(map6to7)
       .value()
     return db.bulkDocs(newDocs)
   })
@@ -134,13 +135,12 @@ function map6to7 (doc) {
   if (doc.version >= 7)
     return doc
 
-  if (doc.createdFrom)
-    return doc
-
   let newDoc = {}
   Object.assign(newDoc, doc)
 
-  newDoc.createdFrom = 'calendar'
+  if (!doc.createdFrom)
+    newDoc.createdFrom = 'calendar'
+  newDoc.version = 7
 
   return newDoc
 }

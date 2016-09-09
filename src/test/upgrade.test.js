@@ -155,11 +155,29 @@ test('map5to6', t => {
 })
 
 test('map6to7', t => {
-  const v6 = {}
+  t.test('no createdFrom', t => {
+    const v6 = {}
 
-  const v7 = map6to7(v6)
+    const v7 = map6to7(v6)
 
-  t.equals(v7.createdFrom, 'calendar', 'sets createdFrom to calendar')
+    t.equals(v7.version , 7, 'sets verstion to 7')
+    t.equals(v7.createdFrom, 'calendar', 'sets createdFrom to calendar')
+
+    t.end()
+  })
+
+  t.test('existing createdFrom', t => {
+    const v6 = {
+      createdFrom: 'duration'
+    }
+
+    const v7 = map6to7(v6)
+
+    t.equals(v7.version , 7, 'sets verstion to 7')
+    t.equals(v7.createdFrom, 'duration', 'does not change createdFrom')
+
+    t.end()
+  })
 
   t.end()
 })
