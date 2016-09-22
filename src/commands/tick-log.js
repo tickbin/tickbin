@@ -49,22 +49,32 @@ function log(argv) {
   switch (argv.type) {
     case 'csv':
       query.exec()
+        .then(soryByRefDate)
         .then(writeCSV)
         .then(writeDefaultMessage)
       break
     case 'json':
       query.exec()
+        .then(sortByRefDate)
         .then(writeJSON)
       break
     case 'text':
     default:
       query.groupByDate()
         .exec()
+        .then(sortByRefDate)
         .then(group => writeGroup(group, argv.hideDetails, argv.hideSummary))
         .then(writeDefaultMessage)
         .catch(console.error)
       break
   }
+}
+
+function sortByRefDate(results) {
+  return results.map(group => {
+    group.ticks = _.sortBy(group.ticks, 'ref')
+    return group
+  })
 }
 
 function writeFilterError() {
