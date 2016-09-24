@@ -49,20 +49,20 @@ function log(argv) {
   switch (argv.type) {
     case 'csv':
       query.exec()
-        .then(soryByRefDate)
+        .then(sortByCreatedFrom)
         .then(writeCSV)
         .then(writeDefaultMessage)
       break
     case 'json':
       query.exec()
-        .then(sortByRefDate)
+        .then(sortByCreatedFrom)
         .then(writeJSON)
       break
     case 'text':
     default:
       query.groupByDate()
         .exec()
-        .then(sortByRefDate)
+        .then(sortByCreatedFrom)
         .then(group => writeGroup(group, argv.hideDetails, argv.hideSummary))
         .then(writeDefaultMessage)
         .catch(console.error)
@@ -70,9 +70,18 @@ function log(argv) {
   }
 }
 
-function sortByRefDate(results) {
+/*
+ * Ticks are already sorted by start. We need to move the duration type ticks
+ * to the top of the sorted list and order them by ref.
+ */
+function sortByCreatedFrom(results) {
   return results.map(group => {
-    group.ticks = _.sortBy(group.ticks, 'ref')
+    const durationTicks = _.chain(group.ticks)
+    .remove(['createdFrom', 'duration'])
+    .sortBy('ref')
+
+    group.ticks = [...durationTicks, ...group.ticks]
+
     return group
   })
 }
