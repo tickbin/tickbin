@@ -62,7 +62,7 @@ function log(argv) {
     default:
       query.groupByDate()
         .exec()
-        .then(sortByCreatedFrom)
+        .then(sortGroupsByCreatedFrom)
         .then(group => writeGroup(group, argv.hideDetails, argv.hideSummary))
         .then(writeDefaultMessage)
         .catch(console.error)
@@ -74,13 +74,17 @@ function log(argv) {
  * Ticks are already sorted by start. We need to move the duration type ticks
  * to the top of the sorted list and order them by ref.
  */
-function sortByCreatedFrom(results) {
-  return results.map(group => {
-    const durationTicks = _.chain(group.ticks)
-    .remove(['createdFrom', 'duration'])
-    .sortBy('ref')
+function sortByCreatedFrom(ticks) {
+  const durationTicks = _.chain(ticks)
+  .remove(['createdFrom', 'duration'])
+  .sortBy('ref')
 
-    group.ticks = [...durationTicks, ...group.ticks]
+  return [...durationTicks, ...ticks]
+}
+
+function sortGroupsByCreatedFrom(results) {
+  return results.map(group => {
+    group.ticks = sortByCreatedFrom(group.ticks)
 
     return group
   })
