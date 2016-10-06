@@ -32,7 +32,9 @@ function getOutputs(entry) {
   const date = chalk.yellow(moment(entry.start).format('ddd MMM DD'))
   const timeStart = moment(entry.start)
   const timeEnd = moment(entry.end)
-  const time = `${timeStart.format('hh:mma')}-${timeEnd.format('hh:mma')}`
+  const time = entry.createdFrom === 'duration' ?
+    pad('', 15, '-') :
+    `${timeStart.format('hh:mma')}-${timeEnd.format('hh:mma')}`
   const duration = format(entry.duration.minutes)
   const seconds = entry.duration.seconds
   const msg = entry.message

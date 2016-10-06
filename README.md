@@ -26,6 +26,7 @@ tick commit "8am-12pm fixed a bunch of bugs" # records time for today
 tick commit "yesterday 9pm-11pm late night code" # records time for yesterday
 tick commit "Jan 1 12am-1am partied!" # records time for Jan 1
 tick commit "12pm-1pm great #lunch at Mervo's" # add #tags anywhere
+tick commit "4 hours 15 minutes no specific time" # record durations without start/end
 ```
 
 ### `tick log` 

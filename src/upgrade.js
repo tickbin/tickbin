@@ -8,10 +8,11 @@ export { map2to3 }
 export { map3to4 }
 export { map4to5 }
 export { map5to6 }
+export { map6to7 }
 
 export default upgrade
 
-function upgrade (db, start = 0, end = 5) {
+function upgrade (db, start = 0, end = 6) {
   if (!db) throw new Error('Please provide a couchdb instance')
 
   return db.find({
@@ -28,6 +29,7 @@ function upgrade (db, start = 0, end = 5) {
       .map(map3to4)
       .map(map4to5)
       .map(map5to6)
+      .map(map6to7)
       .value()
     return db.bulkDocs(newDocs)
   })
@@ -125,6 +127,20 @@ function map5to6 (doc) {
   .replace(timePattern, ' ')
   .trim()
   newDoc.version = 6
+
+  return newDoc
+}
+
+function map6to7 (doc) {
+  if (doc.version >= 7)
+    return doc
+
+  let newDoc = {}
+  Object.assign(newDoc, doc)
+
+  if (!doc.createdFrom)
+    newDoc.createdFrom = 'calendar'
+  newDoc.version = 7
 
   return newDoc
 }
