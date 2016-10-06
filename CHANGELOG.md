@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/tickbin/tickbin/compare/v1.0.1...v1.1.0) (2016-10-06)
+
+
+### Features
+
+* **duration:** create entries by duration ([#283](https://github.com/tickbin/tickbin/issues/283)) ([075250e](https://github.com/tickbin/tickbin/commit/075250e))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/tickbin/tickbin/compare/v1.0.0...v1.0.1) (2016-10-06)
 
