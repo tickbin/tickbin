@@ -13,12 +13,17 @@ function builder(yargs) {
 }
 
 function register(yargs) {
-  const parsedUrl = url.parse(conf.remote)
+  const parsedUrl = url.parse(conf.remote || '')
   if (parsedUrl.hostname === 'couch.tickbin.com'){
     return console.log('You are already logged in, type tick logout to logout')
   } else if (parsedUrl.hostname) {
     return console.log('You already have a custom remote set.')
   }
+
+  const betaKeyWarningMessage = 'Registration currently requires a beta key'
+  + ' while we are in testing. Sign up for the waiting list at'
+  + ' https://tickbin.com'
+  console.log(betaKeyWarningMessage)
 
   let values = [
     { name : 'betaKey' },
@@ -27,9 +32,7 @@ function register(yargs) {
     { name : 'password', hidden : true }
   ]
 
-  prompt.message = 'Registration currently requires'
-  + ' a beta key while we are in testing. Sign up for'
-  + ' the waiting list at https://tickbin.com\n'
+  prompt.message = ''
   prompt.delimiter = ''
   prompt.start()
 
