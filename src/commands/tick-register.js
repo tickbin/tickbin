@@ -20,6 +20,11 @@ function register(yargs) {
     return console.log('You already have a custom remote set.')
   }
 
+  const betaKeyWarningMessage = 'Registration currently requires a beta key'
+  + ' while we are in testing. Sign up for the waiting list at'
+  + ' https://tickbin.com'
+  console.log(betaKeyWarningMessage)
+
   let values = [
     { name : 'betaKey' },
     { name : 'username' },
@@ -27,9 +32,7 @@ function register(yargs) {
     { name : 'password', hidden : true }
   ]
 
-  prompt.message = 'Registration currently requires'
-  + ' a beta key while we are in testing. Sign up for'
-  + ' the waiting list at https://tickbin.com\n'
+  prompt.message = ''
   prompt.delimiter = ''
   prompt.start()
 
