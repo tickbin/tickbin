@@ -1,3 +1,4 @@
+import prompt from 'prompt'
 import { parser } from 'tickbin-parser'
 import db from '../db'
 import { writeSaved } from './output'
