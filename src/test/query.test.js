@@ -55,7 +55,7 @@ test('query functions are fluent', t => {
 
 test('findEntries() prepares the query', t => {
   const q = new Query(getFakeDb)
-  const filter = "#a May"
+  const filter = "#a May 2016"
   q.findEntries(filter)
   const qFind = q._find
   const selector = { '$and': [
