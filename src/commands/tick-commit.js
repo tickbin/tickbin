@@ -13,12 +13,20 @@ function builder(yargs) {
   .example('tick commit "Jan 22 11am-1pm fixing bugs #tickbin"', 'record work for Jan 22')
   .example('tick commit "yesterday 4-5pm learning javascript #dev"', 'record work for yesterday')
   .example('tick commit "4 hours 15 minutes no specific time"', 'record duration with no start/end')
+  .option('m', {
+    alias: 'message',
+    describe: 'message for your time entry',
+    type: 'string'
+  })
 }
 
 function commit(argv) {
   let message
 
-  if (argv._[1]) {
+  if (argv.message)
+    message = argv.message
+
+  if (!message && argv._[1]) {
     message = argv._[1]
   }
 
