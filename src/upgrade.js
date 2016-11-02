@@ -9,6 +9,7 @@ export { map3to4 }
 export { map4to5 }
 export { map5to6 }
 export { map6to7 }
+export { map7to8 }
 
 export default upgrade
 
@@ -141,6 +142,26 @@ function map6to7 (doc) {
   if (!doc.createdFrom)
     newDoc.createdFrom = 'calendar'
   newDoc.version = 7
+
+  return newDoc
+}
+
+//  This fixes documents that were affected by a bug that would wipe their
+//  message when passed through map5to6.
+function map7to8 (doc) {
+  if (doc.version >= 8)
+    return doc
+
+  let newDoc = {}
+  Object.assign(newDoc, doc)
+
+  const tempDoc = new Entry(doc.user, doc.original)
+
+  console.log(tempDoc)
+
+  newDoc.time    = tempDoc.time
+  newDoc.message = tempDoc.message
+  newDoc.version = 8
 
   return newDoc
 }
