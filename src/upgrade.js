@@ -157,8 +157,6 @@ function map7to8 (doc) {
 
   const tempDoc = new Entry(doc.user, doc.original)
 
-  console.log(tempDoc)
-
   newDoc.time    = tempDoc.time
   newDoc.message = tempDoc.message
   newDoc.version = 8
