@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/tickbin/tickbin/compare/v1.2.2...v1.3.0) (2016-11-04)
+
+
+### Features
+
+* allow commit command to use optional -m flag ([#297](https://github.com/tickbin/tickbin/issues/297)) ([e6ffddb](https://github.com/tickbin/tickbin/commit/e6ffddb)), closes [#274](https://github.com/tickbin/tickbin/issues/274)
+
+
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/tickbin/tickbin/compare/v1.2.0...v1.2.2) (2016-10-08)
 
