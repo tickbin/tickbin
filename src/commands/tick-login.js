@@ -13,7 +13,7 @@ function builder(yargs) {
 }
 
 function login(argv) {
-  const parsedUrl = url.parse(conf.remote)
+  const parsedUrl = url.parse(conf.remote || '')
   if (parsedUrl.hostname === 'couch.tickbin.com') {
     return console.log('You are already logged in, type tick logout to logout')
   } else if (parsedUrl.hostname) {

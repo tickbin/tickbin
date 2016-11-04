@@ -9,6 +9,7 @@ import { map3to4 } from '../upgrade'
 import { map4to5 } from '../upgrade'
 import { map5to6 } from '../upgrade'
 import { map6to7 } from '../upgrade'
+import { map7to8 } from '../upgrade'
 import upgrade from '../upgrade'
 
 var docs = [
@@ -173,11 +174,29 @@ test('map6to7', t => {
 
     const v7 = map6to7(v6)
 
-    t.equals(v7.version , 7, 'sets verstion to 7')
+    t.equals(v7.version , 7, 'sets version to 7')
     t.equals(v7.createdFrom, 'duration', 'does not change createdFrom')
 
     t.end()
   })
+
+  t.end()
+})
+
+test('map7to8', t => {
+  //  Malformed entry
+  const v7 = {
+    message: '',
+    time: '0945-1200 connection api end point to consumer #streamline',
+    original: '0945-1200 connection api end point to consumer #streamline'
+  }
+
+  const v8 = map7to8(v7)
+
+  t.equals(v8.version, 8, 'sets version to 8')
+  t.equals(v8.message, 'connection api end point to consumer #streamline', 'fixes message')
+  t.equals(v8.time, '0945-1200', 'fixes time')
+  t.equals(v8.original, v7.original, 'does not change original')
 
   t.end()
 })
