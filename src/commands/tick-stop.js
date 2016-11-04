@@ -22,6 +22,8 @@ function stop(argv) {
   db.get('_local/timers')
   .then(td => {
     timersDoc = td
+    //  We are hoping to support multiple timers in the future, which is why we
+    //  are popping off an array here.
     return timersDoc.timers.pop()
   })
   .then(timer => ensureEndAndMessage(timer, message))
