@@ -83,7 +83,9 @@ function ensureEndAndMessage(timer, newMessage) {
   if (!newMessage && !timer.message) {
     return promptForMessage()
     .then(message => ensureEndAndMessage(timer, message))
-  } else if (newMessage) {
+  }
+
+  if (newMessage) {
     const { start: end, message } = parser(newMessage)
 
     timer.end = end || timer.end || new Date()
@@ -95,11 +97,12 @@ function ensureEndAndMessage(timer, newMessage) {
       timer.message = message || timer.message
       return timer
     }
-  } else {
-    timer.end = new Date()
-
-    return timer
   }
+
+  //  Default to using existing message and current time
+  timer.end = new Date()
+
+  return timer
 }
 
 function promptForMessage(prevEnd) {
