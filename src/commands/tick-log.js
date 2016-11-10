@@ -37,6 +37,10 @@ function builder(yargs) {
     describe: 'hide the daily summary',
     type: 'boolean'
   })
+  .option('sum', {
+    describe: 'sum of hours being logged',
+    type: 'boolean'
+  })
 }
 
 function log(argv) {
@@ -64,6 +68,7 @@ function log(argv) {
         .exec()
         .then(sortGroupsByCreatedFrom)
         .then(group => writeGroup(group, argv.hideDetails, argv.hideSummary))
+        .then(results => writeSum(results, argv.sum))
         .then(writeDefaultMessage)
         .catch(console.error)
       break
@@ -88,6 +93,20 @@ function sortGroupsByCreatedFrom(results) {
 
     return group
   })
+}
+
+function writeSum(results, shouldWriteSum) {
+  if (!shouldWriteSum) return results
+
+  //  Calculate the sum of all the days
+  const sumMinutes = _.reduce(results, (sum, d) => sum + d.minutes, 0)
+
+  const hours = Math.floor(sumMinutes / 60)
+  const minutes = sumMinutes % 60
+
+  console.log(`Total: ${hours}h${minutes}m`)
+
+  return results
 }
 
 function writeFilterError() {
