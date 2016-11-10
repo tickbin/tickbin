@@ -41,6 +41,10 @@ function builder(yargs) {
     describe: 'sum of hours being logged',
     type: 'boolean'
   })
+  .option('sum-tags', {
+    describe: 'summary of tags',
+    type: 'boolean'
+  })
 }
 
 function log(argv) {
@@ -69,6 +73,7 @@ function log(argv) {
         .then(sortGroupsByCreatedFrom)
         .then(group => writeGroup(group, argv.hideDetails, argv.hideSummary))
         .then(results => writeSum(results, argv.sum))
+        .then(results => writeTagSummary(results, argv['sum-tags']))
         .then(writeDefaultMessage)
         .catch(console.error)
       break
@@ -107,6 +112,41 @@ function writeSum(results, shouldWriteSum) {
   console.log(`Total: ${hours}h${minutes}m`)
 
   return results
+}
+
+function writeTagSummary(results, shouldWriteTagSummary) {
+  if (!shouldWriteTagSummary) return results
+
+  const entries = _.chain(results)
+  .map(r => r.ticks)
+  .flatten()
+  .value()
+  const minutesByTag = getMinutesByTag(entries)
+
+  Object.keys(minutesByTag)
+  .forEach(tag => {
+    const tagMinutes = minutesByTag[tag]
+    const hours = Math.floor(tagMinutes / 60)
+    const minutes = tagMinutes % 60
+
+    console.log(`${chalk.cyan(tag)} ` + chalk.green(`${hours}h${minutes}m`))
+  })
+
+  return results
+}
+
+function getMinutesByTag(results) {
+  return _.chain(results)
+  .reduce((minutesByTag, entry) => {
+    entry.tags.forEach(tag => {
+      return minutesByTag[tag] ?
+        minutesByTag[tag] += entry.duration.minutes :
+        minutesByTag[tag] = entry.duration.minutes
+    })
+
+    return minutesByTag
+  }, {})
+  .value()
 }
 
 function writeFilterError() {
