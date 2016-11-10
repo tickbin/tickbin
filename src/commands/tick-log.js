@@ -109,7 +109,7 @@ function writeSum(results, shouldWriteSum) {
   const hours = Math.floor(sumMinutes / 60)
   const minutes = sumMinutes % 60
 
-  console.log(`Total: ${hours}h${minutes}m`)
+  console.log('Total: ' + chalk.green(`${hours}h${minutes}m`))
 
   return results
 }
