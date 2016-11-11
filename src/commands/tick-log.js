@@ -1,12 +1,15 @@
 import {getOutputs} from './output'
 import moment from 'moment'
 import _ from 'lodash'
+import pad from 'pad'
 import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
+
+const padColor = _.partialRight(pad, { colors: true })
 
 export default { builder, handler : log }
 
@@ -104,12 +107,9 @@ function writeSum(results, shouldWriteSum) {
   if (!shouldWriteSum) return results
 
   //  Calculate the sum of all the days
-  const sumMinutes = _.reduce(results, (sum, d) => sum + d.minutes, 0)
+  const minutes = _.reduce(results, (sum, d) => sum + d.minutes, 0)
 
-  const hours = Math.floor(sumMinutes / 60)
-  const minutes = sumMinutes % 60
-
-  console.log('Total: ' + chalk.green(`${hours}h${minutes}m`))
+  console.log(`Total: ${format(minutes)}`)
 
   return results
 }
@@ -123,13 +123,16 @@ function writeTagSummary(results, shouldWriteTagSummary) {
   .value()
   const minutesByTag = getMinutesByTag(entries)
 
+  const tagPadding = Object.keys(minutesByTag)
+  .reduce((maxLength, tag) => {
+    return maxLength > tag.length ? maxLength : tag.length
+  }, 0)
+
   Object.keys(minutesByTag)
   .forEach(tag => {
-    const tagMinutes = minutesByTag[tag]
-    const hours = Math.floor(tagMinutes / 60)
-    const minutes = tagMinutes % 60
+    const minutes = minutesByTag[tag]
 
-    console.log(`${chalk.cyan(tag)} ` + chalk.green(`${hours}h${minutes}m`))
+    console.log(`${padColor(chalk.cyan(tag), tagPadding)} ${padColor(7, format(minutes))}`)
   })
 
   return results
