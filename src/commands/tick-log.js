@@ -1,12 +1,15 @@
 import {getOutputs} from './output'
 import moment from 'moment'
 import _ from 'lodash'
+import pad from 'pad'
 import chalk from 'chalk'
 import format from '../time'
 import chrono from 'chrono-node'
 import db from '../db'
 import Query from '../query'
 import csvStringify from 'csv-stringify'
+
+const padColor = _.partialRight(pad, { colors: true })
 
 export default { builder, handler : log }
 
@@ -37,6 +40,14 @@ function builder(yargs) {
     describe: 'hide the daily summary',
     type: 'boolean'
   })
+  .option('sum', {
+    describe: 'sum of hours being logged',
+    type: 'boolean'
+  })
+  .option('sum-tags', {
+    describe: 'summary of tags',
+    type: 'boolean'
+  })
 }
 
 function log(argv) {
@@ -64,6 +75,8 @@ function log(argv) {
         .exec()
         .then(sortGroupsByCreatedFrom)
         .then(group => writeGroup(group, argv.hideDetails, argv.hideSummary))
+        .then(results => writeSum(results, argv.sum))
+        .then(results => writeTagSummary(results, argv['sum-tags']))
         .then(writeDefaultMessage)
         .catch(console.error)
       break
@@ -88,6 +101,55 @@ function sortGroupsByCreatedFrom(results) {
 
     return group
   })
+}
+
+function writeSum(results, shouldWriteSum) {
+  if (!shouldWriteSum) return results
+
+  //  Calculate the sum of all the days
+  const minutes = _.reduce(results, (sum, d) => sum + d.minutes, 0)
+
+  console.log(`Total: ${format(minutes)}`)
+
+  return results
+}
+
+function writeTagSummary(results, shouldWriteTagSummary) {
+  if (!shouldWriteTagSummary) return results
+
+  const entries = _.chain(results)
+  .map(r => r.ticks)
+  .flatten()
+  .value()
+  const minutesByTag = getMinutesByTag(entries)
+
+  const tagPadding = Object.keys(minutesByTag)
+  .reduce((maxLength, tag) => {
+    return maxLength > tag.length ? maxLength : tag.length
+  }, 0)
+
+  Object.keys(minutesByTag)
+  .forEach(tag => {
+    const minutes = minutesByTag[tag]
+
+    console.log(`${padColor(chalk.cyan(tag), tagPadding)} ${padColor(7, format(minutes))}`)
+  })
+
+  return results
+}
+
+function getMinutesByTag(results) {
+  return _.chain(results)
+  .reduce((minutesByTag, entry) => {
+    entry.tags.forEach(tag => {
+      return minutesByTag[tag] ?
+        minutesByTag[tag] += entry.duration.minutes :
+        minutesByTag[tag] = entry.duration.minutes
+    })
+
+    return minutesByTag
+  }, {})
+  .value()
 }
 
 function writeFilterError() {
