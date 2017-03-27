@@ -29,6 +29,9 @@ yargs
 .command('stop', 'stop a timer and commit entry', stop)
 .command('timer', 'list timer details', timer)
 .command('cancel', 'cancel a timer', cancel)
+.option('config', {
+  describe: 'path to config file'
+})
 .version('version', 'prints the current version of tickbin', manifest.version)
 .demand(1)
 .strict()
