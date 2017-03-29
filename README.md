@@ -144,6 +144,6 @@ remote=http://user:pass@host:port/dbname
 
 Run `tick sync` in order to sync your database with your remote server.
 
-Copyright (©) 2016 MemoryLeaf Media Inc.
+Copyright (©) 2017 Two Story Robot Labs Inc.
 
 Lead Maintainer: [Jonathan Bowers](https://github.com/jonotron)
