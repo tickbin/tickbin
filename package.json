@@ -44,7 +44,7 @@
     "tape": "^4.5.1"
   },
   "dependencies": {
-    "axios": "^0.15.0",
+    "axios": "^0.16.0",
     "chalk": "^1.1.3",
     "chrono-node": "^1.2.1",
     "csv-stringify": "^1.0.2",
