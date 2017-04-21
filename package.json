@@ -60,7 +60,7 @@
     "prompt": "^1.0.0",
     "rc": "^1.1.1",
     "tickbin-filter-parser": "0.0.4",
-    "tickbin-parser": "^0.2.2",
+    "tickbin-parser": "^0.2.3",
     "untildify": "^3.0.2",
     "yargs": "^7.0.2"
   },
