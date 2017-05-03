@@ -62,7 +62,7 @@
     "tickbin-filter-parser": "0.0.4",
     "tickbin-parser": "^0.2.3",
     "untildify": "^3.0.2",
-    "yargs": "^7.0.2"
+    "yargs": "^8.0.1"
   },
   "engines": {
     "node": "^4.2.0"
