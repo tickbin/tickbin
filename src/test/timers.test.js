@@ -1,7 +1,6 @@
 import test from 'tape'
 import sinon from 'sinon'
 import moment from 'moment'
-import promised from 'sinon-as-promised'
 import {
   saveTimer,
   commitTimer,

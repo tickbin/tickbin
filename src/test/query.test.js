@@ -3,7 +3,6 @@ import moment from 'moment'
 import _ from 'lodash'
 import { Entry } from 'tickbin-parser'
 import sinon from 'sinon'
-import promised from 'sinon-as-promised'
 
 import { filterTags } from '../query'
 import { hashTags } from '../query'

@@ -1,6 +1,5 @@
 import test from 'tape'
 import sinon from 'sinon'
-import promised from 'sinon-as-promised'
 
 import { map0to1 } from '../upgrade'
 import { map1to2 } from '../upgrade'

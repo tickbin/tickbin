@@ -1,6 +1,5 @@
 import test from 'tape'
 import sinon from 'sinon'
-import promised from 'sinon-as-promised'
 import moment from 'moment'
 import { Entry } from 'tickbin-parser'
 import removeEntries from '../remove'
