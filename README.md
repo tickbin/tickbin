@@ -1,4 +1,4 @@
-[![Build Status](https://semaphoreci.com/api/v1/jonotron/tickbin/branches/master/shields_badge.svg)](https://semaphoreci.com/jonotron/tickbin)
+[![Build Status](https://semaphoreci.com/api/v1/twostoryrobot/tickbin/branches/master/badge.svg)](https://semaphoreci.com/twostoryrobot/tickbin)
 [![dependency stats](https://david-dm.org/tickbin/tickbin.svg)](https://david-dm.org/tickbin/tickbin)
 [![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
 
@@ -144,6 +144,6 @@ remote=http://user:pass@host:port/dbname
 
 Run `tick sync` in order to sync your database with your remote server.
 
-Copyright (©) 2016 MemoryLeaf Media Inc.
+Copyright (©) 2017 Two Story Robot Labs Inc.
 
 Lead Maintainer: [Jonathan Bowers](https://github.com/jonotron)
