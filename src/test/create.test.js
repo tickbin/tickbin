@@ -1,6 +1,5 @@
 import test from 'tape'
 import sinon from 'sinon'
-import promised from 'sinon-as-promised'
 import createEntry from '../create'
 
 let fakeDb = {

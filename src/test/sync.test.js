@@ -1,6 +1,5 @@
 import test from 'tape'
 import sinon from 'sinon'
-import promised from 'sinon-as-promised'
 import _ from 'lodash'
 import EventEmitter from 'events'
 
