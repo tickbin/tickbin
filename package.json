@@ -55,7 +55,7 @@
     "moment": "^2.20.1",
     "pad": "^2.0.1",
     "pouchdb": "^7.0.0",
-    "pouchdb-find": "^6.2.0",
+    "pouchdb-find": "^7.0.0",
     "prompt": "^1.0.0",
     "rc": "^1.1.1",
     "tickbin-filter-parser": "0.0.4",
