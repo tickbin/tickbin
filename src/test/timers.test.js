@@ -58,7 +58,7 @@ test('Test saveTimer', t => {
   })
 
   t.test('saveTimer should return a promise', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -71,7 +71,7 @@ test('Test saveTimer', t => {
   })
 
   t.test('creates timer with current time', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -85,7 +85,7 @@ test('Test saveTimer', t => {
   })
 
   t.test('creates timer with supplied time', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -101,7 +101,7 @@ test('Test saveTimer', t => {
   })
 
   t.test('creates timer with current time and supplied message', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -115,7 +115,7 @@ test('Test saveTimer', t => {
   })
 
   t.test('creates timer with supplied time and message', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -160,7 +160,7 @@ test('Test commitTimer', t => {
   })
 
   t.test('commitTimer should return a promise', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -173,7 +173,7 @@ test('Test commitTimer', t => {
   })
 
   t.test('commitTimer should create entry', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -228,7 +228,7 @@ test('Test removeTimer', t => {
   })
 
   t.test('removeTimer should return a promise', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -241,7 +241,7 @@ test('Test removeTimer', t => {
   })
 
   t.test('removeTimer should resolve to the removed timer', t => {
-    const sandbox = sinon.sandbox.create()
+    const sandbox = sinon.createSandbox()
 
     const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
