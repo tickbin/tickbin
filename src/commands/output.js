@@ -1,7 +1,7 @@
 import moment from 'moment'
 import chalk from 'chalk'
 import format from '../time'
-import pad from 'pad/lib/colors'
+import pad from 'pad'
 import { Entry } from 'tickbin-parser'
 
 export { writeSaved }
