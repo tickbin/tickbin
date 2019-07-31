@@ -31,7 +31,7 @@ test('createEntry requires a message', t => {
 })
 
 test('createEntry should return a promise', t => {
-  const sandbox = sinon.sandbox.create()
+  const sandbox = sinon.createSandbox()
 
   const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -44,7 +44,7 @@ test('createEntry should return a promise', t => {
 })
 
 test('createEntry calls db.put', t => {
-  const sandbox = sinon.sandbox.create()
+  const sandbox = sinon.createSandbox()
 
   const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
@@ -56,7 +56,7 @@ test('createEntry calls db.put', t => {
 })
 
 test('createEntry resolves to created doc', t => {
-  const sandbox = sinon.sandbox.create()
+  const sandbox = sinon.createSandbox()
 
   const stubPut = sandbox.stub(fakeDb, 'put').resolves()
 
