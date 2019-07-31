@@ -1,6 +1,41 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.1.0](https://github.com/tickbin/tickbin/compare/v1.3.0...v2.1.0) (2019-07-31)
+
+
+### Bug Fixes
+
+* **package:** update axios to version 0.16.2 ([1b6b864](https://github.com/tickbin/tickbin/commit/1b6b864)), closes [#329](https://github.com/tickbin/tickbin/issues/329)
+* **package:** update axios to version 0.17.0 ([e3e1b30](https://github.com/tickbin/tickbin/commit/e3e1b30))
+* **package:** update axios to version 0.18.0 ([9a673fa](https://github.com/tickbin/tickbin/commit/9a673fa))
+* **package:** update axios to version 0.19.0 ([c377a1a](https://github.com/tickbin/tickbin/commit/c377a1a))
+* **package:** update chalk to version 2.0.1 ([dbb73d8](https://github.com/tickbin/tickbin/commit/dbb73d8)), closes [#340](https://github.com/tickbin/tickbin/issues/340)
+* **package:** update csv-stringify to version 2.0.0 ([0f3e614](https://github.com/tickbin/tickbin/commit/0f3e614))
+* **package:** update csv-stringify to version 3.0.0 ([8532b7e](https://github.com/tickbin/tickbin/commit/8532b7e))
+* **package:** update csv-stringify to version 4.0.0 ([b8f7a28](https://github.com/tickbin/tickbin/commit/b8f7a28))
+* **package:** update csv-stringify to version 5.0.0 ([aa17991](https://github.com/tickbin/tickbin/commit/aa17991))
+* **package:** update pad to version 2.0.1 ([126436b](https://github.com/tickbin/tickbin/commit/126436b)), closes [#349](https://github.com/tickbin/tickbin/issues/349)
+* **package:** update pad to version 3.2.0 ([cfe84ad](https://github.com/tickbin/tickbin/commit/cfe84ad)), closes [#386](https://github.com/tickbin/tickbin/issues/386)
+* **package:** update pouchdb to version 7.0.0 ([a614a95](https://github.com/tickbin/tickbin/commit/a614a95))
+* **package:** update pouchdb-find to version 6.2.0 ([ce63043](https://github.com/tickbin/tickbin/commit/ce63043))
+* **package:** update pouchdb-find to version 7.0.0 ([704821a](https://github.com/tickbin/tickbin/commit/704821a))
+* **package:** update untildify to version 4.0.0 ([d755ad6](https://github.com/tickbin/tickbin/commit/d755ad6))
+* **package:** update yargs to version 10.0.3 ([a38135e](https://github.com/tickbin/tickbin/commit/a38135e))
+* **package:** update yargs to version 11.0.0 ([71ff4b1](https://github.com/tickbin/tickbin/commit/71ff4b1))
+* **package:** update yargs to version 12.0.1 ([03eae68](https://github.com/tickbin/tickbin/commit/03eae68))
+* **package:** update yargs to version 13.3.0 ([761f223](https://github.com/tickbin/tickbin/commit/761f223)), closes [#381](https://github.com/tickbin/tickbin/issues/381)
+* **package:** update yargs to version 7.0.2 ([#325](https://github.com/tickbin/tickbin/issues/325)) ([0851cdc](https://github.com/tickbin/tickbin/commit/0851cdc)), closes [#323](https://github.com/tickbin/tickbin/issues/323)
+* **package:** update yargs to version 8.0.1 ([8efc45d](https://github.com/tickbin/tickbin/commit/8efc45d))
+* **package:** update yargs to version 9.0.1 ([50ab5d6](https://github.com/tickbin/tickbin/commit/50ab5d6))
+* **tickbin-parser:** update dependencies ([#332](https://github.com/tickbin/tickbin/issues/332)) ([37fe952](https://github.com/tickbin/tickbin/commit/37fe952))
+
+
+### Features
+
+* Add support for all modern node engines ([d966257](https://github.com/tickbin/tickbin/commit/d966257))
+* **log:** Total and tag summary for tick log ([#304](https://github.com/tickbin/tickbin/issues/304)) ([d436be7](https://github.com/tickbin/tickbin/commit/d436be7))
 
 <a name="2.0.0"></a>
 # 2.0.0 (2017-04-21)
