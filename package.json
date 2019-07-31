@@ -60,7 +60,7 @@
     "rc": "^1.1.1",
     "tickbin-filter-parser": "0.0.4",
     "tickbin-parser": "^0.2.3",
-    "untildify": "^3.0.2",
+    "untildify": "^4.0.0",
     "yargs": "^13.3.0"
   },
   "engines": {
