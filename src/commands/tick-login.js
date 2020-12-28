@@ -39,7 +39,14 @@ function login(argv) {
     server.login(user)
     .then(user => setUser(user))
     .then(() => console.log('You\'re logged in now'))
-    .catch(err => console.error(formatError(err)))
+    .catch(err => {
+      // Server returns status 400 if no username or password is provided
+      if ([400, 403].includes(err.response.status)) {
+        console.error('Invalid username or password')
+      } else {
+        console.error(formatError(err))
+      }
+    })
   })
 
 }
