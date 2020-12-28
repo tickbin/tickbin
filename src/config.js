@@ -20,7 +20,7 @@ if (!fs.existsSync(conf.local)) {
 function storeKey(key, value) {
   let parsed = {}
   let target = conf.config || untildify('~/.tickbinrc')
-  if (conf.config) parsed = ini.parse(fs.readFileSync(target, 'utf-8'))
+  if (target) parsed = ini.parse(fs.readFileSync(target, 'utf-8'))
   parsed[key] = value
   fs.writeFileSync(target, ini.stringify(parsed))
 }
@@ -28,7 +28,7 @@ function storeKey(key, value) {
 function removeKey(key) {
   let parsed = {}
   let target = conf.config || untildify('~/.tickbinrc')
-  if (conf.config) parsed = ini.parse(fs.readFileSync(target, 'utf-8'))
+  if (target) parsed = ini.parse(fs.readFileSync(target, 'utf-8'))
   delete parsed[key]
   fs.writeFileSync(target, ini.stringify(parsed))
 }
