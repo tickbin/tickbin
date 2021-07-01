@@ -1,6 +1,7 @@
-[![Build Status](https://twostoryrobot.semaphoreci.com/badges/tickbin/branches/master.svg?style=shields)](https://twostoryrobot.semaphoreci.com/projects/tickbin)
 [![dependency stats](https://david-dm.org/tickbin/tickbin.svg)](https://david-dm.org/tickbin/tickbin)
 [![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
+
+**Deprecation notice:** This project and codebase are not maintained. We might revisit this again in the future, but for now the code is read-only :)
 
 # tickbin
 
